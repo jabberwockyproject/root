@@ -1,6 +1,9 @@
 package com.gw150914.jabberwocky.gui;
 
 import android.app.Activity;
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +19,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
     private ArrayAdapter<String> adapter;
     private Theme all;
+    private SoundPool soundPool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,all.getSoundNameList());
         soundList.setAdapter(adapter);
 
+        soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC,0);
+
         /*-------------------------------------
         Below code is for testing purposes only
         -------------------------------------*/
@@ -52,7 +58,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             String soundName = "Sample #" + Integer.toString(i);
             all.addSound(new Sound(soundName));
         }
-
         //update display
         adapter.notifyDataSetChanged();
         /*-----------------
@@ -107,6 +112,20 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         if(findViewById(R.id.soundList) == parent) {
             all.addSound(new Sound(Integer.toString(pos)));
             adapter.notifyDataSetChanged();
+
+            //Sound play testing
+            int sID = soundPool.load("root/app/src/main/res/raw/beep1.mp3",1); //INCORRECT USE!!!
+            AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+            float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+            float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            float leftVolume = curVolume/maxVolume;
+            float rightVolume = curVolume/maxVolume;
+            int priority = 1;
+            int loop = 0;
+            float rate = 1f;
+
+            soundPool.play(sID, leftVolume, rightVolume, priority, loop, rate);
+            //End of Sound play testing
         }
     }
     public boolean onItemLongClick(AdapterView parent, View v, int pos, long id){
