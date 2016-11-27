@@ -46,7 +46,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         /*-------------------------------------
         Below code is for testing purposes only
         -------------------------------------*/
-        final int maxSound = 40;
+        final int maxSound = 20;
 
         for (int i = 0; i < maxSound; i++){
             String soundName = "Sample #" + Integer.toString(i);
@@ -60,12 +60,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         -----------------*/
     }
 
-    //Sound onClick handle
-    //DOES NOT SEEM TO WORK
-    public void soundClickHandler(View v) {
-        all.addSound(new Sound("sample"));
-        adapter.notifyDataSetChanged();
-    }
     //Button click handler
     public void onClick(View v) {
         if(findViewById(R.id.search_button) == v) {

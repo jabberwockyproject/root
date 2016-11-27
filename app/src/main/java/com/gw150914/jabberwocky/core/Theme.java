@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class Theme{
 
     //Private fields
-    private static final int maxSound = 500;
+    private static final int maxSoundPerTheme = 500;
+    private static final int maxTheme = 20;
     private static String[] themeList = null;
     private String name;
     private int soundsCount;
@@ -21,14 +22,16 @@ public class Theme{
     //Constructors
     public Theme(){
         name = Theme.getNextGenericName();
-        soundList = new Sound[maxSound];
+        soundList = new Sound[maxSoundPerTheme];
+        themeList = new String[maxTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
         //TODO: add name to themeList
     }
     public Theme(String newName){
         name = newName;
-        soundList = new Sound[maxSound];
+        soundList = new Sound[maxSoundPerTheme];
+        themeList = new String[maxTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
         //TODO: add name to themeList
@@ -36,6 +39,7 @@ public class Theme{
     public Theme(String newName, Sound[] newSoundList){
         name = newName;
         soundList = newSoundList;
+        themeList = new String[maxTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
         //TODO: add name to themeList
