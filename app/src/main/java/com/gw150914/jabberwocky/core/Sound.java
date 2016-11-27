@@ -1,7 +1,7 @@
 package com.gw150914.jabberwocky.core;
 
 /**
- * Created by eliott on 11/24/2016.
+ * Created by Eliott on 11/24/2016.
  */
 
 public class Sound {
