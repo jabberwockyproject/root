@@ -22,7 +22,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Button searchButton = (Button) findViewById(R.id.search_button);
         Button themeButton = (Button) findViewById(R.id.theme_button);
         Button randomButton = (Button) findViewById(R.id.random_button);
@@ -41,15 +40,13 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         soundList.setOnItemLongClickListener(this);
 
         all = new Theme("all");
+        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,all.getSoundNameList());
+        soundList.setAdapter(adapter);
 
         /*-------------------------------------
         Below code is for testing purposes only
         -------------------------------------*/
         final int maxSound = 40;
-
-        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,all.getSoundNameList());
-
-        soundList.setAdapter(adapter);
 
         for (int i = 0; i < maxSound; i++){
             String soundName = "Sample #" + Integer.toString(i);

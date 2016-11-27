@@ -31,7 +31,6 @@
                 android:textAlignment="center"
                 android:clickable="true"
                 android:longClickable="true"
-                android:onClick="soundClickHandler"
                 android:id="@+id/textView" />
         </LinearLayout>
         <LinearLayout
