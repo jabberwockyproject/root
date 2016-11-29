@@ -114,17 +114,22 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             adapter.notifyDataSetChanged();
 
             //Sound play testing
-            int sID = soundPool.load("root/app/src/main/res/raw/beep1.mp3",1); //INCORRECT USE!!!
-            AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-            float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-            float leftVolume = curVolume/maxVolume;
-            float rightVolume = curVolume/maxVolume;
-            int priority = 1;
-            int loop = 0;
-            float rate = 1f;
-
-            soundPool.play(sID, leftVolume, rightVolume, priority, loop, rate);
+            int sID = soundPool.load(this.getApplicationContext(),R.raw.beep1,1);
+            soundPool.setOnLoadCompleteListener(
+                    new SoundPool.OnLoadCompleteListener(){
+                        public void onLoadComplete(SoundPool soundPool, int soundId, int status) {
+                            AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+                            float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                            float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                            float leftVolume = curVolume/maxVolume;
+                            float rightVolume = curVolume/maxVolume;
+                            int priority = 1;
+                            int loop = 0;
+                            float rate = 1f;
+                            soundPool.play(soundId, leftVolume, rightVolume, priority, loop, rate);
+                        }
+                    }
+            );
             //End of Sound play testing
         }
     }
