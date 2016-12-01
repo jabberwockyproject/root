@@ -120,11 +120,12 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             adapterAll.notifyDataSetChanged();
         }
         if(findViewById(R.id.theme_button) == v) {
-            if(soundListDisplay.getAdapter()== adapterAll) {
+            if(soundListDisplay.getAdapter() == adapterAll) {
                 soundListDisplay.setAdapter(adapterFav);
             }
-            if(soundListDisplay.getAdapter() == adapterFav){
+            else if(soundListDisplay.getAdapter() == adapterFav) {
                 soundListDisplay.setAdapter(adapterAll);
+                //TODO  improve code for multiple adapters
             }
         }
         if(findViewById(R.id.random_button) == v) {
