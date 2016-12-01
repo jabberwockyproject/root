@@ -2,9 +2,11 @@ package com.gw150914.jabberwocky.gui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -87,8 +89,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
          */
         adapterFav = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeFav.getSoundNameList());
 
-
-
         /*
          * Testing code.
          * Instantiate 20 Sound objects with generic names and then
@@ -158,7 +158,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             return true;
         }
         if(findViewById(R.id.theme_button) == v) {
-
             return true;
         }
         if(findViewById(R.id.random_button) == v) {
@@ -218,7 +217,16 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      */
     public boolean onItemLongClick(AdapterView parent, View v, int pos, long id){
         if(findViewById(R.id.sound_List_Display) == parent) {
-
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle(getString(R.string.dialog_title));
+            alertDialog.setMessage(themeFav.getSoundNameList().get(pos));
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
             return true;
         }
         return false;

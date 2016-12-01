@@ -1,6 +1,7 @@
 package com.gw150914.jabberwocky.core;
 
 import java.util.ArrayList;
+import android.content.Context;
 
 /**
  * Created by Eliott on 11/24/2016.
@@ -26,6 +27,7 @@ public class Theme{
         themeList = new String[maxTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
+
         //TODO: add name to themeList
     }
     public Theme(String newName){
