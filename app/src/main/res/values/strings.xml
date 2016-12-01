@@ -5,4 +5,5 @@
     <string name="theme_button">Theme</string>
     <string name="random_button">Rand</string>
     <string name="settings_button">Set</string>
+    <string name="current_theme">Current theme is :</string>
 </resources>
