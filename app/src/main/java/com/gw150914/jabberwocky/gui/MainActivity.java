@@ -36,7 +36,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         Button themeButton = (Button) findViewById(R.id.theme_button);
         Button randomButton = (Button) findViewById(R.id.random_button);
         Button settingsButton = (Button) findViewById(R.id.settings_button);
-        soundListDisplay = (ListView) findViewById(R.id.soundList);
+        soundListDisplay = (ListView) findViewById(R.id.sound_List_Display);
 
         /*
          * For each object we created above, designate event listeners.

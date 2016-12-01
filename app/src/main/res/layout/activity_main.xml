@@ -43,7 +43,7 @@
             android:orientation="horizontal"
             tools:ignore="UselessParent">
             <ListView
-                android:id="@+id/soundList"
+                android:id="@+id/sound_List_Display"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
