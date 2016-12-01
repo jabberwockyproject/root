@@ -176,7 +176,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * https://developer.android.com/reference/android/widget/AdapterView.OnItemClickListener.html
      */
     public void onItemClick(AdapterView parent, View v, int pos, long id){
-        if(findViewById(R.id.soundList) == parent) {
+        if(findViewById(R.id.sound_List_Display) == parent) {
             themeAll.addSound(new Sound(Integer.toString(pos)));
             adapterAll.notifyDataSetChanged();
 
@@ -211,7 +211,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * https://developer.android.com/reference/android/widget/AdapterView.OnItemLongClickListener.html
      */
     public boolean onItemLongClick(AdapterView parent, View v, int pos, long id){
-        if(findViewById(R.id.soundList) == parent) {
+        if(findViewById(R.id.sound_List_Display) == parent) {
             themeAll.addSound(new Sound(Long.toString(id)));
             adapterAll.notifyDataSetChanged();
             return true;
