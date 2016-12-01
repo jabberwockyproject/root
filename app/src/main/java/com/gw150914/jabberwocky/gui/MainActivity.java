@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.gw150914.jabberwocky.R;
 import com.gw150914.jabberwocky.core.Theme;
@@ -21,6 +22,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private Theme themeAll, themeFav;
     private SoundPool soundPool;
     private ListView soundListDisplay;
+    private TextView currentTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         Button randomButton = (Button) findViewById(R.id.random_button);
         Button settingsButton = (Button) findViewById(R.id.settings_button);
         soundListDisplay = (ListView) findViewById(R.id.sound_List_Display);
+        currentTheme = (TextView) findViewById(R.id.current_theme_display) ;
 
         /*
          * For each object we created above, designate event listeners.
@@ -77,6 +80,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
          */
         adapterAll = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,themeAll.getSoundNameList());
         soundListDisplay.setAdapter(adapterAll);
+        currentTheme.setText("Current theme is All");
 
         /*Create an adapter for Favorites ListView
         fed from soundNameList field of themeFav theme
@@ -116,24 +120,24 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      */
     public void onClick(View v) {
         if(findViewById(R.id.search_button) == v) {
-            themeAll.addSound(new Sound("search"));
-            adapterAll.notifyDataSetChanged();
+
         }
         if(findViewById(R.id.theme_button) == v) {
             if(soundListDisplay.getAdapter() == adapterAll) {
                 soundListDisplay.setAdapter(adapterFav);
+                currentTheme.setText("Current theme: Favorites");
             }
             else if(soundListDisplay.getAdapter() == adapterFav) {
                 soundListDisplay.setAdapter(adapterAll);
-                //TODO  improve code for multiple adapters
+                currentTheme.setText("Current theme: All");
+
             }
         }
         if(findViewById(R.id.random_button) == v) {
-            soundListDisplay.setAdapter(adapterAll);
+
         }
         if(findViewById(R.id.settings_button) == v) {
-            themeFav.addSound(new Sound("settings"));
-            adapterFav.notifyDataSetChanged();
+
         }
     }
 
@@ -150,23 +154,19 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      */
     public boolean onLongClick(View v) {
         if(findViewById(R.id.search_button) == v) {
-            themeAll.addSound(new Sound("l-search"));
-            adapterAll.notifyDataSetChanged();
+
             return true;
         }
         if(findViewById(R.id.theme_button) == v) {
-            themeAll.addSound(new Sound("l-theme"));
-            adapterAll.notifyDataSetChanged();
+
             return true;
         }
         if(findViewById(R.id.random_button) == v) {
-            themeAll.addSound(new Sound("l-random"));
-            adapterAll.notifyDataSetChanged();
+
             return true;
         }
         if(findViewById(R.id.settings_button) == v) {
-            themeAll.addSound(new Sound("l-settings"));
-            adapterAll.notifyDataSetChanged();
+
             return true;
         }
         return false;
@@ -183,11 +183,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      */
     public void onItemClick(AdapterView parent, View v, int pos, long id){
         if(findViewById(R.id.sound_List_Display) == parent) {
-            themeAll.addSound(new Sound(Integer.toString(pos)));
-            adapterAll.notifyDataSetChanged();
+
+
 
             //Sound play testing
-            int sID = soundPool.load(this.getApplicationContext(),R.raw.beep1,1);
+            int sID = soundPool.load(this.getApplicationContext(),R.raw.habile,1);
             soundPool.setOnLoadCompleteListener(
                     new SoundPool.OnLoadCompleteListener(){
                         public void onLoadComplete(SoundPool soundPool, int soundId, int status) {
@@ -218,8 +218,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      */
     public boolean onItemLongClick(AdapterView parent, View v, int pos, long id){
         if(findViewById(R.id.sound_List_Display) == parent) {
-            themeAll.addSound(new Sound(Long.toString(id)));
-            adapterAll.notifyDataSetChanged();
+
             return true;
         }
         return false;
