@@ -21,11 +21,10 @@ import com.gw150914.jabberwocky.core.Sound;
 public class MainActivity extends Activity implements View.OnClickListener,View.OnLongClickListener,AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
     private ArrayAdapter<String> adapterAll, adapterFav;
-    private Theme currentTheme, themeAll, themeFav;
+    private Theme themeAll, themeFav;
     private SoundPool soundPool;
     private ListView soundListDisplay;
-    private TextView currentThemeTextView;
-    private Sound soundAndreaPasLa, soundDefection, soundFoutLaRage, soundHabile, soundHumour, soundMachiavellique, soundNouveaute, soundPourquoi, soundPrejudice, soundQuelqueSorte, soundSante, soundSuperBaise, soundVieuxMan;
+    private TextView currentTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         Button randomButton = (Button) findViewById(R.id.random_button);
         Button settingsButton = (Button) findViewById(R.id.settings_button);
         soundListDisplay = (ListView) findViewById(R.id.sound_List_Display);
-        currentThemeTextView = (TextView) findViewById(R.id.current_theme_display) ;
+        currentTheme = (TextView) findViewById(R.id.current_theme_display) ;
 
         /*
          * For each object we created above, designate event listeners.
@@ -74,47 +73,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         themeAll = new Theme("themeAll");
         themeFav = new Theme("themeFav");
 
-        //Load all embedded sounds in memory and create Sound objects
-        soundAndreaPasLa = new Sound("Andrea pas la",soundPool.load(this.getApplicationContext(),R.raw.andrea_pas_la,1));
-        soundDefection = new Sound("Defection",soundPool.load(this.getApplicationContext(),R.raw.defection,1));
-        soundFoutLaRage = new Sound("Fout la rage",soundPool.load(this.getApplicationContext(),R.raw.fout_la_rage,1));
-        soundHabile = new Sound("Habile",soundPool.load(this.getApplicationContext(),R.raw.habile,1));
-        soundHumour = new Sound("Humour",soundPool.load(this.getApplicationContext(),R.raw.humour,1));
-        soundMachiavellique = new Sound("Machiavellique",soundPool.load(this.getApplicationContext(),R.raw.machiavellique,1));
-        soundNouveaute = new Sound("Nouveaute",soundPool.load(this.getApplicationContext(),R.raw.nouveaute,1));
-        soundPourquoi = new Sound("Pourquoi",soundPool.load(this.getApplicationContext(),R.raw.pourquoi,1));
-        soundPrejudice = new Sound("Prejudice",soundPool.load(this.getApplicationContext(),R.raw.prejudice,1));
-        soundQuelqueSorte = new Sound("Quelque Sorte",soundPool.load(this.getApplicationContext(),R.raw.quelque_sorte,1));
-        soundSante = new Sound("Sante",soundPool.load(this.getApplicationContext(),R.raw.sante,1));
-        soundSuperBaise = new Sound("Super Baise",soundPool.load(this.getApplicationContext(),R.raw.super_baise,1));
-        soundVieuxMan = new Sound("Vieux man",soundPool.load(this.getApplicationContext(),R.raw.vieux_man,1));
-
-        //Below code is currently useless. Keep it for ref.
-        /*
-        soundPool.setOnLoadCompleteListener(
-                new SoundPool.OnLoadCompleteListener(){
-                    public void onLoadComplete(SoundPool soundPool, int soundId, int status) {
-                        //nothing
-                    }
-                }
-        );
-        */
-
-        //Add created sounds in theme All
-        themeAll.addSound(soundAndreaPasLa);
-        themeAll.addSound(soundDefection);
-        themeAll.addSound(soundFoutLaRage);
-        themeAll.addSound(soundHabile);
-        themeAll.addSound(soundHumour);
-        themeAll.addSound(soundMachiavellique);
-        themeAll.addSound(soundNouveaute);
-        themeAll.addSound(soundPourquoi);
-        themeAll.addSound(soundPrejudice);
-        themeAll.addSound(soundQuelqueSorte);
-        themeAll.addSound(soundSante);
-        themeAll.addSound(soundSuperBaise);
-        themeAll.addSound(soundVieuxMan);
-
         /*
          * Create an adapter for the ListView
          * ListView will be fed from the soundNameList field of the themeAll theme.
@@ -123,13 +81,28 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
          */
         adapterAll = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,themeAll.getSoundNameList());
         soundListDisplay.setAdapter(adapterAll);
-        currentTheme = themeAll;
-        currentThemeTextView.setText("Current theme is All");
+        currentTheme.setText("Current theme is All");
 
         /*Create an adapter for Favorites ListView
-         *fed from soundNameList field of themeFav theme
+        fed from soundNameList field of themeFav theme
          */
         adapterFav = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeFav.getSoundNameList());
+
+        /*
+         * Testing code.
+         * Instantiate 20 Sound objects with generic names and then
+         * add all these sounds name to the ListView.
+         * Update the display at the end.
+         */
+        final int maxSound = 20;
+        for (int i = 0; i < maxSound; i++){
+            String soundNameSample = "Sample #" + Integer.toString(i);
+            String soundNameFav = "Favorite #" + Integer.toString(i);
+            themeAll.addSound(new Sound(soundNameSample));
+            themeFav.addSound(new Sound(soundNameFav));
+        }
+        adapterAll.notifyDataSetChanged();
+        adapterFav.notifyDataSetChanged();
     }
 
     /*
@@ -148,13 +121,12 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         if(findViewById(R.id.theme_button) == v) {
             if(soundListDisplay.getAdapter() == adapterAll) {
                 soundListDisplay.setAdapter(adapterFav);
-                currentTheme = themeFav;
-                currentThemeTextView.setText("Current theme: Favorites");
+                currentTheme.setText("Current theme: Favorites");
             }
             else if(soundListDisplay.getAdapter() == adapterFav) {
                 soundListDisplay.setAdapter(adapterAll);
-                currentTheme = themeAll;
-                currentThemeTextView.setText("Current theme: All");
+                currentTheme.setText("Current theme: All");
+
             }
         }
         if(findViewById(R.id.random_button) == v) {
@@ -178,15 +150,18 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      */
     public boolean onLongClick(View v) {
         if(findViewById(R.id.search_button) == v) {
+
             return true;
         }
         if(findViewById(R.id.theme_button) == v) {
             return true;
         }
         if(findViewById(R.id.random_button) == v) {
+
             return true;
         }
         if(findViewById(R.id.settings_button) == v) {
+
             return true;
         }
         return false;
@@ -202,15 +177,25 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      */
     public void onItemClick(AdapterView parent, View v, int pos, long id){
         if(findViewById(R.id.sound_List_Display) == parent) {
-            AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-            float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-            float leftVolume = curVolume/maxVolume;
-            float rightVolume = curVolume/maxVolume;
-            int priority = 1;
-            int loop = 0;
-            float rate = 1f;
-            soundPool.play(currentTheme.getSound(pos).getSoundId(), leftVolume, rightVolume, priority, loop, rate);
+
+            //Sound play testing
+            int sID = soundPool.load(this.getApplicationContext(),R.raw.habile,1);
+            soundPool.setOnLoadCompleteListener(
+                    new SoundPool.OnLoadCompleteListener(){
+                        public void onLoadComplete(SoundPool soundPool, int soundId, int status) {
+                            AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+                            float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                            float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                            float leftVolume = curVolume/maxVolume;
+                            float rightVolume = curVolume/maxVolume;
+                            int priority = 1;
+                            int loop = 0;
+                            float rate = 1f;
+                            soundPool.play(soundId, leftVolume, rightVolume, priority, loop, rate);
+                        }
+                    }
+            );
+            //End of Sound play testing
         }
     }
 

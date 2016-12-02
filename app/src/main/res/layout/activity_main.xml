@@ -4,6 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_list_divider"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -22,12 +23,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top|center_horizontal"
-            android:background="@color/buttons_overlay"
+            android:background="@color/color_title_bg"
             android:orientation="vertical"
             tools:ignore="UselessParent"
             android:weightSum="1">
             <TextView
                 android:text="Bros Sound Box"
+                android:fontFamily="sans-serif-condensed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16pt"
@@ -38,6 +40,7 @@
                 />
             <TextView
                 android:text="@string/current_theme"
+                android:fontFamily="sans-serif-condensed"
                 android:background="@color/title_overlay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,13 +57,18 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_gravity="center|center_horizontal"
-            android:background="@color/black_overlay"
+            android:background="@color/white_overlay"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
             <ListView
                 android:id="@+id/sound_List_Display"
+                android:textSize="12pt"
+
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="@color/color_list_item"
+                android:dividerHeight="10dp"
+                android:divider="@color/color_list_divider"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/main_buttons_zone"
@@ -68,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/buttons_overlay"
+            android:background="@color/color_menu_bg"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
             <Button
