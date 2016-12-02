@@ -73,7 +73,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         themeAll = new Theme("themeAll");
         themeFav = new Theme("themeFav");
 
-
         /*
          * Create an adapter for the ListView
          * ListView will be fed from the soundNameList field of the themeAll theme.
@@ -104,9 +103,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
         adapterAll.notifyDataSetChanged();
         adapterFav.notifyDataSetChanged();
-
-
-
     }
 
     /*
@@ -174,16 +170,13 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     /*
      * OnItemClick event handler.
      * Items in the ListView will use this method if pressed.
-     * Add the pressed item position (in the list) to the ListView (testing/experimental purpose)
-     * Will load and play the beep1.mp3 sound.
-     * beep1.mp3 is located in the res/raw folder.
+     * Will load and play the habile sound.
+     * habile.mp3 is located in the res/raw folder.
      *
      * https://developer.android.com/reference/android/widget/AdapterView.OnItemClickListener.html
      */
     public void onItemClick(AdapterView parent, View v, int pos, long id){
         if(findViewById(R.id.sound_List_Display) == parent) {
-
-
 
             //Sound play testing
             int sID = soundPool.load(this.getApplicationContext(),R.raw.habile,1);
@@ -209,7 +202,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     /*
      * OnItemLongClick event handler.
      * Items in the ListView will use this method if pressed for a few seconds.
-     * Add the pressed item id to the ListView (testing/experimental purpose)
+     * Will display a dialog box asking whether the user want to add the pressed
+     * sound to favorites.
      * The return value is there to say whether we took care of the event or not.
      * If not, other event handlers might be fired. Has no implication for the moment.
      *
