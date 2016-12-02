@@ -224,7 +224,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      *
      * https://developer.android.com/reference/android/widget/AdapterView.OnItemLongClickListener.html
      */
-    public boolean onItemLongClick(AdapterView parent, View v, int pos, long id){
+    public boolean onItemLongClick(AdapterView parent, View v, final int pos, long id){
         if(findViewById(R.id.sound_List_Display) == parent) {
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle(getString(R.string.dialog_title));
@@ -232,6 +232,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+                            themeFav.addSound(currentTheme.getSound(pos));
                             dialog.dismiss();
                         }
                     });
