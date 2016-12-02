@@ -77,4 +77,10 @@ public class Theme{
     public ArrayList<String> getSoundNameList(){
         return soundNameList;
     }
+    public Sound[] getSoundList(){
+        return soundList;
+    }
+    public Sound getSound(int index){
+        return soundList[index];
+    }
 }
