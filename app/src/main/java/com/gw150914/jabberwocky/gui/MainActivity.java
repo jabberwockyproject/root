@@ -74,19 +74,16 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         themeFav = new Theme("themeFav");
 
         /*
-         * Create an adapter for the ListView
-         * ListView will be fed from the soundNameList field of the themeAll theme.
+         * Create an adapter for the ListViews All and Favorites
+         * ListView will be fed from the soundNameList field of the themeAll and themeFav themes.
          *
          * https://developer.android.com/reference/android/widget/ListView.html#setAdapter%28android.widget.ListAdapter%29
          */
         adapterAll = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,themeAll.getSoundNameList());
+        adapterFav = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeFav.getSoundNameList());
         soundListDisplay.setAdapter(adapterAll);
         currentTheme.setText("Current theme is All");
 
-        /*Create an adapter for Favorites ListView
-        fed from soundNameList field of themeFav theme
-         */
-        adapterFav = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeFav.getSoundNameList());
 
         /*
          * Testing code.
@@ -108,9 +105,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     /*
      * OnClick event handler.
      * All four buttons will use this method if pressed.
-     * For the moment, the method check if the triggered view is
-     * one of the known buttons, and add a word in the ListView.
-     * Does nothing otherwise.
+     * For the moment, the method checks if the triggered view is
+     * one of the known buttons.
+     * Theme button checks current theme, and switches between themeFav and themeAll
+     * Other buttons do nothing.
      *
      * https://developer.android.com/reference/android/view/View.OnClickListener.html
      */
@@ -140,8 +138,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     /*
      * OnLongClick event handler.
      * All four buttons will use this method if pressed for a few seconds.
-     * For the moment, the method check if the triggered view is
-     * one of the known buttons, and add a word in the ListView.
+     * For the moment, the method checks if the triggered view is
+     * one of the known buttons.
      * Does nothing otherwise
      * The return value is there to say whether we took care of the event or not.
      * If not, other event handlers might be fired. Has no implication for the moment.
@@ -170,7 +168,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     /*
      * OnItemClick event handler.
      * Items in the ListView will use this method if pressed.
-     * Will load and play the habile sound.
+     * For the moment, for any item it will load and play the habile sound.
      * habile.mp3 is located in the res/raw folder.
      *
      * https://developer.android.com/reference/android/widget/AdapterView.OnItemClickListener.html
@@ -213,7 +211,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         if(findViewById(R.id.sound_List_Display) == parent) {
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle(getString(R.string.dialog_title));
-            alertDialog.setMessage(themeFav.getSoundNameList().get(pos));
+            alertDialog.setMessage(themeAll.getSoundNameList().get(pos));
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
