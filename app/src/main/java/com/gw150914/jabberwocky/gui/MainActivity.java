@@ -148,10 +148,12 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         if(findViewById(R.id.theme_button) == v) {
             if(soundListDisplay.getAdapter() == adapterAll) {
                 soundListDisplay.setAdapter(adapterFav);
+                currentTheme = themeFav;
                 currentThemeTextView.setText("Current theme: Favorites");
             }
             else if(soundListDisplay.getAdapter() == adapterFav) {
                 soundListDisplay.setAdapter(adapterAll);
+                currentTheme = themeAll;
                 currentThemeTextView.setText("Current theme: All");
             }
         }
