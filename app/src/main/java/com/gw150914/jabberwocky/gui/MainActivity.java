@@ -226,7 +226,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         if(findViewById(R.id.sound_List_Display) == parent) {
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle(getString(R.string.dialog_title));
-            alertDialog.setMessage(themeFav.getSoundNameList().get(pos));
+            alertDialog.setMessage(currentTheme.getSoundNameList().get(pos));
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
