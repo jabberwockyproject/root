@@ -83,4 +83,13 @@ public class Theme{
     public Sound getSound(int index){
         return soundList[index];
     }
+    public boolean checkSoundDuplicate (Sound soundToCheck){
+        boolean duplicate = false;
+        int index = 0;
+        do{
+            if (soundToCheck.getSoundId() == soundList[index].getSoundId())
+                duplicate = true;
+        }while(!duplicate && index++ < soundsCount);
+        return duplicate;
+    }
 }
