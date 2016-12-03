@@ -2,6 +2,7 @@ package com.gw150914.jabberwocky.core;
 
 import java.util.ArrayList;
 import android.content.Context;
+import android.util.Log;
 
 /**
  * Created by Eliott on 11/24/2016.
@@ -58,10 +59,12 @@ public class Theme{
     private boolean checkSoundDuplicate (Sound soundToCheck){
         boolean duplicate = false;
         int index = 0;
-        do{
-            if (soundToCheck.getSoundId() == soundList[index].getSoundId())
+        while(!duplicate && index < soundsCount) {
+            Log.d("index value: " ,Integer.toString(index));
+            if (soundToCheck.getSoundId() == soundList[index++].getSoundId()){
                 duplicate = true;
-        }while(!duplicate && index++ < soundsCount);
+            }
+        }
         return duplicate;
     }
 

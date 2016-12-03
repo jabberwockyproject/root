@@ -11,9 +11,11 @@ public class Sound {
     //TODO: Constructors
     public Sound (){
         name = "unnamed";
+        soundId = 0;
     }
     public Sound (String newName){
         name = newName;
+        soundId = 0;
     }
     public Sound (String newName, int newSoundId){
         name = newName;
