@@ -30,6 +30,7 @@ public class Theme{
 
         //TODO: add name to themeList
     }
+
     public Theme(String newName){
         name = newName;
         soundList = new Sound[maxSoundPerTheme];
@@ -38,6 +39,7 @@ public class Theme{
         soundsCount = 0;
         //TODO: add name to themeList
     }
+
     public Theme(String newName, Sound[] newSoundList){
         name = newName;
         soundList = newSoundList;
@@ -53,6 +55,16 @@ public class Theme{
         return null;
     }
 
+    private boolean checkSoundDuplicate (Sound soundToCheck){
+        boolean duplicate = false;
+        int index = 0;
+        do{
+            if (soundToCheck.getSoundId() == soundList[index].getSoundId())
+                duplicate = true;
+        }while(!duplicate && index++ < soundsCount);
+        return duplicate;
+    }
+
     //Public Methods
     public String getName(){
         return name;
@@ -64,32 +76,50 @@ public class Theme{
         //TODO
         return null;
     }
-    public void addSound(Sound newSound){
-        soundList[soundsCount] = newSound;
-        soundNameList.add(soundsCount,newSound.getName());
-        soundsCount++;
-        //TODO: Check for duplicates
+
+    /*
+     * Return values:
+     * 0: Success
+     * 1: Failed to add sound (duplicate)
+     * 2: Failed to add sound (Index out of bound)
+     * 3: Failed to add sound (other errors)
+     */
+    public int addSound(Sound newSound){
+        if (!checkSoundDuplicate(newSound)){
+            try{
+                soundList[soundsCount] = newSound;
+                soundNameList.add(soundsCount,newSound.getName());
+            }
+            catch(IndexOutOfBoundsException e){
+                return 2;
+            }
+            catch(Exception e){
+                return 3;
+            }
+            ++soundsCount;
+            return 0;
+
+        }
+        else{
+            return 1;
+        }
+
     }
+
     public void removeSound(Sound oldSound){
-        soundsCount--;
+        --soundsCount;
         //TODO
     }
+
     public ArrayList<String> getSoundNameList(){
         return soundNameList;
     }
+
     public Sound[] getSoundList(){
         return soundList;
     }
+
     public Sound getSound(int index){
         return soundList[index];
-    }
-    public boolean checkSoundDuplicate (Sound soundToCheck){
-        boolean duplicate = false;
-        int index = 0;
-        do{
-            if (soundToCheck.getSoundId() == soundList[index].getSoundId())
-                duplicate = true;
-        }while(!duplicate && index++ < soundsCount);
-        return duplicate;
     }
 }
