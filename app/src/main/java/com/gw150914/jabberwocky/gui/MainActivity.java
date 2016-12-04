@@ -25,7 +25,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private SoundPool soundPool;
     private ListView soundListDisplay;
     private TextView currentThemeTextView;
-    private Sound soundAndreaPasLa, soundDefection, soundFoutLaRage, soundHabile, soundHumour, soundMachiavellique, soundNouveaute, soundPourquoi, soundPrejudice, soundQuelqueSorte, soundSante, soundSuperBaise, soundVieuxMan;
+    private Sound soundAndreaPasLa, soundAucunRapport, soundDefection, soundFoutLaRage, soundGrosseBlague, soundHabile, soundHumour, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMarcheBien, soundNoFuckingBalls, soundNouveaute, soundPasCool, soundPasDrole, soundPourquoi, soundPqReche, soundPrejudice, soundPtitZizi, soundPtiteBite, soundQueSePasseTIl, soundQuelqueSorte, soundQuoi, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTropPlaisir, soundVieuxMan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,17 +76,35 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         //Load all embedded sounds in memory and create Sound objects
         soundAndreaPasLa = new Sound("Andrea pas la",soundPool.load(this.getApplicationContext(),R.raw.andrea_pas_la,1));
+        soundAucunRapport = new Sound("Aucun rapport",soundPool.load(this.getApplicationContext(),R.raw.aucun_rapport,1));
         soundDefection = new Sound("Defection",soundPool.load(this.getApplicationContext(),R.raw.defection,1));
         soundFoutLaRage = new Sound("Fout la rage",soundPool.load(this.getApplicationContext(),R.raw.fout_la_rage,1));
+        soundGrosseBlague = new Sound("Grosse blague",soundPool.load(this.getApplicationContext(),R.raw.grosse_blague,1));
         soundHabile = new Sound("Habile",soundPool.load(this.getApplicationContext(),R.raw.habile,1));
         soundHumour = new Sound("Humour",soundPool.load(this.getApplicationContext(),R.raw.humour,1));
+        soundLeGitan = new Sound("Le Gitan",soundPool.load(this.getApplicationContext(),R.raw.le_gitan,1));
         soundMachiavellique = new Sound("Machiavellique",soundPool.load(this.getApplicationContext(),R.raw.machiavellique,1));
+        soundMagnerLeCul = new Sound("Magner le cul",soundPool.load(this.getApplicationContext(),R.raw.magner_le_cul,1));
+        soundMaitreMichel = new Sound("Maitre Michel",soundPool.load(this.getApplicationContext(),R.raw.maitre_michel,1));
+        soundMarcheBien = new Sound("Marche bien",soundPool.load(this.getApplicationContext(),R.raw.marche_bien,1));
+        soundNoFuckingBalls = new Sound("No Fucking Balls",soundPool.load(this.getApplicationContext(),R.raw.no_fucking_balls,1));
         soundNouveaute = new Sound("Nouveaute",soundPool.load(this.getApplicationContext(),R.raw.nouveaute,1));
+        soundPasCool = new Sound("Pas Cool",soundPool.load(this.getApplicationContext(),R.raw.pas_cool,1));
+        soundPasDrole = new Sound("Pas Drole",soundPool.load(this.getApplicationContext(),R.raw.pas_drole,1));
         soundPourquoi = new Sound("Pourquoi",soundPool.load(this.getApplicationContext(),R.raw.pourquoi,1));
+        soundPqReche = new Sound("PQ Reche",soundPool.load(this.getApplicationContext(),R.raw.pq_reche,1));
         soundPrejudice = new Sound("Prejudice",soundPool.load(this.getApplicationContext(),R.raw.prejudice,1));
+        soundPtitZizi = new Sound("Ptit zizi",soundPool.load(this.getApplicationContext(),R.raw.ptit_zizi,1));
+        soundPtiteBite = new Sound("Ptite bite",soundPool.load(this.getApplicationContext(),R.raw.ptite_bite,1));
+        soundQueSePasseTIl = new Sound("Que se passe t'il ",soundPool.load(this.getApplicationContext(),R.raw.que_ce_passe_t_il,1));
         soundQuelqueSorte = new Sound("Quelque Sorte",soundPool.load(this.getApplicationContext(),R.raw.quelque_sorte,1));
+        soundQuoi = new Sound("Quoi",soundPool.load(this.getApplicationContext(),R.raw.quoi,1));
         soundSante = new Sound("Sante",soundPool.load(this.getApplicationContext(),R.raw.sante,1));
+        soundScandaleux = new Sound("Scandaleux",soundPool.load(this.getApplicationContext(),R.raw.scandaleux,1));
         soundSuperBaise = new Sound("Super Baise",soundPool.load(this.getApplicationContext(),R.raw.super_baise,1));
+        soundSuperSpirituel = new Sound("Super Spirituel",soundPool.load(this.getApplicationContext(),R.raw.super_spirituel,1));
+        soundTrahison = new Sound("Trahison",soundPool.load(this.getApplicationContext(),R.raw.trahison,1));
+        soundTropPlaisir = new Sound("Trop plaisir",soundPool.load(this.getApplicationContext(),R.raw.trop_plaisir,1));
         soundVieuxMan = new Sound("Vieux man",soundPool.load(this.getApplicationContext(),R.raw.vieux_man,1));
 
         //Below code is currently useless. Keep it for ref.
@@ -102,17 +120,35 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         //Add created sounds in theme All
         themeAll.addSound(soundAndreaPasLa);
+        themeAll.addSound(soundAucunRapport);
         themeAll.addSound(soundDefection);
         themeAll.addSound(soundFoutLaRage);
+        themeAll.addSound(soundGrosseBlague);
         themeAll.addSound(soundHabile);
         themeAll.addSound(soundHumour);
+        themeAll.addSound(soundLeGitan);
         themeAll.addSound(soundMachiavellique);
+        themeAll.addSound(soundMagnerLeCul);
+        themeAll.addSound(soundMaitreMichel);
+        themeAll.addSound(soundMarcheBien);
+        themeAll.addSound(soundNoFuckingBalls);
         themeAll.addSound(soundNouveaute);
+        themeAll.addSound(soundPasCool);
+        themeAll.addSound(soundPasDrole);
         themeAll.addSound(soundPourquoi);
+        themeAll.addSound(soundPqReche);
         themeAll.addSound(soundPrejudice);
+        themeAll.addSound(soundPtitZizi);
+        themeAll.addSound(soundPtiteBite);
+        themeAll.addSound(soundQueSePasseTIl);
         themeAll.addSound(soundQuelqueSorte);
+        themeAll.addSound(soundQuoi);
         themeAll.addSound(soundSante);
+        themeAll.addSound(soundScandaleux);
         themeAll.addSound(soundSuperBaise);
+        themeAll.addSound(soundSuperSpirituel);
+        themeAll.addSound(soundTrahison);
+        themeAll.addSound(soundTropPlaisir);
         themeAll.addSound(soundVieuxMan);
 
         /*
