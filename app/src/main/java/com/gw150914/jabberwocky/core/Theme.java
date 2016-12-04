@@ -60,7 +60,6 @@ public class Theme{
         boolean duplicate = false;
         int index = 0;
         while(!duplicate && index < soundsCount) {
-            Log.d("index value: " ,Integer.toString(index));
             if (soundToCheck.getSoundId() == soundList[index++].getSoundId()){
                 duplicate = true;
             }
@@ -106,12 +105,30 @@ public class Theme{
         else{
             return 1;
         }
-
     }
 
-    public void removeSound(Sound oldSound){
-        --soundsCount;
-        //TODO
+    public boolean removeSound(Sound oldSound){
+        boolean soundFound = false;
+        int index = 0;
+        while(!soundFound && index < soundsCount) {
+            if (oldSound.getSoundId() == soundList[index].getSoundId()){
+                soundFound = true;
+            }
+            else{
+                ++index;
+            }
+        }
+        if (soundFound){
+            soundNameList.remove(index);
+            while (index < (soundsCount -1)){
+                soundList[index]=soundList[++index];
+            }
+            --soundsCount;
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public ArrayList<String> getSoundNameList(){

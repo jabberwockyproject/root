@@ -224,21 +224,40 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      *
      * https://developer.android.com/reference/android/widget/AdapterView.OnItemLongClickListener.html
      */
+
     public boolean onItemLongClick(AdapterView parent, View v, final int pos, long id){
         if(findViewById(R.id.sound_List_Display) == parent) {
-            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-            alertDialog.setTitle(getString(R.string.dialog_title));
-            alertDialog.setMessage(currentTheme.getSoundNameList().get(pos));
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            themeFav.addSound(currentTheme.getSound(pos));
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-            return true;
+            if (currentTheme != themeFav) {
+                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                alertDialog.setTitle(getString(R.string.dialog_title));
+                alertDialog.setMessage(currentTheme.getSoundNameList().get(pos));
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                themeFav.addSound(currentTheme.getSound(pos));
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+                return true;
+            }
+            else{
+                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                alertDialog.setTitle(getString(R.string.dialog_remove_from_fav));
+                alertDialog.setMessage(currentTheme.getSoundNameList().get(pos));
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                themeFav.removeSound(currentTheme.getSound(pos));
+                                adapterFav.notifyDataSetChanged();
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+                return true;
+            }
         }
         return false;
+        //TODO possible only if currentTheme is not themeFav ? and if currentTheme is themeFav, then remove sound ?
     }
 }
