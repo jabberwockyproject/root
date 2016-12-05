@@ -25,7 +25,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private Theme currentTheme, themeAll, themeFav;
     private ListView soundListDisplay;
     private TextView currentThemeTextView;
-    private Sound soundAndreaPasLa, soundAucunRapport, soundDefection, soundFoutLaRage, soundGrosseBlague, soundHabile, soundHumour, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMarcheBien, soundNoFuckingBalls, soundNouveaute, soundPasCool, soundPasDrole, soundPourquoi, soundPqReche, soundPrejudice, soundPtitZizi, soundPtiteBite, soundQueSePasseTIl, soundQuelqueSorte, soundQuoi, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTropPlaisir, soundVieuxMan;
+    private Sound soundAndreaPasLa, soundAttention01, soundAttention02, soundAttention03, soundAttention04, soundAttention05, soundAttention06, soundAucunRapport, soundBonneIdee, soundCalomnie, soundChinois01, soundChinois02, soundCokeVachementBath, soundComprendsPas, soundCracheBeaucoup, soundDebandade, soundDefection, soundEmbarrassant, soundExigeReponse, soundFaux, soundFoutLaRage, soundGrosGourdin, soundGrosseBlague, soundHabile, soundHallucine, soundHumour, soundIncomprehencible, soundInteressePas, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMalentendu, soundMarcheBien, soundMeSensSeul, soundMethTropDeLaBalle01, soundMethTropDeLaBalle02, soundMistake, soundNemrod, soundNoFuckingBalls, soundNouveaute, soundOhOui, soundOnSEmmerde, soundOSEF, soundPasCool, soundPasDrole, soundPlaisanterie01, soundPlaisanterie02, soundPouleMouillee, soundPourquoi, soundPqEmergency, soundPqIncroyable, soundPqReche, soundPqtropDoux, soundPqTropManque, soundPrejudice, soundPrevoyant, soundPrisPropreJeu, soundPtitZizi, soundPtiteBite, soundPueDuCul, soundQueSePasseTIl, soundQuelqueSorte, soundQuiEstLa, soundQuoi01, soundQuoi02, soundQuoi03, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTripleEpaisseur, soundTropPlaisir, soundTrucDeMazo, soundTrueStory, soundVachementBath, soundViens01, soundViens02, soundVieuxMan, soundVoirMaBite, soundVrai;
     private SoundEngine soundEngine;
     private SoundPool soundPool;
     Context appContext;
@@ -92,7 +92,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundPtiteBite = new Sound("Ptite bite",soundPool.load(appContext,R.raw.ptite_bite,1));
             soundQueSePasseTIl = new Sound("Que se passe t'il ",soundPool.load(appContext,R.raw.que_ce_passe_t_il,1));
             soundQuelqueSorte = new Sound("Quelque Sorte",soundPool.load(appContext,R.raw.quelque_sorte,1));
-            soundQuoi = new Sound("Quoi",soundPool.load(appContext,R.raw.quoi,1));
+            soundQuoi01 = new Sound("Quoi",soundPool.load(appContext,R.raw.quoi,1));
             soundSante = new Sound("Sante",soundPool.load(appContext,R.raw.sante,1));
             soundScandaleux = new Sound("Scandaleux",soundPool.load(appContext,R.raw.scandaleux,1));
             soundSuperBaise = new Sound("Super Baise",soundPool.load(appContext,R.raw.super_baise,1));
@@ -104,7 +104,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themeAll.addSound(soundPtiteBite);
             themeAll.addSound(soundQueSePasseTIl);
             themeAll.addSound(soundQuelqueSorte);
-            themeAll.addSound(soundQuoi);
+            themeAll.addSound(soundQuoi01);
             themeAll.addSound(soundSante);
             themeAll.addSound(soundScandaleux);
             themeAll.addSound(soundSuperBaise);
