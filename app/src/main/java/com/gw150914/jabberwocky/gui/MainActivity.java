@@ -79,38 +79,39 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         //Load all embedded sounds in memory and create Sound objects
         SoundPool soundPool = soundEngine.getSoundPool();
+        Context appContext = this.getApplicationContext();
 
-        soundAndreaPasLa = new Sound("Andrea pas la",soundPool.load(this.getApplicationContext(),R.raw.andrea_pas_la,1));
-        soundAucunRapport = new Sound("Aucun rapport",soundPool.load(this.getApplicationContext(),R.raw.aucun_rapport,1));
-        soundDefection = new Sound("Defection",soundPool.load(this.getApplicationContext(),R.raw.defection,1));
-        soundFoutLaRage = new Sound("Fout la rage",soundPool.load(this.getApplicationContext(),R.raw.fout_la_rage,1));
-        soundGrosseBlague = new Sound("Grosse blague",soundPool.load(this.getApplicationContext(),R.raw.grosse_blague,1));
-        soundHabile = new Sound("Habile",soundPool.load(this.getApplicationContext(),R.raw.habile,1));
-        soundHumour = new Sound("Humour",soundPool.load(this.getApplicationContext(),R.raw.humour,1));
-        soundLeGitan = new Sound("Le Gitan",soundPool.load(this.getApplicationContext(),R.raw.le_gitan,1));
-        soundMachiavellique = new Sound("Machiavellique",soundPool.load(this.getApplicationContext(),R.raw.machiavellique,1));
-        soundMagnerLeCul = new Sound("Magner le cul",soundPool.load(this.getApplicationContext(),R.raw.magner_le_cul,1));
-        soundMaitreMichel = new Sound("Maitre Michel",soundPool.load(this.getApplicationContext(),R.raw.maitre_michel,1));
-        soundMarcheBien = new Sound("Marche bien",soundPool.load(this.getApplicationContext(),R.raw.marche_bien,1));
-        soundNoFuckingBalls = new Sound("No Fucking Balls",soundPool.load(this.getApplicationContext(),R.raw.no_fucking_balls,1));
-        soundNouveaute = new Sound("Nouveaute",soundPool.load(this.getApplicationContext(),R.raw.nouveaute,1));
-        soundPasCool = new Sound("Pas Cool",soundPool.load(this.getApplicationContext(),R.raw.pas_cool,1));
-        soundPasDrole = new Sound("Pas Drole",soundPool.load(this.getApplicationContext(),R.raw.pas_drole,1));
-        soundPourquoi = new Sound("Pourquoi",soundPool.load(this.getApplicationContext(),R.raw.pourquoi,1));
-        soundPqReche = new Sound("PQ Reche",soundPool.load(this.getApplicationContext(),R.raw.pq_reche,1));
-        soundPrejudice = new Sound("Prejudice",soundPool.load(this.getApplicationContext(),R.raw.prejudice,1));
-        soundPtitZizi = new Sound("Ptit zizi",soundPool.load(this.getApplicationContext(),R.raw.ptit_zizi,1));
-        soundPtiteBite = new Sound("Ptite bite",soundPool.load(this.getApplicationContext(),R.raw.ptite_bite,1));
-        soundQueSePasseTIl = new Sound("Que se passe t'il ",soundPool.load(this.getApplicationContext(),R.raw.que_ce_passe_t_il,1));
-        soundQuelqueSorte = new Sound("Quelque Sorte",soundPool.load(this.getApplicationContext(),R.raw.quelque_sorte,1));
-        soundQuoi = new Sound("Quoi",soundPool.load(this.getApplicationContext(),R.raw.quoi,1));
-        soundSante = new Sound("Sante",soundPool.load(this.getApplicationContext(),R.raw.sante,1));
-        soundScandaleux = new Sound("Scandaleux",soundPool.load(this.getApplicationContext(),R.raw.scandaleux,1));
-        soundSuperBaise = new Sound("Super Baise",soundPool.load(this.getApplicationContext(),R.raw.super_baise,1));
-        soundSuperSpirituel = new Sound("Super Spirituel",soundPool.load(this.getApplicationContext(),R.raw.super_spirituel,1));
-        soundTrahison = new Sound("Trahison",soundPool.load(this.getApplicationContext(),R.raw.trahison,1));
-        soundTropPlaisir = new Sound("Trop plaisir",soundPool.load(this.getApplicationContext(),R.raw.trop_plaisir,1));
-        soundVieuxMan = new Sound("Vieux man",soundPool.load(this.getApplicationContext(),R.raw.vieux_man,1));
+        soundAndreaPasLa = new Sound("Andrea pas la",soundPool.load(appContext,R.raw.andrea_pas_la,1));
+        soundAucunRapport = new Sound("Aucun rapport",soundPool.load(appContext,R.raw.aucun_rapport,1));
+        soundDefection = new Sound("Defection",soundPool.load(appContext,R.raw.defection,1));
+        soundFoutLaRage = new Sound("Fout la rage",soundPool.load(appContext,R.raw.fout_la_rage,1));
+        soundGrosseBlague = new Sound("Grosse blague",soundPool.load(appContext,R.raw.grosse_blague,1));
+        soundHabile = new Sound("Habile",soundPool.load(appContext,R.raw.habile,1));
+        soundHumour = new Sound("Humour",soundPool.load(appContext,R.raw.humour,1));
+        soundLeGitan = new Sound("Le Gitan",soundPool.load(appContext,R.raw.le_gitan,1));
+        soundMachiavellique = new Sound("Machiavellique",soundPool.load(appContext,R.raw.machiavellique,1));
+        soundMagnerLeCul = new Sound("Magner le cul",soundPool.load(appContext,R.raw.magner_le_cul,1));
+        soundMaitreMichel = new Sound("Maitre Michel",soundPool.load(appContext,R.raw.maitre_michel,1));
+        soundMarcheBien = new Sound("Marche bien",soundPool.load(appContext,R.raw.marche_bien,1));
+        soundNoFuckingBalls = new Sound("No Fucking Balls",soundPool.load(appContext,R.raw.no_fucking_balls,1));
+        soundNouveaute = new Sound("Nouveaute",soundPool.load(appContext,R.raw.nouveaute,1));
+        soundPasCool = new Sound("Pas Cool",soundPool.load(appContext,R.raw.pas_cool,1));
+        soundPasDrole = new Sound("Pas Drole",soundPool.load(appContext,R.raw.pas_drole,1));
+        soundPourquoi = new Sound("Pourquoi",soundPool.load(appContext,R.raw.pourquoi,1));
+        soundPqReche = new Sound("PQ Reche",soundPool.load(appContext,R.raw.pq_reche,1));
+        soundPrejudice = new Sound("Prejudice",soundPool.load(appContext,R.raw.prejudice,1));
+        soundPtitZizi = new Sound("Ptit zizi",soundPool.load(appContext,R.raw.ptit_zizi,1));
+        soundPtiteBite = new Sound("Ptite bite",soundPool.load(appContext,R.raw.ptite_bite,1));
+        soundQueSePasseTIl = new Sound("Que se passe t'il ",soundPool.load(appContext,R.raw.que_ce_passe_t_il,1));
+        soundQuelqueSorte = new Sound("Quelque Sorte",soundPool.load(appContext,R.raw.quelque_sorte,1));
+        soundQuoi = new Sound("Quoi",soundPool.load(appContext,R.raw.quoi,1));
+        soundSante = new Sound("Sante",soundPool.load(appContext,R.raw.sante,1));
+        soundScandaleux = new Sound("Scandaleux",soundPool.load(appContext,R.raw.scandaleux,1));
+        soundSuperBaise = new Sound("Super Baise",soundPool.load(appContext,R.raw.super_baise,1));
+        soundSuperSpirituel = new Sound("Super Spirituel",soundPool.load(appContext,R.raw.super_spirituel,1));
+        soundTrahison = new Sound("Trahison",soundPool.load(appContext,R.raw.trahison,1));
+        soundTropPlaisir = new Sound("Trop plaisir",soundPool.load(appContext,R.raw.trop_plaisir,1));
+        soundVieuxMan = new Sound("Vieux man",soundPool.load(appContext,R.raw.vieux_man,1));
 
         //Below code is currently useless. Keep it for ref.
         /*
