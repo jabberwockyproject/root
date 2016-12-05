@@ -14,23 +14,13 @@ public class SoundEngine {
     private AudioManager audioManager;
 
     private class PlaySound extends Thread {
-        private SoundPool sPool;
-        private int sSoundId;
-        private int sPriority;
-        private int sLoop;
-        private float sRate;
-        private float sVolume;
+        private int soundId;
 
-        PlaySound(SoundPool nPool, int nSoundId, int nPriority, int nLoop, float nRate, float nVolume) {
-            sPool = nPool;
-            sSoundId = nSoundId;
-            sPriority = nPriority;
-            sLoop = nLoop;
-            sRate = nRate;
-            sVolume = nVolume;
+        PlaySound(int soundId) {
+            this.soundId = soundId;
         }
         public void run() {
-            sPool.play(sSoundId, sVolume, sVolume, sPriority, sLoop, sRate);
+            soundPool.play(soundId, getFinalSoundVolume(), getFinalSoundVolume(), soundPriority, loop, rate);
         }
     }
 
@@ -65,7 +55,7 @@ public class SoundEngine {
         return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     }
     public void playSound(int soundId){
-        PlaySound playSoundThread = new PlaySound(soundPool, soundId, soundPriority, loop, rate, getFinalSoundVolume());
+        PlaySound playSoundThread = new PlaySound(soundId);
         playSoundThread.start();
     }
     private float getFinalSoundVolume() {
