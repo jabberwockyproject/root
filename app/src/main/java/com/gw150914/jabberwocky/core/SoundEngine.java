@@ -3,7 +3,7 @@ package com.gw150914.jabberwocky.core;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
-public class SoundEngine  {
+public class SoundEngine {
     private SoundPool soundPool;
     private float customVolume;
     private float maxVolume;
@@ -13,7 +13,7 @@ public class SoundEngine  {
     private float rate;
     private AudioManager audioManager;
 
-    private class PlaySound extends Thread{
+    private class PlaySound extends Thread {
         private SoundPool sPool;
         private int sSoundId;
         private int sPriority;
@@ -21,7 +21,7 @@ public class SoundEngine  {
         private float sRate;
         private float sVolume;
 
-        PlaySound(SoundPool nPool, int nSoundId, int nPriority, int nLoop, float nRate, float nVolume){
+        PlaySound(SoundPool nPool, int nSoundId, int nPriority, int nLoop, float nRate, float nVolume) {
             sPool = nPool;
             sSoundId = nSoundId;
             sPriority = nPriority;
@@ -29,12 +29,12 @@ public class SoundEngine  {
             sRate = nRate;
             sVolume = nVolume;
         }
-        public void run(){
+        public void run() {
             sPool.play(sSoundId, sVolume, sVolume, sPriority, sLoop, sRate);
         }
     }
 
-    public SoundEngine(AudioManager newAudioManager){
+    public SoundEngine(AudioManager newAudioManager) {
         soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC,0);
         loop = 0;
         soundPriority = 1;
@@ -42,37 +42,37 @@ public class SoundEngine  {
         audioManager = newAudioManager;
         maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
     }
-    public void setCustomVolume(float newVolume){
+    public void setCustomVolume(float newVolume) {
         customVolume = newVolume;
         hasCustomVolume = true;
     }
-    public void setRate(float newRate){
+    public void setRate(float newRate) {
         rate = newRate;
     }
-    public void setSoundPriority(int newPriority){
+    public void setSoundPriority(int newPriority) {
         soundPriority = newPriority;
     }
-    public void setLoop(int newLoop){
+    public void setLoop(int newLoop) {
         loop = newLoop;
     }
-    public SoundPool getSoundPool(){
+    public SoundPool getSoundPool() {
         return soundPool;
     }
-    public void removeCustomVolume(){
+    public void removeCustomVolume() {
         hasCustomVolume = false;
     }
-    private float getCurVolume(){
+    private float getCurVolume() {
         return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     }
     private void playSound(int soundId){
         PlaySound playSoundThread = new PlaySound(soundPool, soundId, soundPriority, loop, rate, getFinalSoundVolume());
         playSoundThread.start();
     }
-    private float getFinalSoundVolume(){
-        if (hasCustomVolume){
+    private float getFinalSoundVolume() {
+        if (hasCustomVolume) {
             return customVolume/maxVolume;
         }
-        else{
+        else {
             return getCurVolume()/maxVolume;
         }
     }

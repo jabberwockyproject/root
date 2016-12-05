@@ -1,14 +1,8 @@
 package com.gw150914.jabberwocky.core;
 
 import java.util.ArrayList;
-import android.content.Context;
-import android.util.Log;
 
-/**
- * Created by Eliott on 11/24/2016.
- */
-
-public class Theme{
+public class Theme {
 
     //Private fields
     private static final int maxSoundPerTheme = 500;
@@ -22,7 +16,7 @@ public class Theme{
     //Public Fields
 
     //Constructors
-    public Theme(){
+    public Theme() {
         name = Theme.getNextGenericName();
         soundList = new Sound[maxSoundPerTheme];
         themeList = new String[maxTheme];
@@ -32,7 +26,7 @@ public class Theme{
         //TODO: add name to themeList
     }
 
-    public Theme(String newName){
+    public Theme(String newName) {
         name = newName;
         soundList = new Sound[maxSoundPerTheme];
         themeList = new String[maxTheme];
@@ -41,7 +35,7 @@ public class Theme{
         //TODO: add name to themeList
     }
 
-    public Theme(String newName, Sound[] newSoundList){
+    public Theme(String newName, Sound[] newSoundList) {
         name = newName;
         soundList = newSoundList;
         themeList = new String[maxTheme];
@@ -51,16 +45,16 @@ public class Theme{
     }
 
     //Private Methods
-    private static String getNextGenericName(){
+    private static String getNextGenericName() {
         //TODO: check themeList and return an unused generic name "New Theme $"
         return null;
     }
 
-    private boolean checkSoundDuplicate (Sound soundToCheck){
+    private boolean checkSoundDuplicate(Sound soundToCheck) {
         boolean duplicate = false;
         int index = 0;
         while(!duplicate && index < soundsCount) {
-            if (soundToCheck.getSoundId() == soundList[index++].getSoundId()){
+            if (soundToCheck.getSoundId() == soundList[index++].getSoundId()) {
                 duplicate = true;
             }
         }
@@ -68,13 +62,13 @@ public class Theme{
     }
 
     //Public Methods
-    public String getName(){
+    public String getName() {
         return name;
     }
-    public void setName(String newName){
+    public void setName(String newName) {
         name = newName;
     }
-    public Sound getRandomSound(){
+    public Sound getRandomSound() {
         //TODO
         return null;
     }
@@ -86,16 +80,16 @@ public class Theme{
      * 2: Failed to add sound (Index out of bound)
      * 3: Failed to add sound (other errors)
      */
-    public int addSound(Sound newSound){
-        if (!checkSoundDuplicate(newSound)){
+    public int addSound(Sound newSound) {
+        if (!checkSoundDuplicate(newSound)) {
             try{
                 soundList[soundsCount] = newSound;
                 soundNameList.add(soundsCount,newSound.getName());
             }
-            catch(IndexOutOfBoundsException e){
+            catch(IndexOutOfBoundsException e) {
                 return 2;
             }
-            catch(Exception e){
+            catch(Exception e) {
                 return 3;
             }
             ++soundsCount;
@@ -107,20 +101,20 @@ public class Theme{
         }
     }
 
-    public boolean removeSound(Sound oldSound){
+    public boolean removeSound(Sound oldSound) {
         boolean soundFound = false;
         int index = 0;
         while(!soundFound && index < soundsCount) {
-            if (oldSound.getSoundId() == soundList[index].getSoundId()){
+            if (oldSound.getSoundId() == soundList[index].getSoundId()) {
                 soundFound = true;
             }
             else{
                 ++index;
             }
         }
-        if (soundFound){
+        if (soundFound) {
             soundNameList.remove(index);
-            while (index < (soundsCount -1)){
+            while (index < (soundsCount -1)) {
                 soundList[index]=soundList[++index];
             }
             --soundsCount;
@@ -131,15 +125,15 @@ public class Theme{
         }
     }
 
-    public ArrayList<String> getSoundNameList(){
+    public ArrayList<String> getSoundNameList() {
         return soundNameList;
     }
 
-    public Sound[] getSoundList(){
+    public Sound[] getSoundList() {
         return soundList;
     }
 
-    public Sound getSound(int index){
+    public Sound getSound(int index) {
         return soundList[index];
     }
 }

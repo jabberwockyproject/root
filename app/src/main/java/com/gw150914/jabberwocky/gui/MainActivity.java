@@ -236,7 +236,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      *
      * https://developer.android.com/reference/android/widget/AdapterView.OnItemClickListener.html
      */
-    public void onItemClick(AdapterView parent, View v, int pos, long id){
+    public void onItemClick(AdapterView parent, View v, int pos, long id) {
         if(findViewById(R.id.sound_List_Display) == parent) {
             AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
             float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -261,7 +261,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * https://developer.android.com/reference/android/widget/AdapterView.OnItemLongClickListener.html
      */
 
-    public boolean onItemLongClick(AdapterView parent, View v, final int pos, long id){
+    public boolean onItemLongClick(AdapterView parent, View v, final int pos, long id) {
         if(findViewById(R.id.sound_List_Display) == parent) {
             if (currentTheme != themeFav) {
                 AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
@@ -294,6 +294,5 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             }
         }
         return false;
-        //TODO possible only if currentTheme is not themeFav ? and if currentTheme is themeFav, then remove sound ?
     }
 }
