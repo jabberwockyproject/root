@@ -17,15 +17,16 @@ import android.widget.TextView;
 import com.gw150914.jabberwocky.R;
 import com.gw150914.jabberwocky.core.Theme;
 import com.gw150914.jabberwocky.core.Sound;
+import com.gw150914.jabberwocky.core.SoundEngine;
 
 public class MainActivity extends Activity implements View.OnClickListener,View.OnLongClickListener,AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
     private ArrayAdapter<String> adapterAll, adapterFav;
     private Theme currentTheme, themeAll, themeFav;
-    private SoundPool soundPool;
     private ListView soundListDisplay;
     private TextView currentThemeTextView;
     private Sound soundAndreaPasLa, soundAucunRapport, soundDefection, soundFoutLaRage, soundGrosseBlague, soundHabile, soundHumour, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMarcheBien, soundNoFuckingBalls, soundNouveaute, soundPasCool, soundPasDrole, soundPourquoi, soundPqReche, soundPrejudice, soundPtitZizi, soundPtiteBite, soundQueSePasseTIl, soundQuelqueSorte, soundQuoi, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTropPlaisir, soundVieuxMan;
+    private SoundEngine soundEngine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +69,17 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
          *
          * https://developer.android.com/reference/android/media/SoundPool.html
          */
-        soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC,0);
+
+        //Instantiate the sound engine.
+        soundEngine = new SoundEngine((AudioManager)this.getSystemService(Context.AUDIO_SERVICE));
 
         //Instantiate themes named themeAll and themeFav
         themeAll = new Theme("themeAll");
         themeFav = new Theme("themeFav");
 
         //Load all embedded sounds in memory and create Sound objects
+        SoundPool soundPool = soundEngine.getSoundPool();
+
         soundAndreaPasLa = new Sound("Andrea pas la",soundPool.load(this.getApplicationContext(),R.raw.andrea_pas_la,1));
         soundAucunRapport = new Sound("Aucun rapport",soundPool.load(this.getApplicationContext(),R.raw.aucun_rapport,1));
         soundDefection = new Sound("Defection",soundPool.load(this.getApplicationContext(),R.raw.defection,1));
@@ -152,20 +157,18 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         themeAll.addSound(soundVieuxMan);
 
         /*
-         * Create an adapter for the ListView
-         * ListView will be fed from the soundNameList field of the themeAll theme.
+         * Create adapters for the ListView
+         * ListView will be fed from the soundNameList field of corresponding theme.
          *
          * https://developer.android.com/reference/android/widget/ListView.html#setAdapter%28android.widget.ListAdapter%29
          */
         adapterAll = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,themeAll.getSoundNameList());
+        adapterFav = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeFav.getSoundNameList());
+
         soundListDisplay.setAdapter(adapterAll);
+
         currentTheme = themeAll;
         currentThemeTextView.setText("Current theme is All");
-
-        /*Create an adapter for Favorites ListView
-         *fed from soundNameList field of themeFav theme
-         */
-        adapterFav = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeFav.getSoundNameList());
     }
 
     /*
@@ -231,22 +234,12 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     /*
      * OnItemClick event handler.
      * Items in the ListView will use this method if pressed.
-     * Will load and play the habile sound.
-     * habile.mp3 is located in the res/raw folder.
      *
      * https://developer.android.com/reference/android/widget/AdapterView.OnItemClickListener.html
      */
     public void onItemClick(AdapterView parent, View v, int pos, long id) {
         if(findViewById(R.id.sound_List_Display) == parent) {
-            AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-            float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-            float leftVolume = curVolume/maxVolume;
-            float rightVolume = curVolume/maxVolume;
-            int priority = 1;
-            int loop = 0;
-            float rate = 1f;
-            soundPool.play(currentTheme.getSound(pos).getSoundId(), leftVolume, rightVolume, priority, loop, rate);
+            soundEngine.playSound(currentTheme.getSound(pos).getSoundId());
         }
     }
 
@@ -277,7 +270,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 alertDialog.show();
                 return true;
             }
-            else{
+            else {
                 AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                 alertDialog.setTitle(getString(R.string.dialog_remove_from_fav));
                 alertDialog.setMessage(currentTheme.getSoundNameList().get(pos));

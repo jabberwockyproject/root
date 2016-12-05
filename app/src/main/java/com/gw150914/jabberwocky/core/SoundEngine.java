@@ -64,7 +64,7 @@ public class SoundEngine {
     private float getCurVolume() {
         return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     }
-    private void playSound(int soundId){
+    public void playSound(int soundId){
         PlaySound playSoundThread = new PlaySound(soundPool, soundId, soundPriority, loop, rate, getFinalSoundVolume());
         playSoundThread.start();
     }
