@@ -62,11 +62,11 @@ public class Theme {
     }
 
     //Check if soundList and soundNameList have a consistent index. Internal use only.
-    private boolean checkIndexConsistency(){
+    private boolean checkIndexConsistency() {
         boolean isConsistent = true;
         int index = 0;
-        while(isConsistent && index < soundsCount){
-            if(!(soundList[index].getName().equals(soundNameList.get(index)))){
+        while(isConsistent && index < soundsCount) {
+            if(!(soundList[index].getName().equals(soundNameList.get(index)))) {
                 isConsistent = false;
             }
         }
@@ -81,7 +81,7 @@ public class Theme {
         name = newName;
     }
 
-    public void sortIndex(){
+    public void sortIndex() {
         boolean sorted = false;     //lists are sorted
         boolean hasDoneSomething;   //Something has been done during this pass
         int index;                  //Current working index
@@ -89,17 +89,17 @@ public class Theme {
         String soundNameBuffer;     //String buffer used during index/index+1 soundNameList switches
 
         //Repeat passes until nothing has been done during a pass (meaning the list is sorted
-        while(!sorted){
+        while(!sorted) {
 
             //reset Something has been done during this pass to false
             hasDoneSomething = false;
 
             //Do a pass. Stop at soundCount-1 to prevent out of boundary accesses.
-            for(index=0; index < (soundsCount-1); ++index){
+            for(index=0; index < (soundsCount-1); ++index) {
 
                 //If soundNameList @index+1 is strictly inferior to soundNameList @index
                 //Then we need to switch index with index+1 values
-                if(soundNameList.get(index).compareToIgnoreCase(soundNameList.get(index+1)) > 0){
+                if(soundNameList.get(index).compareToIgnoreCase(soundNameList.get(index+1)) > 0) {
 
                     soundNameBuffer = soundNameList.get(index);             //Buffer soundNameList @index
                     soundNameList.set(index, soundNameList.get(index+1));   //Move soundNameList @index+1 to index
@@ -115,7 +115,7 @@ public class Theme {
             }
 
             //If nothing has been done during this pass, then the lists are sorted.
-            if(!hasDoneSomething){
+            if(!hasDoneSomething) {
                 sorted = true;
             }
         }

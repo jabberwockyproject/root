@@ -42,20 +42,20 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private Context appContext;
     private ThreadPoolExecutor threadPoolExec;
     private Handler loadingHandler;
-    private int thread1LoadedSounds;
-    private int thread2LoadedSounds;
-    private int thread3LoadedSounds;
-    private final int thread1TotalSounds = 27;
-    private final int thread2TotalSounds = 27;
-    private final int thread3TotalSounds = 28;
+    private int thread1LoadedSounds; //unused ATM
+    private int thread2LoadedSounds; //unused ATM
+    private int thread3LoadedSounds; //unused ATM
+    private final int thread1TotalSounds = 27; //unused ATM
+    private final int thread2TotalSounds = 27; //unused ATM
+    private final int thread3TotalSounds = 28; //unused ATM
     private boolean thread1JobDone, thread2JobDone, thread3JobDone;
 
     private class LoadThread1 implements Runnable {
         private Message message;
         LoadThread1 (){
             message = new Message();
-            message.arg1 = 1;
-            message.arg2 = 0;
+            message.arg1 = 1; //thread id
+            message.arg2 = 0; //thread status (0=ongoing, 1=done)
         }
         public void run() {
             soundAndreaPasLa = new Sound("Andrea pas la",soundPool.load(appContext,R.raw.andrea_pas_la,1));
@@ -118,12 +118,13 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             loadingHandler.sendMessage(message);
         }
     }
+
     private class LoadThread2 implements Runnable {
         private Message message;
         LoadThread2 (){
             message = new Message();
-            message.arg1 = 2;
-            message.arg2 = 0;
+            message.arg1 = 2; //thread id
+            message.arg2 = 0; //thread status (0=ongoing, 1=done)
         }
         public void run() {
             soundInteressePas = new Sound("Interesse pas",soundPool.load(appContext,R.raw.interesse_pas,1));
@@ -186,12 +187,13 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             loadingHandler.sendMessage(message);
         }
     }
+
     private class LoadThread3 implements Runnable {
         private Message message;
         LoadThread3 (){
             message = new Message();
-            message.arg1 = 3;
-            message.arg2 = 0;
+            message.arg1 = 3; //thread id
+            message.arg2 = 0; //thread status (0=ongoing, 1=done)
         }
 
         public void run() {
@@ -296,9 +298,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             }
         };
 
-        thread1LoadedSounds = 0;
-        thread2LoadedSounds = 0;
-        thread3LoadedSounds = 0;
+        thread1LoadedSounds = 0; //unused ATM
+        thread2LoadedSounds = 0; //unused ATM
+        thread3LoadedSounds = 0; //unused ATM
 
         thread1JobDone = false;
         thread2JobDone = false;
