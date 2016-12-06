@@ -82,30 +82,41 @@ public class Theme {
     }
 
     public void sortIndex(){
-        boolean shorted = false;
-        boolean hasDoneSomething;
-        int index;
-        Sound soundBuffer;
-        String soundNameBuffer;
+        boolean sorted = false;     //lists are sorted
+        boolean hasDoneSomething;   //Something has been done during this pass
+        int index;                  //Current working index
+        Sound soundBuffer;          //Sound buffer used during index/index+1 soundList switches
+        String soundNameBuffer;     //String buffer used during index/index+1 soundNameList switches
 
-        while(!shorted){
+        //Repeat passes until nothing has been done during a pass (meaning the list is sorted
+        while(!sorted){
+
+            //reset Something has been done during this pass to false
             hasDoneSomething = false;
+
+            //Do a pass. Stop at soundCount-1 to prevent out of boundary accesses.
             for(index=0; index < (soundsCount-1); ++index){
+
+                //If soundNameList @index+1 is strictly inferior to soundNameList @index
+                //Then we need to switch index with index+1 values
                 if(soundNameList.get(index).compareToIgnoreCase(soundNameList.get(index+1)) > 0){
 
-                    soundNameBuffer = soundNameList.get(index);
-                    soundNameList.set(index, soundNameList.get(index+1));
-                    soundNameList.set(index+1,soundNameBuffer);
+                    soundNameBuffer = soundNameList.get(index);             //Buffer soundNameList @index
+                    soundNameList.set(index, soundNameList.get(index+1));   //Move soundNameList @index+1 to index
+                    soundNameList.set(index+1,soundNameBuffer);             //Move buffered soundNameList to index+1
 
-                    soundBuffer = soundList[index];
-                    soundList[index] = soundList[index+1];
-                    soundList[index+1] = soundBuffer;
+                    soundBuffer = soundList[index];                         //Buffer soundList @index
+                    soundList[index] = soundList[index+1];                  //Move soundList @index+1 to index
+                    soundList[index+1] = soundBuffer;                       //Move buffered soundList to index+1
 
+                    //Something has been done during this pass
                     hasDoneSomething = true;
                 }
             }
+
+            //If nothing has been done during this pass, then the lists are sorted.
             if(!hasDoneSomething){
-                shorted = true;
+                sorted = true;
             }
         }
     }
