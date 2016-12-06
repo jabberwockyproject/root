@@ -369,6 +369,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         threadPoolExec.submit(loadingThread1);
         threadPoolExec.submit(loadingThread2);
         threadPoolExec.submit(loadingThread3);
+        adapterAll.notifyDataSetChanged();
+
+        //Sort list by alphabetical order
+        currentTheme.sortSoundNameList();
+        adapterAll.notifyDataSetChanged();
 
         //Below code is currently useless. Keep it for ref.
         /*
@@ -381,6 +386,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         );
         */
     }
+
+
 
     /*
      * OnClick event handler.

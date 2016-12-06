@@ -1,6 +1,7 @@
 package com.gw150914.jabberwocky.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Theme {
 
@@ -53,7 +54,7 @@ public class Theme {
     private boolean checkSoundDuplicate(Sound soundToCheck) {
         boolean duplicate = false;
         int index = 0;
-        while(!duplicate && index < soundsCount) {
+        while (!duplicate && index < soundsCount) {
             if (soundToCheck.getSoundId() == soundList[index++].getSoundId()) {
                 duplicate = true;
             }
@@ -65,9 +66,11 @@ public class Theme {
     public String getName() {
         return name;
     }
+
     public void setName(String newName) {
         name = newName;
     }
+
     public Sound getRandomSound() {
         //TODO
         return null;
@@ -82,21 +85,18 @@ public class Theme {
      */
     public int addSound(Sound newSound) {
         if (!checkSoundDuplicate(newSound)) {
-            try{
+            try {
                 soundList[soundsCount] = newSound;
-                soundNameList.add(soundsCount,newSound.getName());
-            }
-            catch(IndexOutOfBoundsException e) {
+                soundNameList.add(soundsCount, newSound.getName());
+            } catch (IndexOutOfBoundsException e) {
                 return 2;
-            }
-            catch(Exception e) {
+            } catch (Exception e) {
                 return 3;
             }
             ++soundsCount;
             return 0;
 
-        }
-        else{
+        } else {
             return 1;
         }
     }
@@ -104,23 +104,21 @@ public class Theme {
     public boolean removeSound(Sound oldSound) {
         boolean soundFound = false;
         int index = 0;
-        while(!soundFound && index < soundsCount) {
+        while (!soundFound && index < soundsCount) {
             if (oldSound.getSoundId() == soundList[index].getSoundId()) {
                 soundFound = true;
-            }
-            else{
+            } else {
                 ++index;
             }
         }
         if (soundFound) {
             soundNameList.remove(index);
-            while (index < (soundsCount -1)) {
-                soundList[index]=soundList[++index];
+            while (index < (soundsCount - 1)) {
+                soundList[index] = soundList[++index];
             }
             --soundsCount;
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -140,4 +138,13 @@ public class Theme {
     public Sound getSound(int index) {
         return soundList[index];
     }
+
+
+    //sort by alphabetical order
+    public ArrayList<String> sortSoundNameList() {
+        Collections.sort(soundNameList, String.CASE_INSENSITIVE_ORDER);
+        return soundNameList;
+    }
+
+
 }
