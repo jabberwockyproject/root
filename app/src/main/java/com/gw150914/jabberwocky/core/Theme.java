@@ -61,6 +61,18 @@ public class Theme {
         return duplicate;
     }
 
+    //Check if soundList and soundNameList have a consistent index. Internal use only.
+    private boolean checkIndexConsistency(){
+        boolean isConsistent = true;
+        int index = 0;
+        while(isConsistent && index < soundsCount){
+            if(!(soundList[index].getName().equals(soundNameList.get(index)))){
+                isConsistent = false;
+            }
+        }
+        return isConsistent;
+    }
+
     //Public Methods
     public String getName() {
         return name;
@@ -68,6 +80,36 @@ public class Theme {
     public void setName(String newName) {
         name = newName;
     }
+
+    public void sortIndex(){
+        boolean shorted = false;
+        boolean hasDoneSomething;
+        int index;
+        Sound soundBuffer;
+        String soundNameBuffer;
+
+        while(!shorted){
+            hasDoneSomething = false;
+            for(index=0; index < (soundsCount-1); ++index){
+                if(soundNameList.get(index).compareToIgnoreCase(soundNameList.get(index+1)) > 0){
+
+                    soundNameBuffer = soundNameList.get(index);
+                    soundNameList.set(index, soundNameList.get(index+1));
+                    soundNameList.set(index+1,soundNameBuffer);
+
+                    soundBuffer = soundList[index];
+                    soundList[index] = soundList[index+1];
+                    soundList[index+1] = soundBuffer;
+
+                    hasDoneSomething = true;
+                }
+            }
+            if(!hasDoneSomething){
+                shorted = true;
+            }
+        }
+    }
+
     public Sound getRandomSound() {
         //TODO
         return null;

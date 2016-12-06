@@ -48,6 +48,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private final int thread1TotalSounds = 27;
     private final int thread2TotalSounds = 27;
     private final int thread3TotalSounds = 28;
+    private boolean thread1JobDone, thread2JobDone, thread3JobDone;
 
     private class LoadThread1 implements Runnable {
         private Theme theme;
@@ -280,6 +281,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        threadPoolExec = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
+        threadPoolExec.prestartAllCoreThreads();
+
         loadingHandler = new Handler(Looper.getMainLooper()) {
 
             /*
@@ -289,17 +293,27 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             @Override
             public void handleMessage(Message message) {
                 if(message.arg2 == 1) {
+                    switch(message.arg1){
+                        case(1): thread1JobDone = true; break;
+                        case(2): thread2JobDone = true; break;
+                        case(3): thread3JobDone = true; break;
+                    }
+                    if(thread1JobDone && thread1JobDone && thread1JobDone){
+                        themeAll.sortIndex();
+                    }
                     adapterAll.notifyDataSetChanged();
                 }
+
             }
         };
-
-        threadPoolExec = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
-        threadPoolExec.prestartAllCoreThreads();
 
         thread1LoadedSounds = 0;
         thread2LoadedSounds = 0;
         thread3LoadedSounds = 0;
+
+        thread1JobDone = false;
+        thread2JobDone = false;
+        thread3JobDone = false;
 
         /*
          * Create an object for each view we need to listen to. (so we can manipulate them in the code)
@@ -342,6 +356,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         //Instantiate the saveFavorites class
         //saveFavoritesList = new SaveFavoritesList("saveFavorites");
 
+        String s;
 
 /*
         /*
