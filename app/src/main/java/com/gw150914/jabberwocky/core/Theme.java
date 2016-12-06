@@ -1,6 +1,7 @@
 package com.gw150914.jabberwocky.core;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Theme {
 
@@ -122,8 +123,8 @@ public class Theme {
     }
 
     public Sound getRandomSound() {
-        //TODO
-        return null;
+        Random random = new Random();
+        return soundList[random.nextInt(soundsCount)];
     }
 
     /*

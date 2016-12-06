@@ -37,8 +37,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private Sound soundAndreaPasLa, soundAttention01, soundAttention02, soundAttention03, soundAttention04, soundAttention05, soundAttention06, soundAucunRapport, soundBonneIdee, soundCalomnie, soundChinois01, soundChinois02, soundCokeVachementBath, soundComprendsPas, soundCracheBeaucoup, soundDebandade, soundDefection, soundEmbarrassant, soundExigeReponse, soundFaux, soundFoutLaRage, soundGrosGourdin, soundGrosseBlague, soundHabile, soundHallucine, soundHumour, soundIncomprehensible, soundInteressePas, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMalentendu, soundMarcheBien, soundMeSensSeul, soundMethTropDeLaBalle01, soundMethTropDeLaBalle02, soundMistake, soundNemrod, soundNoFuckingBalls, soundNouveaute, soundOhOui, soundOnSEmmerde, soundOsef, soundPasCool, soundPasDrole, soundPlaisanterie01, soundPlaisanterie02, soundPouleMouillee, soundPourquoi, soundPqEmergency, soundPqIncroyable, soundPqReche, soundPqTropDoux, soundPqTropManque, soundPrejudice, soundPrevoyant, soundPrisPropreJeu, soundPtitZizi, soundPtiteBite, soundPueDuCul, soundQueSePasseTIl, soundQuelqueSorte, soundQuiEstLa, soundQuoi01, soundQuoi02, soundQuoi03, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTripleEpaisseur, soundTropPlaisir, soundTrucDeMazo, soundTrueStory, soundVachementBath, soundViens01, soundViens02, soundVieuxMan, soundVoirMaBite, soundVrai;
     private SoundEngine soundEngine;
     private SoundPool soundPool;
-    Random random = new Random();
-    int rand = 0;
     private Context appContext;
     private ThreadPoolExecutor threadPoolExec;
     private Handler loadingHandler;
@@ -410,11 +408,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             }
         }
         if(findViewById(R.id.random_button) == v) {
-            //get random position
-            rand = random.nextInt(currentTheme.getSoundsCount());
-            //play associated sound in current theme
-            soundEngine.playSound(currentTheme.getSound(rand).getSoundId());
-
+            soundEngine.playSound(currentTheme.getRandomSound().getSoundId());
         }
         if(findViewById(R.id.settings_button) == v) {
 
