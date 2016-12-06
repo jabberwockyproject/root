@@ -274,15 +274,23 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
              */
             @Override
             public void handleMessage(Message message) {
+
+                //A thread has just finished its job.
                 if(message.arg2 == 1) {
+
+                    //Check which thread sent this message
                     switch(message.arg1){
-                        case(1): thread1JobDone = true; break;
-                        case(2): thread2JobDone = true; break;
-                        case(3): thread3JobDone = true; break;
+                        case(1): thread1JobDone = true; break; //thread #1 has finished its job.
+                        case(2): thread2JobDone = true; break; //thread #2 has finished its job.
+                        case(3): thread3JobDone = true; break; //thread #3 has finished its job.
                     }
+
+                    //If all threads are finished, then sort the themAll sounds.
                     if(thread1JobDone && thread2JobDone && thread3JobDone){
                         themeAll.sortIndex();
                     }
+
+                    //Update UI regardless if all threads are finished or not.
                     adapterAll.notifyDataSetChanged();
                 }
             }
