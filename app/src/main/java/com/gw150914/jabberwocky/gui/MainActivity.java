@@ -22,6 +22,8 @@ import com.gw150914.jabberwocky.core.Theme;
 import com.gw150914.jabberwocky.core.Sound;
 import com.gw150914.jabberwocky.core.SoundEngine;
 
+import java.util.Random;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -29,11 +31,14 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
     private ArrayAdapter<String> adapterAll, adapterFav;
     private Theme currentTheme, themeAll, themeFav;
+    //private SaveFavoritesList saveFavoritesList;
     private ListView soundListDisplay;
     private TextView currentThemeTextView;
     private Sound soundAndreaPasLa, soundAttention01, soundAttention02, soundAttention03, soundAttention04, soundAttention05, soundAttention06, soundAucunRapport, soundBonneIdee, soundCalomnie, soundChinois01, soundChinois02, soundCokeVachementBath, soundComprendsPas, soundCracheBeaucoup, soundDebandade, soundDefection, soundEmbarrassant, soundExigeReponse, soundFaux, soundFoutLaRage, soundGrosGourdin, soundGrosseBlague, soundHabile, soundHallucine, soundHumour, soundIncomprehensible, soundInteressePas, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMalentendu, soundMarcheBien, soundMeSensSeul, soundMethTropDeLaBalle01, soundMethTropDeLaBalle02, soundMistake, soundNemrod, soundNoFuckingBalls, soundNouveaute, soundOhOui, soundOnSEmmerde, soundOsef, soundPasCool, soundPasDrole, soundPlaisanterie01, soundPlaisanterie02, soundPouleMouillee, soundPourquoi, soundPqEmergency, soundPqIncroyable, soundPqReche, soundPqTropDoux, soundPqTropManque, soundPrejudice, soundPrevoyant, soundPrisPropreJeu, soundPtitZizi, soundPtiteBite, soundPueDuCul, soundQueSePasseTIl, soundQuelqueSorte, soundQuiEstLa, soundQuoi01, soundQuoi02, soundQuoi03, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTripleEpaisseur, soundTropPlaisir, soundTrucDeMazo, soundTrueStory, soundVachementBath, soundViens01, soundViens02, soundVieuxMan, soundVoirMaBite, soundVrai;
     private SoundEngine soundEngine;
     private SoundPool soundPool;
+    Random random = new Random();
+    int rand = 0;
     private Context appContext;
     private ThreadPoolExecutor threadPoolExec;
     private Handler loadingHandler;
@@ -326,6 +331,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         soundListDisplay.setOnItemClickListener(this);
         soundListDisplay.setOnItemLongClickListener(this);
 
+
         //Instantiate the sound engine.
         soundEngine = new SoundEngine((AudioManager)this.getSystemService(Context.AUDIO_SERVICE));
 
@@ -333,6 +339,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         themeAll = new Theme("themeAll");
         themeFav = new Theme("themeFav");
 
+        //Instantiate the saveFavorites class
+        //saveFavoritesList = new SaveFavoritesList("saveFavorites");
+
+
+/*
         /*
          * Create adapters for the ListView
          * ListView will be fed from the soundNameList field of corresponding theme.
@@ -397,6 +408,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             }
         }
         if(findViewById(R.id.random_button) == v) {
+            //get random position
+            rand = random.nextInt(currentTheme.getSoundsCount());
+            //play associated sound in current theme
+            soundEngine.playSound(currentTheme.getSound(rand).getSoundId());
 
         }
         if(findViewById(R.id.settings_button) == v) {

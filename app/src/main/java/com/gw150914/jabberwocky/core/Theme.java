@@ -133,6 +133,10 @@ public class Theme {
         return soundList;
     }
 
+    public int getSoundsCount() {
+        return soundsCount;
+    }
+
     public Sound getSound(int index) {
         return soundList[index];
     }
