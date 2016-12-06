@@ -88,8 +88,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themeAll.addSound(soundHallucine);
             themeAll.addSound(soundHumour);
             themeAll.addSound(soundIncomprehensible);
-
-
+            
             adapterAll.notifyDataSetChanged();
         }
     }
@@ -151,7 +150,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themeAll.addSound(soundPqIncroyable);
             themeAll.addSound(soundPqReche);
             themeAll.addSound(soundPqTropDoux);
-
 
             adapterAll.notifyDataSetChanged();
         }
@@ -286,13 +284,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         LoadThread2 loadingThread2 = new LoadThread2();
         LoadThread3 loadingThread3 = new LoadThread3();
 
-        loadingThread1.start();
-        loadingThread2.start();
-        loadingThread3.start();
-
-        while (loadingThread1.isAlive() || loadingThread1.isAlive() || loadingThread1.isAlive()){
-            currentTheme = themeAll;
-        }
+        loadingThread1.run();
+        loadingThread2.run();
+        loadingThread3.run();
 
         /*
         soundAndreaPasLa = new Sound("Andrea pas la",soundPool.load(appContext,R.raw.andrea_pas_la,1));
