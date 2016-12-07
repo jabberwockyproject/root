@@ -89,7 +89,7 @@ public class Theme {
         Sound soundBuffer;          //Sound buffer used during index/index+1 soundList switches
         String soundNameBuffer;     //String buffer used during index/index+1 soundNameList switches
 
-        //Repeat passes until nothing has been done during a pass (meaning the list is sorted
+        //Repeat passes until nothing has been done during a pass (meaning the list is sorted)
         while(!sorted) {
 
             //reset Something has been done during this pass to false
