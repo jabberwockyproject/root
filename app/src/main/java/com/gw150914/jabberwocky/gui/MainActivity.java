@@ -29,7 +29,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
     private ArrayAdapter<String> adapterAll, adapterFav;
     private Theme currentTheme, themeAll, themeFav, themePq, themeTaunt, themeSingle;
-    //private SaveFavoritesList saveFavoritesList;
     private ListView soundListDisplay;
     private TextView currentThemeTextView;
     private Sound soundAndreaPasLa, soundAttention01, soundAttention02, soundAttention03, soundAttention04, soundAttention05, soundAttention06, soundAucunRapport, soundBonneIdee, soundCalomnie, soundChinois01, soundChinois02, soundCokeVachementBath, soundComprendsPas, soundCracheBeaucoup, soundDebandade, soundDefection, soundEmbarrassant, soundExigeReponse, soundFaux, soundFoutLaRage, soundGrosGourdin, soundGrosseBlague, soundHabile, soundHallucine, soundHumour, soundIncomprehensible, soundInteressePas, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMalentendu, soundMarcheBien, soundMeSensSeul, soundMethTropDeLaBalle01, soundMethTropDeLaBalle02, soundMistake, soundNemrod, soundNoFuckingBalls, soundNouveaute, soundOhOui, soundOnSEmmerde, soundOsef, soundPasCool, soundPasDrole, soundPlaisanterie01, soundPlaisanterie02, soundPouleMouillee, soundPourquoi, soundPqEmergency, soundPqIncroyable, soundPqReche, soundPqTropDoux, soundPqTropManque, soundPrejudice, soundPrevoyant, soundPrisPropreJeu, soundPtitZizi, soundPtiteBite, soundPueDuCul, soundQueSePasseTIl, soundQuelqueSorte, soundQuiEstLa, soundQuoi01, soundQuoi02, soundQuoi03, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTripleEpaisseur, soundTropPlaisir, soundTrucDeMazo, soundTrueStory, soundVachementBath, soundViens01, soundViens02, soundVieuxMan, soundVoirMaBite, soundVrai;
@@ -400,8 +399,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         themeTaunt = new Theme("Taunt");
         themeSingle = new Theme("Single");
 
-        //Instantiate the saveFavorites class
-        //saveFavoritesList = new SaveFavoritesList("saveFavorites");
 
         /*
          * Create adapters for the ListView
@@ -431,6 +428,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         threadPoolExec.submit(loadingThread1);
         threadPoolExec.submit(loadingThread2);
         threadPoolExec.submit(loadingThread3);
+        adapterAll.notifyDataSetChanged();
+
 
         //Below code is currently useless. Keep it for ref.
         /*
@@ -443,6 +442,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         );
         */
     }
+
+
 
     /*
      * OnClick event handler.
@@ -470,8 +471,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             }
         }
         if(findViewById(R.id.random_button) == v) {
-            soundEngine.playSound(currentTheme.getRandomSound().getSoundId());
+            if (currentTheme.getSoundsCount() != 0) {
+                soundEngine.playSound(currentTheme.getRandomSound().getSoundId());
+            }
         }
+
         if(findViewById(R.id.settings_button) == v) {
 
         }
