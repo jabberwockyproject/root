@@ -1,7 +1,7 @@
 package com.gw150914.jabberwocky.core;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Random;
 
 public class Theme {
 
@@ -54,7 +54,7 @@ public class Theme {
     private boolean checkSoundDuplicate(Sound soundToCheck) {
         boolean duplicate = false;
         int index = 0;
-        while (!duplicate && index < soundsCount) {
+        while(!duplicate && index < soundsCount) {
             if (soundToCheck.getSoundId() == soundList[index++].getSoundId()) {
                 duplicate = true;
             }
@@ -62,18 +62,69 @@ public class Theme {
         return duplicate;
     }
 
+    //Check if soundList and soundNameList have a consistent index. Internal use only.
+    private boolean checkIndexConsistency() {
+        boolean isConsistent = true;
+        int index = 0;
+        while(isConsistent && index < soundsCount) {
+            if(!(soundList[index].getName().equals(soundNameList.get(index)))) {
+                isConsistent = false;
+            }
+        }
+        return isConsistent;
+    }
+
     //Public Methods
     public String getName() {
         return name;
     }
-
     public void setName(String newName) {
         name = newName;
     }
 
+    public void sortIndex() {
+        boolean sorted = false;     //lists are sorted
+        boolean hasDoneSomething;   //Something has been done during this pass
+        int index;                  //Current working index
+        Sound soundBuffer;          //Sound buffer used during index/index+1 soundList switches
+        String soundNameBuffer;     //String buffer used during index/index+1 soundNameList switches
+
+        //Repeat passes until nothing has been done during a pass (meaning the list is sorted
+        while(!sorted) {
+
+            //reset Something has been done during this pass to false
+            hasDoneSomething = false;
+
+            //Do a pass. Stop at soundCount-1 to prevent out of boundary accesses.
+            for(index=0; index < (soundsCount-1); ++index) {
+
+                //If soundNameList @index+1 is strictly inferior to soundNameList @index
+                //Then we need to switch index with index+1 values
+                if(soundNameList.get(index).compareToIgnoreCase(soundNameList.get(index+1)) > 0) {
+
+                    soundNameBuffer = soundNameList.get(index);             //Buffer soundNameList @index
+                    soundNameList.set(index, soundNameList.get(index+1));   //Move soundNameList @index+1 to index
+                    soundNameList.set(index+1,soundNameBuffer);             //Move buffered soundNameList to index+1
+
+                    soundBuffer = soundList[index];                         //Buffer soundList @index
+                    soundList[index] = soundList[index+1];                  //Move soundList @index+1 to index
+                    soundList[index+1] = soundBuffer;                       //Move buffered soundList to index+1
+
+                    //Something has been done during this pass
+                    hasDoneSomething = true;
+                }
+            }
+
+            //If nothing has been done during this pass, then the lists are sorted.
+            if(!hasDoneSomething) {
+                sorted = true;
+            }
+        }
+    }
+
     public Sound getRandomSound() {
-        //TODO
-        return null;
+        Random random = new Random();
+        return soundList[random.nextInt(soundsCount)];
     }
 
     /*
@@ -85,18 +136,21 @@ public class Theme {
      */
     public int addSound(Sound newSound) {
         if (!checkSoundDuplicate(newSound)) {
-            try {
+            try{
                 soundList[soundsCount] = newSound;
-                soundNameList.add(soundsCount, newSound.getName());
-            } catch (IndexOutOfBoundsException e) {
+                soundNameList.add(soundsCount,newSound.getName());
+            }
+            catch(IndexOutOfBoundsException e) {
                 return 2;
-            } catch (Exception e) {
+            }
+            catch(Exception e) {
                 return 3;
             }
             ++soundsCount;
             return 0;
 
-        } else {
+        }
+        else{
             return 1;
         }
     }
@@ -104,21 +158,23 @@ public class Theme {
     public boolean removeSound(Sound oldSound) {
         boolean soundFound = false;
         int index = 0;
-        while (!soundFound && index < soundsCount) {
+        while(!soundFound && index < soundsCount) {
             if (oldSound.getSoundId() == soundList[index].getSoundId()) {
                 soundFound = true;
-            } else {
+            }
+            else{
                 ++index;
             }
         }
         if (soundFound) {
             soundNameList.remove(index);
-            while (index < (soundsCount - 1)) {
-                soundList[index] = soundList[++index];
+            while (index < (soundsCount -1)) {
+                soundList[index]=soundList[++index];
             }
             --soundsCount;
             return true;
-        } else {
+        }
+        else{
             return false;
         }
     }
@@ -138,13 +194,4 @@ public class Theme {
     public Sound getSound(int index) {
         return soundList[index];
     }
-
-
-    //sort by alphabetical order
-    public ArrayList<String> sortSoundNameList() {
-        Collections.sort(soundNameList, String.CASE_INSENSITIVE_ORDER);
-        return soundNameList;
-    }
-
-
 }
