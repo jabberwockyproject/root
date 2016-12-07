@@ -22,15 +22,13 @@ import com.gw150914.jabberwocky.core.Theme;
 import com.gw150914.jabberwocky.core.Sound;
 import com.gw150914.jabberwocky.core.SoundEngine;
 
-import java.util.Random;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends Activity implements View.OnClickListener,View.OnLongClickListener,AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
     private ArrayAdapter<String> adapterAll, adapterFav;
-    private Theme currentTheme, themeAll, themeFav;
+    private Theme currentTheme, themeAll, themeFav, themePq, themeTaunt, themeSingle;
     //private SaveFavoritesList saveFavoritesList;
     private ListView soundListDisplay;
     private TextView currentThemeTextView;
@@ -46,7 +44,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private final int thread1TotalSounds = 27; //unused ATM
     private final int thread2TotalSounds = 27; //unused ATM
     private final int thread3TotalSounds = 28; //unused ATM
-    private boolean thread1JobDone, thread2JobDone, thread3JobDone;
+    private boolean thread1JobDone, thread2JobDone, thread3JobDone, thread11JobDone, thread12JobDone, loadingDone;
+    private SetThread1 setThread1;
+    private SetThread2 setThread2;
 
     private class LoadThread1 implements Runnable {
         private Message message;
@@ -83,34 +83,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundHallucine = new Sound("Hallucine",soundPool.load(appContext,R.raw.hallucine,1));
             soundHumour = new Sound("Humour",soundPool.load(appContext,R.raw.humour,1));
             soundIncomprehensible = new Sound("Incompréhensible",soundPool.load(appContext,R.raw.incomprehensible,1));
-
-            themeAll.addSound(soundAndreaPasLa);
-            themeAll.addSound(soundAttention01);
-            themeAll.addSound(soundAttention02);
-            themeAll.addSound(soundAttention03);
-            themeAll.addSound(soundAttention04);
-            themeAll.addSound(soundAttention05);
-            themeAll.addSound(soundAttention06);
-            themeAll.addSound(soundAucunRapport);
-            themeAll.addSound(soundBonneIdee);
-            themeAll.addSound(soundCalomnie);
-            themeAll.addSound(soundChinois01);
-            themeAll.addSound(soundChinois02);
-            themeAll.addSound(soundCokeVachementBath);
-            themeAll.addSound(soundComprendsPas);
-            themeAll.addSound(soundCracheBeaucoup);
-            themeAll.addSound(soundDebandade);
-            themeAll.addSound(soundDefection);
-            themeAll.addSound(soundEmbarrassant);
-            themeAll.addSound(soundExigeReponse);
-            themeAll.addSound(soundFaux);
-            themeAll.addSound(soundFoutLaRage);
-            themeAll.addSound(soundGrosGourdin);
-            themeAll.addSound(soundGrosseBlague);
-            themeAll.addSound(soundHabile);
-            themeAll.addSound(soundHallucine);
-            themeAll.addSound(soundHumour);
-            themeAll.addSound(soundIncomprehensible);
 
             message.arg2 = 1;
             loadingHandler.sendMessage(message);
@@ -152,34 +124,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundPqIncroyable = new Sound("PQ Incroyable",soundPool.load(appContext,R.raw.pq_incroyable,1));
             soundPqReche = new Sound("Ce PQ est un peu reche",soundPool.load(appContext,R.raw.pq_reche,1));
             soundPqTropDoux = new Sound("PQ trop doux",soundPool.load(appContext,R.raw.pq_trop_doux,1));
-
-            themeAll.addSound(soundInteressePas);
-            themeAll.addSound(soundLeGitan);
-            themeAll.addSound(soundMachiavellique);
-            themeAll.addSound(soundMagnerLeCul);
-            themeAll.addSound(soundMaitreMichel);
-            themeAll.addSound(soundMalentendu);
-            themeAll.addSound(soundMarcheBien);
-            themeAll.addSound(soundMeSensSeul);
-            themeAll.addSound(soundMethTropDeLaBalle01);
-            themeAll.addSound(soundMethTropDeLaBalle02);
-            themeAll.addSound(soundMistake);
-            themeAll.addSound(soundNemrod);
-            themeAll.addSound(soundNoFuckingBalls);
-            themeAll.addSound(soundNouveaute);
-            themeAll.addSound(soundOhOui);
-            themeAll.addSound(soundOnSEmmerde);
-            themeAll.addSound(soundOsef);
-            themeAll.addSound(soundPasCool);
-            themeAll.addSound(soundPasDrole);
-            themeAll.addSound(soundPlaisanterie01);
-            themeAll.addSound(soundPlaisanterie02);
-            themeAll.addSound(soundPouleMouillee);
-            themeAll.addSound(soundPourquoi);
-            themeAll.addSound(soundPqEmergency);
-            themeAll.addSound(soundPqIncroyable);
-            themeAll.addSound(soundPqReche);
-            themeAll.addSound(soundPqTropDoux);
 
             message.arg2 = 1;
             loadingHandler.sendMessage(message);
@@ -224,6 +168,74 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundVoirMaBite = new Sound("Voir ma bite",soundPool.load(appContext,R.raw.voir_ma_bite,1));
             soundVrai = new Sound("Vrai",soundPool.load(appContext,R.raw.vrai,1));
 
+            message.arg2 = 1;
+            loadingHandler.sendMessage(message);
+        }
+    }
+
+    private class SetThread1 implements Runnable {
+        private Message message;
+        SetThread1 (){
+            message = new Message();
+            message.arg1 = 11; //thread id
+            message.arg2 = 0; //thread status (0=ongoing, 1=done)
+        }
+
+        public void run() {
+            themeAll.addSound(soundAndreaPasLa);
+            themeAll.addSound(soundAttention01);
+            themeAll.addSound(soundAttention02);
+            themeAll.addSound(soundAttention03);
+            themeAll.addSound(soundAttention04);
+            themeAll.addSound(soundAttention05);
+            themeAll.addSound(soundAttention06);
+            themeAll.addSound(soundAucunRapport);
+            themeAll.addSound(soundBonneIdee);
+            themeAll.addSound(soundCalomnie);
+            themeAll.addSound(soundChinois01);
+            themeAll.addSound(soundChinois02);
+            themeAll.addSound(soundCokeVachementBath);
+            themeAll.addSound(soundComprendsPas);
+            themeAll.addSound(soundCracheBeaucoup);
+            themeAll.addSound(soundDebandade);
+            themeAll.addSound(soundDefection);
+            themeAll.addSound(soundEmbarrassant);
+            themeAll.addSound(soundExigeReponse);
+            themeAll.addSound(soundFaux);
+            themeAll.addSound(soundFoutLaRage);
+            themeAll.addSound(soundGrosGourdin);
+            themeAll.addSound(soundGrosseBlague);
+            themeAll.addSound(soundHabile);
+            themeAll.addSound(soundHallucine);
+            themeAll.addSound(soundHumour);
+            themeAll.addSound(soundIncomprehensible);
+            themeAll.addSound(soundInteressePas);
+            themeAll.addSound(soundLeGitan);
+            themeAll.addSound(soundMachiavellique);
+            themeAll.addSound(soundMagnerLeCul);
+            themeAll.addSound(soundMaitreMichel);
+            themeAll.addSound(soundMalentendu);
+            themeAll.addSound(soundMarcheBien);
+            themeAll.addSound(soundMeSensSeul);
+            themeAll.addSound(soundMethTropDeLaBalle01);
+            themeAll.addSound(soundMethTropDeLaBalle02);
+            themeAll.addSound(soundMistake);
+            themeAll.addSound(soundNemrod);
+            themeAll.addSound(soundNoFuckingBalls);
+            themeAll.addSound(soundNouveaute);
+            themeAll.addSound(soundOhOui);
+            themeAll.addSound(soundOnSEmmerde);
+            themeAll.addSound(soundOsef);
+            themeAll.addSound(soundPasCool);
+            themeAll.addSound(soundPasDrole);
+            themeAll.addSound(soundPlaisanterie01);
+            themeAll.addSound(soundPlaisanterie02);
+            themeAll.addSound(soundPouleMouillee);
+            themeAll.addSound(soundPourquoi);
+            themeAll.addSound(soundPqEmergency);
+            themeAll.addSound(soundPqIncroyable);
+            themeAll.addSound(soundPqReche);
+            themeAll.addSound(soundPqTropDoux);
             themeAll.addSound(soundPqTropManque);
             themeAll.addSound(soundPrejudice);
             themeAll.addSound(soundPrevoyant);
@@ -258,6 +270,39 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
     }
 
+    private class SetThread2 implements Runnable {
+        private Message message;
+        SetThread2 (){
+            message = new Message();
+            message.arg1 = 12; //thread id
+            message.arg2 = 0; //thread status (0=ongoing, 1=done)
+        }
+
+        public void run() {
+            themeTaunt.addSound(soundInteressePas);
+            themeTaunt.addSound(soundLeGitan);
+            themeTaunt.addSound(soundMagnerLeCul);
+            themeTaunt.addSound(soundNoFuckingBalls);
+            themeTaunt.addSound(soundOnSEmmerde);
+            themeTaunt.addSound(soundOsef);
+            themeTaunt.addSound(soundPasDrole);
+            themeTaunt.addSound(soundPouleMouillee);
+            themeTaunt.addSound(soundPtiteBite);
+            themeTaunt.addSound(soundPtitZizi);
+            themeTaunt.addSound(soundVieuxMan);
+
+            themePq.addSound(soundPqEmergency);
+            themePq.addSound(soundPqIncroyable);
+            themePq.addSound(soundPqReche);
+            themePq.addSound(soundPqTropDoux);
+            themePq.addSound(soundPqTropManque);
+            themePq.addSound(soundTripleEpaisseur);
+
+            message.arg2 = 1;
+            loadingHandler.sendMessage(message);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -283,15 +328,23 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                         case(1): thread1JobDone = true; break; //thread #1 has finished its job.
                         case(2): thread2JobDone = true; break; //thread #2 has finished its job.
                         case(3): thread3JobDone = true; break; //thread #3 has finished its job.
+                        case(11): thread11JobDone = true; break;//thread #11 has finished its job.
+                        case(12): thread12JobDone = true; break;//thread #12 has finished its job.
+
                     }
 
-                    //If all threads are finished, then sort the themAll sounds.
-                    if(thread1JobDone && thread2JobDone && thread3JobDone){
-                        themeAll.sortIndex();
+                    //If all Loading threads are finished, then start the set Thread.
+                    //Finally, set loadingDone at true to avoid starting setThreads again later on.
+                    if(thread1JobDone && thread2JobDone && thread3JobDone && !loadingDone){
+                        threadPoolExec.submit(setThread1);
+                        threadPoolExec.submit(setThread2);
+                        loadingDone = true;
                     }
 
-                    //Update UI regardless if all threads are finished or not.
-                    adapterAll.notifyDataSetChanged();
+                    //Once ThemeAll is fully set, update UI
+                    if(thread11JobDone){
+                        adapterAll.notifyDataSetChanged();
+                    }
                 }
             }
         };
@@ -303,6 +356,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         thread1JobDone = false;
         thread2JobDone = false;
         thread3JobDone = false;
+        thread11JobDone = false;
+        thread12JobDone = false;
+        loadingDone = false;
 
         /*
          * Create an object for each view we need to listen to. (so we can manipulate them in the code)
@@ -338,8 +394,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         soundEngine = new SoundEngine((AudioManager)this.getSystemService(Context.AUDIO_SERVICE));
 
         //Instantiate themes named themeAll and themeFav
-        themeAll = new Theme("themeAll");
-        themeFav = new Theme("themeFav");
+        themeAll = new Theme("All");
+        themeFav = new Theme("Favorites");
+        themePq = new Theme("PQ");
+        themeTaunt = new Theme("Taunt");
+        themeSingle = new Theme("Single");
 
         //Instantiate the saveFavorites class
         //saveFavoritesList = new SaveFavoritesList("saveFavorites");
@@ -365,6 +424,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         LoadThread1 loadingThread1 = new LoadThread1();
         LoadThread2 loadingThread2 = new LoadThread2();
         LoadThread3 loadingThread3 = new LoadThread3();
+
+        setThread1 = new SetThread1();
+        setThread2 = new SetThread2();
 
         threadPoolExec.submit(loadingThread1);
         threadPoolExec.submit(loadingThread2);
