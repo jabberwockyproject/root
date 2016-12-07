@@ -9,6 +9,8 @@ public class Theme {
     private static final int maxSoundPerTheme = 500;
     private static final int maxTheme = 20;
     private static String[] themeList = null;
+    private static int themesCount = 0;
+    private int themeId;
     private String name;
     private int soundsCount;
     private Sound[] soundList;
@@ -23,8 +25,8 @@ public class Theme {
         themeList = new String[maxTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
-
-        //TODO: add name to themeList
+        themeId = themesCount;
+        themeList[themesCount++] = name;
     }
 
     public Theme(String newName) {
@@ -33,7 +35,8 @@ public class Theme {
         themeList = new String[maxTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
-        //TODO: add name to themeList
+        themeId = themesCount;
+        themeList[themesCount++] = name;
     }
 
     public Theme(String newName, Sound[] newSoundList) {
@@ -42,7 +45,8 @@ public class Theme {
         themeList = new String[maxTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
-        //TODO: add name to themeList
+        themeId = themesCount;
+        themeList[themesCount++] = name;
     }
 
     //Private Methods
@@ -193,5 +197,8 @@ public class Theme {
 
     public Sound getSound(int index) {
         return soundList[index];
+    }
+    public int getThemeId(){
+        return themeId;
     }
 }

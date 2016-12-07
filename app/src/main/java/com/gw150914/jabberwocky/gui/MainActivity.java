@@ -52,8 +52,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         private Message message;
         LoadThread1 (){
             message = new Message();
-            message.arg1 = 1; //thread id
-            message.arg2 = 0; //thread status (0=ongoing, 1=done)
+            message.arg1 = 1;   //thread id
+            message.arg2 = 0;   //thread status (0=ongoing, 1=done)
         }
         public void run() {
             soundAndreaPasLa = new Sound("Andrea pas la",soundPool.load(appContext,R.raw.andrea_pas_la,1));
@@ -93,8 +93,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         private Message message;
         LoadThread2 (){
             message = new Message();
-            message.arg1 = 2; //thread id
-            message.arg2 = 0; //thread status (0=ongoing, 1=done)
+            message.arg1 = 2;   //thread id
+            message.arg2 = 0;   //thread status (0=ongoing, 1=done)
         }
         public void run() {
             soundInteressePas = new Sound("Interesse pas",soundPool.load(appContext,R.raw.interesse_pas,1));
@@ -134,8 +134,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         private Message message;
         LoadThread3 (){
             message = new Message();
-            message.arg1 = 3; //thread id
-            message.arg2 = 0; //thread status (0=ongoing, 1=done)
+            message.arg1 = 3;   //thread id
+            message.arg2 = 0;   //thread status (0=ongoing, 1=done)
         }
 
         public void run() {
@@ -177,8 +177,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         private Message message;
         SetThread1 (){
             message = new Message();
-            message.arg1 = 11; //thread id
-            message.arg2 = 0; //thread status (0=ongoing, 1=done)
+            message.arg1 = 11;  //thread id
+            message.arg2 = 0;   //thread status (0=ongoing, 1=done)
         }
 
         public void run() {
@@ -274,8 +274,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         private Message message;
         SetThread2 (){
             message = new Message();
-            message.arg1 = 12; //thread id
-            message.arg2 = 0; //thread status (0=ongoing, 1=done)
+            message.arg1 = 12;  //thread id
+            message.arg2 = 0;   //thread status (0=ongoing, 1=done)
         }
 
         public void run() {
