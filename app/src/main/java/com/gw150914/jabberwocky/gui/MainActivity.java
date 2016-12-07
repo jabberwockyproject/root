@@ -473,6 +473,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                     Theme chosenTheme = currentTheme.getThemeList()[which];
                     soundListDisplay.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,chosenTheme.getSoundNameList()));
                     currentThemeTextView.setText("Current Theme: "+chosenTheme.getName());
+                    currentTheme = chosenTheme;
                     dialog.dismiss();
                 }
             });
