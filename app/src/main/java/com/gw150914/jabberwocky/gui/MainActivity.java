@@ -1,6 +1,7 @@
 package com.gw150914.jabberwocky.gui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.media.AudioManager;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,12 +24,13 @@ import com.gw150914.jabberwocky.core.Theme;
 import com.gw150914.jabberwocky.core.Sound;
 import com.gw150914.jabberwocky.core.SoundEngine;
 
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends Activity implements View.OnClickListener,View.OnLongClickListener,AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
-    private ArrayAdapter<String> adapterAll, adapterFav;
+    private ArrayAdapter<String> adapterAll, adapterFav, adapterPq, adapterTaunt, adapterSingle;
     private Theme currentTheme, themeAll, themeFav, themePq, themeTaunt, themeSingle;
     private ListView soundListDisplay;
     private TextView currentThemeTextView;
@@ -408,6 +411,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
          */
         adapterAll = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,themeAll.getSoundNameList());
         adapterFav = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeFav.getSoundNameList());
+        adapterPq = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themePq.getSoundNameList());
+        adapterTaunt = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeTaunt.getSoundNameList());
+        adapterSingle = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeSingle.getSoundNameList());
 
         soundListDisplay.setAdapter(adapterAll);
 
@@ -455,7 +461,46 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * https://developer.android.com/reference/android/view/View.OnClickListener.html
      */
     public void onClick(View v) {
+
+
         if(findViewById(R.id.search_button) == v) {
+            AlertDialog.Builder choice_dialog = new AlertDialog.Builder(MainActivity.this);
+            choice_dialog.setTitle("Choose your theme, Bro !");
+            choice_dialog.setItems(currentTheme.getThemeNameList(),
+                    new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Theme theme_chosen = currentTheme.getTheme(which);
+                        if (theme_chosen == themeAll) {
+                            soundListDisplay.setAdapter(adapterAll);
+                        }
+                        if (theme_chosen == themeFav){
+                            soundListDisplay.setAdapter(adapterFav);
+                        }
+
+                        if (theme_chosen == themeSingle){
+                            soundListDisplay.setAdapter(adapterSingle);
+                        }
+
+                        if (theme_chosen == themePq){
+                            soundListDisplay.setAdapter(adapterPq);
+                        }
+
+                        if (theme_chosen == themeTaunt){
+                            soundListDisplay.setAdapter(adapterTaunt);
+                        }
+
+
+                          else { currentThemeTextView.setText("theme selection error");}
+
+                    dialog.dismiss();
+                }
+
+
+
+            });
+            choice_dialog.create().show();
+
 
         }
         if(findViewById(R.id.theme_button) == v) {
@@ -493,10 +538,12 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * https://developer.android.com/reference/android/view/View.OnLongClickListener.html
      */
     public boolean onLongClick(View v) {
+
         if(findViewById(R.id.search_button) == v) {
             return true;
         }
         if(findViewById(R.id.theme_button) == v) {
+
             return true;
         }
         if(findViewById(R.id.random_button) == v) {

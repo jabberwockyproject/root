@@ -8,12 +8,14 @@ public class Theme {
     //Private fields
     private static final int maxSoundPerTheme = 500;
     private static final int maxTheme = 20;
-    private static String[] themeList = null;
+    private static String[] themeNameList = null;
     private static int themesCount = 0;
     private int themeId;
     private String name;
     private int soundsCount;
     private Sound[] soundList;
+    private Theme themeAll, themeFav, themePq;
+    private Theme[] themeList = {themeAll, themeFav, themePq};
     private ArrayList<String> soundNameList;
 
     //Public Fields
@@ -22,36 +24,39 @@ public class Theme {
     public Theme() {
         name = Theme.getNextGenericName();
         soundList = new Sound[maxSoundPerTheme];
-        themeList = new String[maxTheme];
+        themeNameList = new String[maxTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
         themeId = themesCount;
-        themeList[themesCount++] = name;
+        themeNameList[themesCount++] = name;
+
     }
 
     public Theme(String newName) {
         name = newName;
         soundList = new Sound[maxSoundPerTheme];
-        themeList = new String[maxTheme];
+        themeNameList = new String[maxTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
         themeId = themesCount;
-        themeList[themesCount++] = name;
+        themeNameList[themesCount++] = name;
+
     }
 
     public Theme(String newName, Sound[] newSoundList) {
         name = newName;
         soundList = newSoundList;
-        themeList = new String[maxTheme];
+        themeNameList = new String[maxTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
         themeId = themesCount;
-        themeList[themesCount++] = name;
+        themeNameList[themesCount++] = name;
+
     }
 
     //Private Methods
     private static String getNextGenericName() {
-        //TODO: check themeList and return an unused generic name "New Theme $"
+        //TODO: check themeNameList and return an unused generic name "New Theme $"
         return null;
     }
 
@@ -201,4 +206,17 @@ public class Theme {
     public int getThemeId(){
         return themeId;
     }
+
+    public String[] getThemeNameList(){
+        return themeNameList;
+    }
+
+    public Theme[] getThemeList(){
+        return themeList;
+    }
+
+    public Theme getTheme(int index){
+        return themeList[index];
+    }
+
 }
