@@ -372,7 +372,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         Button randomButton = (Button) findViewById(R.id.random_button);
         Button settingsButton = (Button) findViewById(R.id.settings_button);
         soundListDisplay = (ListView) findViewById(R.id.sound_List_Display);
-        currentThemeTextView = (TextView) findViewById(R.id.current_theme_display) ;
+        currentThemeTextView = (TextView) findViewById(R.id.current_theme_display);
 
         /*
          * For each object we created above, designate event listeners.
@@ -434,8 +434,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         threadPoolExec.submit(loadingThread1);
         threadPoolExec.submit(loadingThread2);
         threadPoolExec.submit(loadingThread3);
-        adapterAll.notifyDataSetChanged();
-
 
         //Below code is currently useless. Keep it for ref.
         /*
