@@ -8,14 +8,13 @@ public class Theme {
     //Private fields
     private static final int maxSoundPerTheme = 500;
     private static final int maxTheme = 20;
-    private static String[] themeNameList = null;
+    private static String[] themeNameList = new String[maxTheme];
+    private static Theme[] themeList = new Theme[maxTheme];
     private static int themesCount = 0;
     private int themeId;
     private String name;
     private int soundsCount;
     private Sound[] soundList;
-    private Theme themeAll, themeFav, themePq;
-    private Theme[] themeList = {themeAll, themeFav, themePq};
     private ArrayList<String> soundNameList;
 
     //Public Fields
@@ -24,10 +23,10 @@ public class Theme {
     public Theme() {
         name = Theme.getNextGenericName();
         soundList = new Sound[maxSoundPerTheme];
-        themeNameList = new String[maxTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
         themeId = themesCount;
+        themeList[themesCount] = this;
         themeNameList[themesCount++] = name;
 
     }
@@ -35,10 +34,10 @@ public class Theme {
     public Theme(String newName) {
         name = newName;
         soundList = new Sound[maxSoundPerTheme];
-        themeNameList = new String[maxTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
         themeId = themesCount;
+        themeList[themesCount] = this;
         themeNameList[themesCount++] = name;
 
     }
@@ -46,10 +45,10 @@ public class Theme {
     public Theme(String newName, Sound[] newSoundList) {
         name = newName;
         soundList = newSoundList;
-        themeNameList = new String[maxTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
         themeId = themesCount;
+        themeList[themesCount] = this;
         themeNameList[themesCount++] = name;
 
     }
@@ -208,7 +207,11 @@ public class Theme {
     }
 
     public String[] getThemeNameList(){
-        return themeNameList;
+        String[] dynamicThemeNameList = new String[themesCount];
+        for(int index=0; index<themesCount; ++index){
+            dynamicThemeNameList[index]=themeNameList[index];
+        }
+        return dynamicThemeNameList;
     }
 
     public Theme[] getThemeList(){

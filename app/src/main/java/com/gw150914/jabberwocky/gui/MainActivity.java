@@ -462,56 +462,22 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
 
         if(findViewById(R.id.search_button) == v) {
-            AlertDialog.Builder choice_dialog = new AlertDialog.Builder(MainActivity.this);
-            choice_dialog.setTitle("Choose your theme, Bro !");
-            choice_dialog.setItems(currentTheme.getThemeNameList(),
-                    new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Theme theme_chosen = currentTheme.getTheme(which);
-                        if (theme_chosen == themeAll) {
-                            soundListDisplay.setAdapter(adapterAll);
-                        }
-                        if (theme_chosen == themeFav){
-                            soundListDisplay.setAdapter(adapterFav);
-                        }
-
-                        if (theme_chosen == themeSingle){
-                            soundListDisplay.setAdapter(adapterSingle);
-                        }
-
-                        if (theme_chosen == themePq){
-                            soundListDisplay.setAdapter(adapterPq);
-                        }
-
-                        if (theme_chosen == themeTaunt){
-                            soundListDisplay.setAdapter(adapterTaunt);
-                        }
-
-
-                          else { currentThemeTextView.setText("theme selection error");}
-
-                    dialog.dismiss();
-                }
-
-
-
-            });
-            choice_dialog.create().show();
-
 
         }
         if(findViewById(R.id.theme_button) == v) {
-            if(soundListDisplay.getAdapter() == adapterAll) {
-                soundListDisplay.setAdapter(adapterFav);
-                currentTheme = themeFav;
-                currentThemeTextView.setText("Current theme: Favorites");
-            }
-            else if(soundListDisplay.getAdapter() == adapterFav) {
-                soundListDisplay.setAdapter(adapterAll);
-                currentTheme = themeAll;
-                currentThemeTextView.setText("Current theme: All");
-            }
+            AlertDialog.Builder choice_dialog = new AlertDialog.Builder(MainActivity.this);
+            choice_dialog.setTitle("Choose your theme, Bro !");
+            choice_dialog.setItems(currentTheme.getThemeNameList(), new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Theme chosenTheme = currentTheme.getThemeList()[which];
+                    soundListDisplay.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,chosenTheme.getSoundNameList()));
+                    currentThemeTextView.setText("Current Theme: "+chosenTheme.getName());
+                    dialog.dismiss();
+                }
+            });
+            choice_dialog.create();
+            choice_dialog.show();
         }
         if(findViewById(R.id.random_button) == v) {
             if (currentTheme.getSoundsCount() != 0) {
