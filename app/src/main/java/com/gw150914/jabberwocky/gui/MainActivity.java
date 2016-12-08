@@ -1,7 +1,6 @@
 package com.gw150914.jabberwocky.gui;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.media.AudioManager;
@@ -11,7 +10,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,14 +22,13 @@ import com.gw150914.jabberwocky.core.Theme;
 import com.gw150914.jabberwocky.core.Sound;
 import com.gw150914.jabberwocky.core.SoundEngine;
 
-import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends Activity implements View.OnClickListener,View.OnLongClickListener,AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
-    private ArrayAdapter<String> adapterAll, adapterFav, adapterPq, adapterTaunt, adapterSingle;
-    private Theme currentTheme, themeAll, themeFav, themePq, themeTaunt, themeSingle;
+    private ArrayAdapter<String> adapter;
+    private Theme currentTheme, themeAll, themeFav, themePq, themeTaunt;
     private ListView soundListDisplay;
     private TextView currentThemeTextView;
     private Sound soundAndreaPasLa, soundAttention01, soundAttention02, soundAttention03, soundAttention04, soundAttention05, soundAttention06, soundAucunRapport, soundBonneIdee, soundCalomnie, soundChinois01, soundChinois02, soundCokeVachementBath, soundComprendsPas, soundCracheBeaucoup, soundDebandade, soundDefection, soundEmbarrassant, soundExigeReponse, soundFaux, soundFoutLaRage, soundGrosGourdin, soundGrosseBlague, soundHabile, soundHallucine, soundHumour, soundIncomprehensible, soundInteressePas, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMalentendu, soundMarcheBien, soundMeSensSeul, soundMethTropDeLaBalle01, soundMethTropDeLaBalle02, soundMistake, soundNemrod, soundNoFuckingBalls, soundNouveaute, soundOhOui, soundOnSEmmerde, soundOsef, soundPasCool, soundPasDrole, soundPlaisanterie01, soundPlaisanterie02, soundPouleMouillee, soundPourquoi, soundPqEmergency, soundPqIncroyable, soundPqReche, soundPqTropDoux, soundPqTropManque, soundPrejudice, soundPrevoyant, soundPrisPropreJeu, soundPtitZizi, soundPtiteBite, soundPueDuCul, soundQueSePasseTIl, soundQuelqueSorte, soundQuiEstLa, soundQuoi01, soundQuoi02, soundQuoi03, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTripleEpaisseur, soundTropPlaisir, soundTrucDeMazo, soundTrueStory, soundVachementBath, soundViens01, soundViens02, soundVieuxMan, soundVoirMaBite, soundVrai;
@@ -345,7 +342,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
                     //Once ThemeAll is fully set, update UI
                     if(thread11JobDone){
-                        adapterAll.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
                     }
                 }
             }
@@ -400,8 +397,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         themeFav = new Theme("Favorites");
         themePq = new Theme("PQ");
         themeTaunt = new Theme("Taunt");
-        themeSingle = new Theme("Single");
-
 
         /*
          * Create adapters for the ListView
@@ -409,13 +404,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
          *
          * https://developer.android.com/reference/android/widget/ListView.html#setAdapter%28android.widget.ListAdapter%29
          */
-        adapterAll = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,themeAll.getSoundNameList());
-        adapterFav = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeFav.getSoundNameList());
-        adapterPq = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themePq.getSoundNameList());
-        adapterTaunt = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeTaunt.getSoundNameList());
-        adapterSingle = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeSingle.getSoundNameList());
+        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,themeAll.getSoundNameList());
 
-        soundListDisplay.setAdapter(adapterAll);
+        soundListDisplay.setAdapter(adapter);
 
         currentTheme = themeAll;
         currentThemeTextView.setText("Current theme is All");
@@ -567,7 +558,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 themeFav.removeSound(currentTheme.getSound(pos));
-                                adapterFav.notifyDataSetChanged();
+                                adapter.notifyDataSetChanged();
                                 dialog.dismiss();
                             }
                         });
