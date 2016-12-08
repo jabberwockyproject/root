@@ -11,11 +11,21 @@ public class ThemeEngine {
         themeList = new Theme[maxTheme];
     }
 
+    public Theme getTheme(int index) {
+        return themeList[index];
+    }
     public Theme[] getThemeList(){
         return themeList;
     }
+    public Theme[] getCleanThemeList() {
+        Theme[] cleanThemeList = new Theme[themeCount];
+        for(int index=0; index<themeCount; ++themeCount){
+            cleanThemeList[index] = themeList[index];
+        }
+        return cleanThemeList;
+    }
     public String[] getThemeNameList(){
-        String[] themeNameList = new String [themeCount-1];
+        String[] themeNameList = new String [themeCount];
         for (int index=0; index<themeCount; ++index){
             themeNameList[index] = themeList[index].getName();
         }

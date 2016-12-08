@@ -21,6 +21,7 @@ import com.gw150914.jabberwocky.R;
 import com.gw150914.jabberwocky.core.Theme;
 import com.gw150914.jabberwocky.core.Sound;
 import com.gw150914.jabberwocky.core.SoundEngine;
+import com.gw150914.jabberwocky.core.ThemeEngine;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -28,11 +29,12 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class MainActivity extends Activity implements View.OnClickListener,View.OnLongClickListener,AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
     private ArrayAdapter<String> adapter;
-    private Theme currentTheme, themeAll, themeFav, themePq, themeTaunt;
+    private Theme themeAll, themeFav, themePq, themeTaunt;
     private ListView soundListDisplay;
     private TextView currentThemeTextView;
     private Sound soundAndreaPasLa, soundAttention01, soundAttention02, soundAttention03, soundAttention04, soundAttention05, soundAttention06, soundAucunRapport, soundBonneIdee, soundCalomnie, soundChinois01, soundChinois02, soundCokeVachementBath, soundComprendsPas, soundCracheBeaucoup, soundDebandade, soundDefection, soundEmbarrassant, soundExigeReponse, soundFaux, soundFoutLaRage, soundGrosGourdin, soundGrosseBlague, soundHabile, soundHallucine, soundHumour, soundIncomprehensible, soundInteressePas, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMalentendu, soundMarcheBien, soundMeSensSeul, soundMethTropDeLaBalle01, soundMethTropDeLaBalle02, soundMistake, soundNemrod, soundNoFuckingBalls, soundNouveaute, soundOhOui, soundOnSEmmerde, soundOsef, soundPasCool, soundPasDrole, soundPlaisanterie01, soundPlaisanterie02, soundPouleMouillee, soundPourquoi, soundPqEmergency, soundPqIncroyable, soundPqReche, soundPqTropDoux, soundPqTropManque, soundPrejudice, soundPrevoyant, soundPrisPropreJeu, soundPtitZizi, soundPtiteBite, soundPueDuCul, soundQueSePasseTIl, soundQuelqueSorte, soundQuiEstLa, soundQuoi01, soundQuoi02, soundQuoi03, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTripleEpaisseur, soundTropPlaisir, soundTrucDeMazo, soundTrueStory, soundVachementBath, soundViens01, soundViens02, soundVieuxMan, soundVoirMaBite, soundVrai;
     private SoundEngine soundEngine;
+    private ThemeEngine themeEngine;
     private SoundPool soundPool;
     private Context appContext;
     private ThreadPoolExecutor threadPoolExec;
@@ -341,7 +343,13 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                     }
 
                     //Once ThemeAll is fully set, update UI
-                    if(thread11JobDone){
+                    if(thread11JobDone && thread12JobDone){
+
+                        themeEngine.addTheme(themeAll);
+                        themeEngine.addTheme(themeFav);
+                        themeEngine.addTheme(themeTaunt);
+                        themeEngine.addTheme(themePq);
+
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -391,6 +399,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         //Instantiate the sound engine.
         soundEngine = new SoundEngine((AudioManager)this.getSystemService(Context.AUDIO_SERVICE));
+        themeEngine = new ThemeEngine();
 
         //Instantiate themes named themeAll and themeFav
         themeAll = new Theme("All");
@@ -408,7 +417,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         soundListDisplay.setAdapter(adapter);
 
-        currentTheme = themeAll;
         currentThemeTextView.setText("Current theme is All");
 
         //Load all embedded sounds in memory and create Sound objects
@@ -458,13 +466,13 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         if(findViewById(R.id.theme_button) == v) {
             AlertDialog.Builder choice_dialog = new AlertDialog.Builder(MainActivity.this);
             choice_dialog.setTitle("Choose your theme, Bro !");
-            choice_dialog.setItems(currentTheme.getThemeNameList(), new DialogInterface.OnClickListener(){
+            choice_dialog.setItems(themeEngine.getThemeNameList(), new DialogInterface.OnClickListener(){
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Theme chosenTheme = currentTheme.getThemeList()[which];
+                    Theme chosenTheme = themeEngine.getThemeList()[which];
                     soundListDisplay.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,chosenTheme.getSoundNameList()));
                     currentThemeTextView.setText("Current Theme: "+chosenTheme.getName());
-                    currentTheme = chosenTheme;
+                    themeEngine.setCurrentTheme(chosenTheme);
                     dialog.dismiss();
                 }
             });
@@ -472,8 +480,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             choice_dialog.show();
         }
         if(findViewById(R.id.random_button) == v) {
-            if (currentTheme.getSoundsCount() != 0) {
-                soundEngine.playSound(currentTheme.getRandomSound().getSoundId());
+            if (themeEngine.getCurrentTheme().getSoundsCount() != 0) {
+                soundEngine.playSound(themeEngine.getCurrentTheme().getRandomSound().getSoundId());
             }
         }
 
@@ -519,7 +527,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      */
     public void onItemClick(AdapterView parent, View v, int pos, long id) {
         if(findViewById(R.id.sound_List_Display) == parent) {
-            soundEngine.playSound(currentTheme.getSound(pos).getSoundId());
+            soundEngine.playSound(themeEngine.getCurrentTheme().getSound(pos).getSoundId());
         }
     }
 
@@ -536,14 +544,14 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
     public boolean onItemLongClick(AdapterView parent, View v, final int pos, long id) {
         if(findViewById(R.id.sound_List_Display) == parent) {
-            if (currentTheme != themeFav) {
+            if (themeEngine.getCurrentTheme() != themeEngine.getTheme(1)) {
                 AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                 alertDialog.setTitle(getString(R.string.dialog_title));
-                alertDialog.setMessage(currentTheme.getSoundNameList().get(pos));
+                alertDialog.setMessage(themeEngine.getCurrentTheme().getSoundNameList().get(pos));
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                themeFav.addSound(currentTheme.getSound(pos));
+                                themeEngine.getTheme(1).addSound(themeEngine.getCurrentTheme().getSound(pos));
                                 dialog.dismiss();
                             }
                         });
@@ -553,11 +561,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             else {
                 AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                 alertDialog.setTitle(getString(R.string.dialog_remove_from_fav));
-                alertDialog.setMessage(currentTheme.getSoundNameList().get(pos));
+                alertDialog.setMessage(themeEngine.getCurrentTheme().getSoundNameList().get(pos));
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                themeFav.removeSound(currentTheme.getSound(pos));
+                                themeEngine.getTheme(1).removeSound(themeEngine.getCurrentTheme().getSound(pos));
                                 adapter.notifyDataSetChanged();
                                 dialog.dismiss();
                             }

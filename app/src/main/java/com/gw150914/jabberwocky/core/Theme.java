@@ -8,9 +8,6 @@ public class Theme {
     //Private fields
     private static final int maxSoundPerTheme = 500;
     private static final int maxTheme = 20;
-    private static String[] themeNameList = new String[maxTheme];
-    private static Theme[] themeList = new Theme[maxTheme];
-    private static int themesCount = 0;
     private int themeId;
     private String name;
     private int soundsCount;
@@ -25,10 +22,6 @@ public class Theme {
         soundList = new Sound[maxSoundPerTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
-        themeId = themesCount;
-        themeList[themesCount] = this;
-        themeNameList[themesCount++] = name;
-
     }
 
     public Theme(String newName) {
@@ -36,10 +29,6 @@ public class Theme {
         soundList = new Sound[maxSoundPerTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
-        themeId = themesCount;
-        themeList[themesCount] = this;
-        themeNameList[themesCount++] = name;
-
     }
 
     public Theme(String newName, Sound[] newSoundList) {
@@ -47,10 +36,6 @@ public class Theme {
         soundList = newSoundList;
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
-        themeId = themesCount;
-        themeList[themesCount] = this;
-        themeNameList[themesCount++] = name;
-
     }
 
     //Private Methods
@@ -205,21 +190,4 @@ public class Theme {
     public int getThemeId(){
         return themeId;
     }
-
-    public String[] getThemeNameList(){
-        String[] dynamicThemeNameList = new String[themesCount];
-        for(int index=0; index<themesCount; ++index){
-            dynamicThemeNameList[index]=themeNameList[index];
-        }
-        return dynamicThemeNameList;
-    }
-
-    public Theme[] getThemeList(){
-        return themeList;
-    }
-
-    public Theme getTheme(int index){
-        return themeList[index];
-    }
-
 }
