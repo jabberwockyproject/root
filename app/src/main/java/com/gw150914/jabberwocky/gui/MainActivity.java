@@ -1,6 +1,7 @@
 package com.gw150914.jabberwocky.gui;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.media.AudioManager;
@@ -18,10 +19,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gw150914.jabberwocky.R;
+import com.gw150914.jabberwocky.core.SoundEngineFragment;
 import com.gw150914.jabberwocky.core.Theme;
 import com.gw150914.jabberwocky.core.Sound;
 import com.gw150914.jabberwocky.core.SoundEngine;
 import com.gw150914.jabberwocky.core.ThemeEngine;
+import com.gw150914.jabberwocky.core.ThemeEngineFragment;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -48,6 +51,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private boolean thread1JobDone, thread2JobDone, thread3JobDone, thread11JobDone, thread12JobDone, loadingDone;
     private SetThread1 setThread1;
     private SetThread2 setThread2;
+    private SoundEngineFragment soundEngineFragment;
+    private ThemeEngineFragment themeEngineFragment;
+    FragmentManager fragmentManager;
 
     private class LoadThread1 implements Runnable {
         private Message message;
@@ -309,63 +315,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        threadPoolExec = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
-        threadPoolExec.prestartAllCoreThreads();
-
-        loadingHandler = new Handler(Looper.getMainLooper()) {
-
-            /*
-             * handleMessage() defines the operations to perform when
-             * the Handler receives a new Message to process.
-             */
-            @Override
-            public void handleMessage(Message message) {
-
-                //A thread has just finished its job.
-                if(message.arg2 == 1) {
-
-                    //Check which thread sent this message
-                    switch(message.arg1){
-                        case(1): thread1JobDone = true; break; //thread #1 has finished its job.
-                        case(2): thread2JobDone = true; break; //thread #2 has finished its job.
-                        case(3): thread3JobDone = true; break; //thread #3 has finished its job.
-                        case(11): thread11JobDone = true; break;//thread #11 has finished its job.
-                        case(12): thread12JobDone = true; break;//thread #12 has finished its job.
-
-                    }
-
-                    //If all Loading threads are finished, then start the set Thread.
-                    //Finally, set loadingDone at true to avoid starting setThreads again later on.
-                    if(thread1JobDone && thread2JobDone && thread3JobDone && !loadingDone){
-                        threadPoolExec.submit(setThread1);
-                        threadPoolExec.submit(setThread2);
-                        loadingDone = true;
-                    }
-
-                    //Once ThemeAll is fully set, update UI
-                    if(thread11JobDone && thread12JobDone){
-
-                        themeEngine.addTheme(themeAll);
-                        themeEngine.addTheme(themeFav);
-                        themeEngine.addTheme(themeTaunt);
-                        themeEngine.addTheme(themePq);
-
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            }
-        };
-
-        thread1LoadedSounds = 0; //unused ATM
-        thread2LoadedSounds = 0; //unused ATM
-        thread3LoadedSounds = 0; //unused ATM
-
-        thread1JobDone = false;
-        thread2JobDone = false;
-        thread3JobDone = false;
-        thread11JobDone = false;
-        thread12JobDone = false;
-        loadingDone = false;
+        fragmentManager = getFragmentManager();
+        soundEngineFragment = (SoundEngineFragment) fragmentManager.findFragmentByTag("soundEngine");
+        themeEngineFragment = (ThemeEngineFragment) fragmentManager.findFragmentByTag("themeEngine");
 
         /*
          * Create an object for each view we need to listen to. (so we can manipulate them in the code)
@@ -397,44 +349,130 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         soundListDisplay.setOnItemClickListener(this);
         soundListDisplay.setOnItemLongClickListener(this);
 
-        //Instantiate the sound engine.
-        soundEngine = new SoundEngine((AudioManager)this.getSystemService(Context.AUDIO_SERVICE));
-        themeEngine = new ThemeEngine();
+        if(soundEngineFragment == null || themeEngineFragment == null) {
+            threadPoolExec = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
+            threadPoolExec.prestartAllCoreThreads();
 
-        //Instantiate themes named themeAll and themeFav
-        themeAll = new Theme("All");
-        themeFav = new Theme("Favorites");
-        themePq = new Theme("PQ");
-        themeTaunt = new Theme("Taunt");
+            loadingHandler = new Handler(Looper.getMainLooper()) {
 
-        /*
-         * Create adapters for the ListView
-         * ListView will be fed from the soundNameList field of corresponding theme.
-         *
-         * https://developer.android.com/reference/android/widget/ListView.html#setAdapter%28android.widget.ListAdapter%29
-         */
-        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,themeAll.getSoundNameList());
+                /*
+                 * handleMessage() defines the operations to perform when
+                 * the Handler receives a new Message to process.
+                 */
+                @Override
+                public void handleMessage(Message message) {
 
-        soundListDisplay.setAdapter(adapter);
+                    //A thread has just finished its job.
+                    if (message.arg2 == 1) {
 
-        currentThemeTextView.setText("Current theme is All");
+                        //Check which thread sent this message
+                        switch (message.arg1) {
+                            case (1):
+                                thread1JobDone = true;
+                                break; //thread #1 has finished its job.
+                            case (2):
+                                thread2JobDone = true;
+                                break; //thread #2 has finished its job.
+                            case (3):
+                                thread3JobDone = true;
+                                break; //thread #3 has finished its job.
+                            case (11):
+                                thread11JobDone = true;
+                                break;//thread #11 has finished its job.
+                            case (12):
+                                thread12JobDone = true;
+                                break;//thread #12 has finished its job.
 
-        //Load all embedded sounds in memory and create Sound objects
-        soundPool = soundEngine.getSoundPool();
-        appContext = this.getApplicationContext();
+                        }
 
-        LoadThread1 loadingThread1 = new LoadThread1();
-        LoadThread2 loadingThread2 = new LoadThread2();
-        LoadThread3 loadingThread3 = new LoadThread3();
+                        //If all Loading threads are finished, then start the set Thread.
+                        //Finally, set loadingDone at true to avoid starting setThreads again later on.
+                        if (thread1JobDone && thread2JobDone && thread3JobDone && !loadingDone) {
+                            threadPoolExec.submit(setThread1);
+                            threadPoolExec.submit(setThread2);
+                            loadingDone = true;
+                        }
 
-        setThread1 = new SetThread1();
-        setThread2 = new SetThread2();
+                        //Once ThemeAll is fully set, update UI
+                        if (thread11JobDone && thread12JobDone) {
 
-        threadPoolExec.submit(loadingThread1);
-        threadPoolExec.submit(loadingThread2);
-        threadPoolExec.submit(loadingThread3);
+                            themeEngine.addTheme(themeAll);
+                            themeEngine.addTheme(themeFav);
+                            themeEngine.addTheme(themeTaunt);
+                            themeEngine.addTheme(themePq);
 
-        //Below code is currently useless. Keep it for ref.
+                            adapter.notifyDataSetChanged();
+
+                            soundEngineFragment = new SoundEngineFragment();
+                            themeEngineFragment = new ThemeEngineFragment();
+
+                            fragmentManager.beginTransaction().add(soundEngineFragment, "soundEngine").commit();
+                            fragmentManager.beginTransaction().add(themeEngineFragment, "themeEngine").commit();
+
+                            soundEngineFragment.setData(soundEngine);
+                            themeEngineFragment.setData(themeEngine);
+                        }
+                    }
+                }
+            };
+
+            thread1LoadedSounds = 0; //unused ATM
+            thread2LoadedSounds = 0; //unused ATM
+            thread3LoadedSounds = 0; //unused ATM
+
+            thread1JobDone = false;
+            thread2JobDone = false;
+            thread3JobDone = false;
+            thread11JobDone = false;
+            thread12JobDone = false;
+            loadingDone = false;
+
+            //Instantiate the sound engine.
+            soundEngine = new SoundEngine((AudioManager) this.getSystemService(Context.AUDIO_SERVICE));
+            themeEngine = new ThemeEngine();
+
+            //Instantiate themes named themeAll and themeFav
+            themeAll = new Theme("All");
+            themeFav = new Theme("Favorites");
+            themePq = new Theme("PQ");
+            themeTaunt = new Theme("Taunt");
+
+            /*
+             * Create adapters for the ListView
+             * ListView will be fed from the soundNameList field of corresponding theme.
+             *
+             * https://developer.android.com/reference/android/widget/ListView.html#setAdapter%28android.widget.ListAdapter%29
+             */
+            adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeAll.getSoundNameList());
+            soundListDisplay.setAdapter(adapter);
+
+            //Load all embedded sounds in memory and create Sound objects
+            soundPool = soundEngine.getSoundPool();
+            appContext = this.getApplicationContext();
+
+            LoadThread1 loadingThread1 = new LoadThread1();
+            LoadThread2 loadingThread2 = new LoadThread2();
+            LoadThread3 loadingThread3 = new LoadThread3();
+
+            setThread1 = new SetThread1();
+            setThread2 = new SetThread2();
+
+            threadPoolExec.submit(loadingThread1);
+            threadPoolExec.submit(loadingThread2);
+            threadPoolExec.submit(loadingThread3);
+        }
+
+        else{
+            soundEngine = soundEngineFragment.getData();
+            themeEngine = themeEngineFragment.getData();
+
+            adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeEngine.getCurrentTheme().getSoundNameList());
+            soundListDisplay.setAdapter(adapter);
+        }
+        currentThemeTextView.setText("Current theme: All");
+    }
+
+    //Below code is currently useless. Keep it for ref.
         /*
         soundPool.setOnLoadCompleteListener(
                 new SoundPool.OnLoadCompleteListener(){
@@ -444,8 +482,14 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 }
         );
         */
-    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // store the data in the fragment
+        soundEngineFragment.setData(soundEngine);
+        themeEngineFragment.setData(themeEngine);
+    }
 
 
     /*
