@@ -26,11 +26,14 @@ import com.gw150914.jabberwocky.core.SoundEngine;
 import com.gw150914.jabberwocky.core.ThemeEngine;
 import com.gw150914.jabberwocky.core.ThemeEngineFragment;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends Activity implements View.OnClickListener,View.OnLongClickListener,AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
+    //private byte[] in;
     private ArrayAdapter<String> adapter;
     private Theme themeAll, themeFav, themePq, themeTaunt;
     private ListView soundListDisplay;
@@ -503,9 +506,35 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      */
     public void onClick(View v) {
 
-
+        // I/O TESTING CODE
         if(findViewById(R.id.search_button) == v) {
+            String FILENAME = "la_rage_file";
+            String string = "LA MAXI #";
+            try {
+                FileOutputStream outputStream = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                outputStream.write(string.getBytes());
+                outputStream.close();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            byte[] inputBuffer = new byte[50];
+            try {
 
+                FileInputStream inputStream = openFileInput(FILENAME);
+                inputStream.read(inputBuffer);
+                inputStream.close();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            String byteArrayToString = new String(inputBuffer);
+
+            AlertDialog.Builder debug_dialog = new AlertDialog.Builder(MainActivity.this);
+            debug_dialog.setTitle("DEBUG");
+            debug_dialog.setMessage(byteArrayToString);
+            debug_dialog.create();
+            debug_dialog.show();
         }
         if(findViewById(R.id.theme_button) == v) {
             AlertDialog.Builder choice_dialog = new AlertDialog.Builder(MainActivity.this);
