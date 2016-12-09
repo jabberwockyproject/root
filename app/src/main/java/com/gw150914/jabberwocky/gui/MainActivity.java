@@ -34,9 +34,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class MainActivity extends Activity implements View.OnClickListener,View.OnLongClickListener,AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
 
-    /****************************************************************************************
-     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[ PRIVATE FIELDS ] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
-     ****************************************************************************************/
+    /*****************************************************************************************
+     * ===================================[ PRIVATE FIELDS ]================================ *
+     *****************************************************************************************/
 
     private final int thread1TotalSounds = 27; //unused ATM
     private final int thread2TotalSounds = 27; //unused ATM
@@ -63,9 +63,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private SetThread2 setThread2;
 
 
-    /****************************************************************************************
-     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[ PUBLIC CLASSES ] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
-     ****************************************************************************************/
+    /*****************************************************************************************
+     * ===================================[ NESTED CLASSES ]================================ *
+     *****************************************************************************************/
 
     private class LoadThread1 implements Runnable {
 

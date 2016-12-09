@@ -1,28 +1,27 @@
 package com.gw150914.jabberwocky.core;
 
 
-/*+---------[ Sound.class ]------------+
-  |The Sound class represents a sound. |
-  |Sounds Are loaded in memory and have|
-  |a name and a ID.                    |
-  |IDs are used by SoundPools to find  |
-  |sounds in memory                    |
-  +------------------------------------+*/
+/*
+###################################[ Sound.class ]#####################################
+# The Sound class is designed to hold information about an unique sound and provides  #
+# various methods to manipulate these information.                                    #
+#######################################################################################
+*/
 
 public class Sound {
 
 
-    /******************
-     * PRIVATE FIELDS *
-     ******************/
+    /*****************************************************************************************
+     * ===================================[ PRIVATE FIELDS ]================================ *
+     *****************************************************************************************/
 
     private String name;    //Sound name.
     private int soundId;    //Sound ID. provided by a SoundPool. CHANGES AT EACH COLD-START
 
 
-    /****************
-     * CONSTRUCTORS *
-     ****************/
+    /*****************************************************************************************
+     * ====================================[ CONSTRUCTORS ]================================= *
+     *****************************************************************************************/
 
     //Constructor 1
     public Sound() {
@@ -43,9 +42,9 @@ public class Sound {
     }
 
 
-    /*********************
-     * GETTORS / SETTORS *
-     *********************/
+    /*****************************************************************************************
+     * =================================[ GETTORS / SETTORS ]=============================== *
+     *****************************************************************************************/
 
     //Return Sound name
     public String getName() {
