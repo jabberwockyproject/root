@@ -3,6 +3,15 @@ package com.gw150914.jabberwocky.core;
 import java.util.ArrayList;
 import java.util.Random;
 
+
+/*
+###################################[ Sound.class ]#####################################
+# The Theme class is designed to hold information about an unique theme and provides  #
+# various methods to manipulate and check these information.                          #
+# A Theme is a Sound collection. Usually only one theme is shown to the user.         #
+#######################################################################################
+*/
+
 public class Theme {
 
 
@@ -10,11 +19,11 @@ public class Theme {
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    private static final int maxSoundPerTheme = 500;
-    private int soundsCount;
-    private String name;
-    private Sound[] soundList;
-    private ArrayList<String> soundNameList;
+    private static final int maxSoundPerTheme = 500;    //Maximum sounds a theme can hold. Final
+    private int soundsCount;                            //Number of sound a theme contains.
+    private String name;                                //Theme name.
+    private Sound[] soundList;                          //List of sounds a theme contains
+    private ArrayList<String> soundNameList;            //Names of sounds contained in a theme.
 
 
     /*****************************************************************************************
@@ -50,26 +59,32 @@ public class Theme {
      * =================================[ GETTORS / SETTORS ]=============================== *
      *****************************************************************************************/
 
+    //Get the quantity of sounds in a theme
     public int getSoundsCount() {
         return soundsCount;
     }
 
+    //Get a theme's name
     public String getName() {
         return name;
     }
 
+    //Get a theme's sound list.
     public Sound[] getSoundList() {
         return soundList;
     }
 
+    //Get a specific sound in a theme identified at "index" position
     public Sound getSound(int index) {
         return soundList[index];
     }
 
+    //Get the name of sounds in a theme.
     public ArrayList<String> getSoundNameList() {
         return soundNameList;
     }
 
+    //Set the name of a theme
     public void setName(String newName) {
         name = newName;
     }
@@ -79,18 +94,23 @@ public class Theme {
      * ==================================[ PUBLIC METHODS ]================================= *
      *****************************************************************************************/
 
+    //Get a random sound contained in a theme
     public Sound getRandomSound() {
         Random random = new Random();
         return soundList[random.nextInt(soundsCount)];
     }
 
-    /*
-    * Return values:
-    * 0: Success
-    * 1: Failed to add sound (duplicate)
-    * 2: Failed to add sound (Index out of bound)
-    * 3: Failed to add sound (other errors)
-    */
+
+    /**********************[ addSound ]**********************
+     * Add a sound in a theme. Will only work if the sound  *
+     * is not already present in this theme.                *
+     * Both soundList and soundNameList are updated         *
+     * Returns values:                                      *
+     * 0: Success                                           *
+     * 1: Failed to add sound (duplicate)                   *
+     * 2: Failed to add sound (Index out of bound)          *
+     * 3: Failed to add sound (other errors)                *
+     ********************************************************/
     public int addSound(Sound newSound) {
         if(!checkSoundDuplicate(newSound)) {
             try {
@@ -111,6 +131,13 @@ public class Theme {
         }
     }
 
+    /*********************[ removeSound ]********************
+     * Remove a sound in a theme.                           *
+     * Both soundList and soundNameList are updated         *
+     * Returns values:                                      *
+     * False: Sound has not been found (no action)          *
+     * True: Sound has been removed                         *
+     ********************************************************/
     public boolean removeSound(Sound oldSound) {
         boolean soundFound = false;
         int index = 0;
@@ -135,6 +162,10 @@ public class Theme {
         }
     }
 
+    /**********************[ sortIndex ]*********************
+     * Sort both soundList and soundNameList in an          *
+     * alphanumerical order                                 *
+     ********************************************************/
     public void sortIndex() {
         boolean sorted = false;     //lists are sorted
         boolean hasDoneSomething;   //Something has been done during this pass
@@ -149,7 +180,7 @@ public class Theme {
             hasDoneSomething = false;
 
             //Do a pass. Stop at soundCount-1 to prevent out of boundary accesses.
-            for(index=0; index < (soundsCount - 1); ++index) {
+            for(index = 0; index < (soundsCount - 1); ++index) {
 
                 //If soundNameList @index+1 is strictly inferior to soundNameList @index
                 //Then we need to switch index with index+1 values
@@ -192,6 +223,7 @@ public class Theme {
         return isConsistent;
     }
 
+    //Check whether a sound is already in the soundList.
     private boolean checkSoundDuplicate(Sound soundToCheck) {
         boolean duplicate = false;
         int index = 0;
@@ -203,6 +235,7 @@ public class Theme {
         return duplicate;
     }
 
+    //Return a generic name for a new unnamed theme
     private static String getNextGenericName() {
         //TODO
         return null;
