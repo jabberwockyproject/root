@@ -5,7 +5,7 @@ import java.util.Random;
 
 
 /*
-###################################[ Sound.class ]#####################################
+###################################[ Theme.class ]#####################################
 # The Theme class is designed to hold information about an unique theme and provides  #
 # various methods to manipulate and check these information.                          #
 # A Theme is a Sound collection. Usually only one theme is shown to the user.         #
@@ -223,7 +223,7 @@ public class Theme {
         return isConsistent;
     }
 
-    //Check whether a sound is already in the soundList.
+    //Check whether a sound is already in the soundList. Internal use only.
     private boolean checkSoundDuplicate(Sound soundToCheck) {
         boolean duplicate = false;
         int index = 0;
@@ -235,7 +235,7 @@ public class Theme {
         return duplicate;
     }
 
-    //Return a generic name for a new unnamed theme
+    //Return a generic name for a new unnamed theme. Internal use only.
     private static String getNextGenericName() {
         //TODO
         return null;
