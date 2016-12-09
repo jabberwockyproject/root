@@ -96,7 +96,7 @@ public class SoundEngine {
     /*******************
      * PRIVATE METHODS *
      *******************/
-    
+
     private float getFinalSoundVolume() {
         if(hasCustomVolume) {
             return customVolume / maxVolume;
