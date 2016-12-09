@@ -33,6 +33,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends Activity implements View.OnClickListener,View.OnLongClickListener,AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
+
+    /****************************************************************************************
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[ PRIVATE FIELDS ] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+     ****************************************************************************************/
+
     private final int thread1TotalSounds = 27; //unused ATM
     private final int thread2TotalSounds = 27; //unused ATM
     private final int thread3TotalSounds = 28; //unused ATM
@@ -58,13 +63,20 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private SetThread2 setThread2;
 
 
+    /****************************************************************************************
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[ PUBLIC CLASSES ] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+     ****************************************************************************************/
+
     private class LoadThread1 implements Runnable {
+
         private Message message;
-        LoadThread1 (){
+
+        LoadThread1() {
             message = new Message();
             message.arg1 = 1;   //thread id
             message.arg2 = 0;   //thread status (0=ongoing, 1=done)
         }
+
         public void run() {
             soundAndreaPasLa = new Sound("Andrea pas la",soundPool.load(appContext,R.raw.andrea_pas_la,1));
             soundAttention01 = new Sound("Attention - 01",soundPool.load(appContext,R.raw.attention01,1));
@@ -100,12 +112,15 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     }
 
     private class LoadThread2 implements Runnable {
+
         private Message message;
-        LoadThread2 (){
+
+        LoadThread2() {
             message = new Message();
             message.arg1 = 2;   //thread id
             message.arg2 = 0;   //thread status (0=ongoing, 1=done)
         }
+
         public void run() {
             soundInteressePas = new Sound("Interesse pas",soundPool.load(appContext,R.raw.interesse_pas,1));
             soundLeGitan = new Sound("Ha le Gitan",soundPool.load(appContext,R.raw.le_gitan,1));
@@ -141,8 +156,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     }
 
     private class LoadThread3 implements Runnable {
+
         private Message message;
-        LoadThread3 (){
+
+        LoadThread3() {
             message = new Message();
             message.arg1 = 3;   //thread id
             message.arg2 = 0;   //thread status (0=ongoing, 1=done)
@@ -184,8 +201,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     }
 
     private class SetThread1 implements Runnable {
+
         private Message message;
-        SetThread1 (){
+
+        SetThread1() {
             message = new Message();
             message.arg1 = 11;  //thread id
             message.arg2 = 0;   //thread status (0=ongoing, 1=done)
@@ -281,8 +300,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     }
 
     private class SetThread2 implements Runnable {
+
         private Message message;
-        SetThread2 (){
+
+        SetThread2() {
             message = new Message();
             message.arg1 = 12;  //thread id
             message.arg2 = 0;   //thread status (0=ongoing, 1=done)
@@ -312,6 +333,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             loadingHandler.sendMessage(message);
         }
     }
+
+
+    /****************************************************************************************
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[ ACTIVITY STATE METHODS ] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+     ****************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -366,10 +392,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 public void handleMessage(Message message) {
 
                     //A thread has just finished its job.
-                    if (message.arg2 == 1) {
+                    if(message.arg2 == 1) {
 
                         //Check which thread sent this message
-                        switch (message.arg1) {
+                        switch(message.arg1) {
                             case (1):
                                 thread1JobDone = true;
                                 break; //thread #1 has finished its job.
@@ -385,19 +411,18 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             case (12):
                                 thread12JobDone = true;
                                 break;//thread #12 has finished its job.
-
                         }
 
                         //If all Loading threads are finished, then start the set Thread.
                         //Finally, set loadingDone at true to avoid starting setThreads again later on.
-                        if (thread1JobDone && thread2JobDone && thread3JobDone && !loadingDone) {
+                        if(thread1JobDone && thread2JobDone && thread3JobDone && !loadingDone) {
                             threadPoolExec.submit(setThread1);
                             threadPoolExec.submit(setThread2);
                             loadingDone = true;
                         }
 
                         //Once ThemeAll is fully set, update UI
-                        if (thread11JobDone && thread12JobDone) {
+                        if(thread11JobDone && thread12JobDone) {
 
                             themeEngine.addTheme(themeAll);
                             themeEngine.addTheme(themeFav);
@@ -465,7 +490,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             threadPoolExec.submit(loadingThread3);
         }
 
-        else{
+        else {
             soundEngine = soundEngineFragment.getData();
             themeEngine = themeEngineFragment.getData();
 
@@ -495,6 +520,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     }
 
 
+    /*****************************************************************************************
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[ UI LISTENERS ] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+     *****************************************************************************************/
+
     /*
      * OnClick event handler.
      * All four buttons will use this method if pressed.
@@ -508,26 +537,31 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         // I/O TESTING CODE
         if(findViewById(R.id.search_button) == v) {
+
             String FILENAME = "la_rage_file";
             String string = "LA MAXI #";
+
             try {
                 FileOutputStream outputStream = openFileOutput(FILENAME, Context.MODE_PRIVATE);
                 outputStream.write(string.getBytes());
                 outputStream.close();
             }
-            catch (Exception e){
+            catch(Exception e) {
                 e.printStackTrace();
             }
+
             byte[] inputBuffer = new byte[50];
+
             try {
 
                 FileInputStream inputStream = openFileInput(FILENAME);
                 inputStream.read(inputBuffer);
                 inputStream.close();
             }
-            catch (Exception e){
+            catch (Exception e) {
                 e.printStackTrace();
             }
+
             String byteArrayToString = new String(inputBuffer);
 
             AlertDialog.Builder debug_dialog = new AlertDialog.Builder(MainActivity.this);
@@ -536,10 +570,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             debug_dialog.create();
             debug_dialog.show();
         }
+
         if(findViewById(R.id.theme_button) == v) {
             AlertDialog.Builder choice_dialog = new AlertDialog.Builder(MainActivity.this);
             choice_dialog.setTitle("Choose your theme, Bro !");
-            choice_dialog.setItems(themeEngine.getThemeNameList(), new DialogInterface.OnClickListener(){
+            choice_dialog.setItems(themeEngine.getThemeNameList(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Theme chosenTheme = themeEngine.getThemeList()[which];
@@ -552,6 +587,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             choice_dialog.create();
             choice_dialog.show();
         }
+
         if(findViewById(R.id.random_button) == v) {
             if (themeEngine.getCurrentTheme().getSoundsCount() != 0) {
                 soundEngine.playSound(themeEngine.getCurrentTheme().getRandomSound().getSoundId());
@@ -617,7 +653,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
     public boolean onItemLongClick(AdapterView parent, View v, final int pos, long id) {
         if(findViewById(R.id.sound_List_Display) == parent) {
-            if (themeEngine.getCurrentTheme() != themeEngine.getTheme(1)) {
+            if(themeEngine.getCurrentTheme() != themeEngine.getTheme(1)) {
                 AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                 alertDialog.setTitle(getString(R.string.dialog_title));
                 alertDialog.setMessage(themeEngine.getCurrentTheme().getSoundNameList().get(pos));
