@@ -66,6 +66,13 @@ public class ThemeEngine {
      * ==================================[ PUBLIC METHODS ]================================= *
      *****************************************************************************************/
 
+    /*****************[ getCleanThemeList ]******************
+     * Return themeList with the correct size.              *
+     * Create an array with themeCount as max size.         *
+     * Fill it with the relevant values and return it.      *
+     * Use it when half empty array are problematic so      *
+     * you cannot use getThemeList().                       *
+     *******************************************************/
     public Theme[] getCleanThemeList() {
         Theme[] cleanThemeList = new Theme[themeCount];
         for(int index = 0; index < themeCount; ++themeCount) {
@@ -74,6 +81,11 @@ public class ThemeEngine {
         return cleanThemeList;
     }
 
+    /*****************[ getThemeNameList ]******************
+     * From themeList, extract only the names and return   *
+     * an array of names corresponding to themes contained *
+     * in this ThemeEngine.                                *
+     *******************************************************/
     public String[] getThemeNameList() {
         String[] themeNameList = new String [themeCount];
         for (int index = 0; index < themeCount; ++index) {
@@ -82,6 +94,12 @@ public class ThemeEngine {
         return themeNameList;
     }
 
+    /*********************[ addTheme ]**********************
+     * Add a new Theme to this ThemeEngine.                *
+     * Will only work if this ThemeEngine isn't full       *
+     * If no theme were present before, set this new theme *
+     * as current theme.                                   *
+     *******************************************************/
     public boolean addTheme(Theme newTheme) {
         if(themeCount < maxTheme) {
             themeList[themeCount++] = newTheme;
@@ -95,6 +113,7 @@ public class ThemeEngine {
         }
     }
 
+    //Remove a Theme from this ThemeEngine.
     public boolean removeTheme(Theme oldTheme){
         //TODO
         return false;
