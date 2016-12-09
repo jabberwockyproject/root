@@ -7,8 +7,6 @@ public class Theme {
 
     //Private fields
     private static final int maxSoundPerTheme = 500;
-    private static final int maxTheme = 20;
-    private int themeId;
     private String name;
     private int soundsCount;
     private Sound[] soundList;
@@ -186,8 +184,5 @@ public class Theme {
 
     public Sound getSound(int index) {
         return soundList[index];
-    }
-    public int getThemeId(){
-        return themeId;
     }
 }

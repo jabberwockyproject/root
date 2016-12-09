@@ -33,30 +33,30 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends Activity implements View.OnClickListener,View.OnLongClickListener,AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
 
-    //private byte[] in;
-    private ArrayAdapter<String> adapter;
-    private Theme themeAll, themeFav, themePq, themeTaunt;
-    private ListView soundListDisplay;
-    private TextView currentThemeTextView;
-    private Sound soundAndreaPasLa, soundAttention01, soundAttention02, soundAttention03, soundAttention04, soundAttention05, soundAttention06, soundAucunRapport, soundBonneIdee, soundCalomnie, soundChinois01, soundChinois02, soundCokeVachementBath, soundComprendsPas, soundCracheBeaucoup, soundDebandade, soundDefection, soundEmbarrassant, soundExigeReponse, soundFaux, soundFoutLaRage, soundGrosGourdin, soundGrosseBlague, soundHabile, soundHallucine, soundHumour, soundIncomprehensible, soundInteressePas, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMalentendu, soundMarcheBien, soundMeSensSeul, soundMethTropDeLaBalle01, soundMethTropDeLaBalle02, soundMistake, soundNemrod, soundNoFuckingBalls, soundNouveaute, soundOhOui, soundOnSEmmerde, soundOsef, soundPasCool, soundPasDrole, soundPlaisanterie01, soundPlaisanterie02, soundPouleMouillee, soundPourquoi, soundPqEmergency, soundPqIncroyable, soundPqReche, soundPqTropDoux, soundPqTropManque, soundPrejudice, soundPrevoyant, soundPrisPropreJeu, soundPtitZizi, soundPtiteBite, soundPueDuCul, soundQueSePasseTIl, soundQuelqueSorte, soundQuiEstLa, soundQuoi01, soundQuoi02, soundQuoi03, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTripleEpaisseur, soundTropPlaisir, soundTrucDeMazo, soundTrueStory, soundVachementBath, soundViens01, soundViens02, soundVieuxMan, soundVoirMaBite, soundVrai;
-    private SoundEngine soundEngine;
-    private ThemeEngine themeEngine;
-    private SoundPool soundPool;
-    private Context appContext;
-    private ThreadPoolExecutor threadPoolExec;
-    private Handler loadingHandler;
-    private int thread1LoadedSounds; //unused ATM
-    private int thread2LoadedSounds; //unused ATM
-    private int thread3LoadedSounds; //unused ATM
     private final int thread1TotalSounds = 27; //unused ATM
     private final int thread2TotalSounds = 27; //unused ATM
     private final int thread3TotalSounds = 28; //unused ATM
+    private int thread1LoadedSounds; //unused ATM
+    private int thread2LoadedSounds; //unused ATM
+    private int thread3LoadedSounds; //unused ATM
     private boolean thread1JobDone, thread2JobDone, thread3JobDone, thread11JobDone, thread12JobDone, loadingDone;
-    private SetThread1 setThread1;
-    private SetThread2 setThread2;
+    private SoundEngine soundEngine;
+    private ThemeEngine themeEngine;
+    private Sound soundAndreaPasLa, soundAttention01, soundAttention02, soundAttention03, soundAttention04, soundAttention05, soundAttention06, soundAucunRapport, soundBonneIdee, soundCalomnie, soundChinois01, soundChinois02, soundCokeVachementBath, soundComprendsPas, soundCracheBeaucoup, soundDebandade, soundDefection, soundEmbarrassant, soundExigeReponse, soundFaux, soundFoutLaRage, soundGrosGourdin, soundGrosseBlague, soundHabile, soundHallucine, soundHumour, soundIncomprehensible, soundInteressePas, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMalentendu, soundMarcheBien, soundMeSensSeul, soundMethTropDeLaBalle01, soundMethTropDeLaBalle02, soundMistake, soundNemrod, soundNoFuckingBalls, soundNouveaute, soundOhOui, soundOnSEmmerde, soundOsef, soundPasCool, soundPasDrole, soundPlaisanterie01, soundPlaisanterie02, soundPouleMouillee, soundPourquoi, soundPqEmergency, soundPqIncroyable, soundPqReche, soundPqTropDoux, soundPqTropManque, soundPrejudice, soundPrevoyant, soundPrisPropreJeu, soundPtitZizi, soundPtiteBite, soundPueDuCul, soundQueSePasseTIl, soundQuelqueSorte, soundQuiEstLa, soundQuoi01, soundQuoi02, soundQuoi03, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTripleEpaisseur, soundTropPlaisir, soundTrucDeMazo, soundTrueStory, soundVachementBath, soundViens01, soundViens02, soundVieuxMan, soundVoirMaBite, soundVrai;
+    private Theme themeAll, themeFav, themePq, themeTaunt;
     private SoundEngineFragment soundEngineFragment;
     private ThemeEngineFragment themeEngineFragment;
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
+    private ArrayAdapter<String> adapter;
+    private ListView soundListDisplay;
+    private TextView currentThemeTextView;
+    private SoundPool soundPool;
+    private Context appContext;
+    private Handler loadingHandler;
+    private ThreadPoolExecutor threadPoolExec;
+    private SetThread1 setThread1;
+    private SetThread2 setThread2;
+
 
     private class LoadThread1 implements Runnable {
         private Message message;
