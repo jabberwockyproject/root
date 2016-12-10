@@ -108,6 +108,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundHumour = new Sound("Humour",soundPool.load(appContext,R.raw.humour,1));
             soundIncomprehensible = new Sound("Incompréhensible",soundPool.load(appContext,R.raw.incomprehensible,1));
 
+            //Send a message to handler with the finished flag set
             message.arg2 = 1;
             loadingHandler.sendMessage(message);
         }
@@ -153,6 +154,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundPqReche = new Sound("Ce PQ est un peu reche",soundPool.load(appContext,R.raw.pq_reche,1));
             soundPqTropDoux = new Sound("PQ trop doux",soundPool.load(appContext,R.raw.pq_trop_doux,1));
 
+            //Send a message to handler with the finished flag set
             message.arg2 = 1;
             loadingHandler.sendMessage(message);
         }
@@ -199,6 +201,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundVoirMaBite = new Sound("Voir ma bite",soundPool.load(appContext,R.raw.voir_ma_bite,1));
             soundVrai = new Sound("Vrai",soundPool.load(appContext,R.raw.vrai,1));
 
+            //Send a message to handler with the finished flag set
             message.arg2 = 1;
             loadingHandler.sendMessage(message);
         }
@@ -299,6 +302,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themeAll.addSound(soundVoirMaBite);
             themeAll.addSound(soundVrai);
 
+            //Send a message to handler with the finished flag set
             message.arg2 = 1;
             loadingHandler.sendMessage(message);
         }
@@ -335,6 +339,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themePq.addSound(soundPqTropManque);
             themePq.addSound(soundTripleEpaisseur);
 
+            //Send a message to handler with the finished flag set
             message.arg2 = 1;
             loadingHandler.sendMessage(message);
         }
@@ -355,6 +360,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
             //TODO: Read saved favorites sound list from file and setup themeFav from it.
 
+            //Send a message to handler with the finished flag set
             message.arg2 = 1;
             loadingHandler.sendMessage(message);
         }
@@ -370,15 +376,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fragmentManager = getFragmentManager();
-        soundEngineFragment = (SoundEngineFragment) fragmentManager.findFragmentByTag("soundEngine");
-        themeEngineFragment = (ThemeEngineFragment) fragmentManager.findFragmentByTag("themeEngine");
-
-        /*
-         * Create an object for each view we need to listen to. (so we can manipulate them in the code)
-         * findViewById(R.id.NAME) looks in activity_main.xml file for the correct view
-         * The lines findViewById(R.id.NAME) is seeking are android:id="@+id/NAME"
-         */
+        //Create an object for each view we need to listen to so we can manipulate them in the code.
         Button searchButton = (Button) findViewById(R.id.search_button);
         Button themeButton = (Button) findViewById(R.id.theme_button);
         Button randomButton = (Button) findViewById(R.id.random_button);
@@ -386,13 +384,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         soundListDisplay = (ListView) findViewById(R.id.sound_List_Display);
         currentThemeTextView = (TextView) findViewById(R.id.current_theme_display);
 
-        /*
-         * For each object we created above, designate event listeners.
-         * Ex: searchButton.setOnClickListener(this); designate the MainActivity (this) as
-         * listener for the OnClick event.
-         * To make this work, MainActivity must implements the correct interface (ex: View.OnClickListener)
-         * AND have a custom public void onClick(View) method.
-         */
+        //For each object we created above, designate event listeners.
         searchButton.setOnClickListener(this);
         searchButton.setOnLongClickListener(this);
         themeButton.setOnClickListener(this);
@@ -404,18 +396,29 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         soundListDisplay.setOnItemClickListener(this);
         soundListDisplay.setOnItemLongClickListener(this);
 
+        //Save the app context so threads can get a context when needed.
         appContext = this.getApplicationContext();
 
+        //Attempt to retrieve the two engines fragments in memory.
+        fragmentManager = getFragmentManager();
+        soundEngineFragment = (SoundEngineFragment) fragmentManager.findFragmentByTag("soundEngine");
+        themeEngineFragment = (ThemeEngineFragment) fragmentManager.findFragmentByTag("themeEngine");
+
+        //If either of the engine fragment is null, a full initialization/loading is required.
         if(soundEngineFragment == null || themeEngineFragment == null) {
+
+            //Create a thread pool with a fixed 3 thread slots. Pre-start all threads immediately.
             threadPoolExec = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
             threadPoolExec.prestartAllCoreThreads();
 
+            /********************************************************
+             * Create a new handler for threads.                    *
+             * This handler is bound to the UI thread so it can     *
+             * manipulate UI elements (unlike threads)              *
+             ********************************************************/
             loadingHandler = new Handler(Looper.getMainLooper()) {
 
-                /*
-                 * handleMessage() defines the operations to perform when
-                 * the Handler receives a new Message to process.
-                 */
+                //Method used when the handler is receiving messages from threads.
                 @Override
                 public void handleMessage(Message message) {
 
@@ -447,30 +450,44 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                         //If all Loading threads are finished, then start the set Thread.
                         //Finally, set loadingDone at true to avoid starting setThreads again later on.
                         if(thread1JobDone && thread2JobDone && thread3JobDone && !loadingDone) {
+
+                            //Instantiate all settings threads.
+                            setThread1 = new SetThread1();
+                            setThread2 = new SetThread2();
+                            setThread3 = new SetThread3();
+
+                            //Submit the 3 setting threads to the thread pool.
                             threadPoolExec.submit(setThread1);
                             threadPoolExec.submit(setThread2);
                             threadPoolExec.submit(setThread3);
+
+                            //Set loadingDone to true to prevent restarting setting threads later on.
                             loadingDone = true;
                         }
 
                         //Once ThemeAll is fully set, update UI
                         if(thread11JobDone && thread12JobDone && thread13JobDone) {
 
+                            //Add themes to the theme engine
                             themeEngine.addTheme(themeAll);
                             themeEngine.addTheme(themeFav);
                             themeEngine.addTheme(themeTaunt);
                             themeEngine.addTheme(themePq);
 
-                            adapter.notifyDataSetChanged();
-
+                            //Update UI
+                            adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeEngine.getCurrentTheme().getSoundNameList());
+                            soundListDisplay.setAdapter(adapter);
                             currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
 
+                            //Instantiate Fragments for the first time.
                             soundEngineFragment = new SoundEngineFragment();
                             themeEngineFragment = new ThemeEngineFragment();
 
+                            //Setup both engine fragment with an unique id.
                             fragmentManager.beginTransaction().add(soundEngineFragment, "soundEngine").commit();
                             fragmentManager.beginTransaction().add(themeEngineFragment, "themeEngine").commit();
 
+                            //Add data to both engine fragments.
                             soundEngineFragment.setData(soundEngine);
                             themeEngineFragment.setData(themeEngine);
                         }
@@ -482,6 +499,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             thread2LoadedSounds = 0; //unused ATM
             thread3LoadedSounds = 0; //unused ATM
 
+            //Nothing is done/finished at this point
             thread1JobDone = false;
             thread2JobDone = false;
             thread3JobDone = false;
@@ -499,36 +517,29 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themePq = new Theme("PQ");
             themeTaunt = new Theme("Taunt");
 
-            /*
-             * Create adapters for the ListView
-             * ListView will be fed from the soundNameList field of corresponding theme.
-             *
-             * https://developer.android.com/reference/android/widget/ListView.html#setAdapter%28android.widget.ListAdapter%29
-             */
-            adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeAll.getSoundNameList());
-            soundListDisplay.setAdapter(adapter);
-
+            //Save the soundEngine sound pool now to avoid multiple soundEngine calls in threads.
             soundPool = soundEngine.getSoundPool();
 
+            //Instantiate all loading threads.
             LoadThread1 loadingThread1 = new LoadThread1();
             LoadThread2 loadingThread2 = new LoadThread2();
             LoadThread3 loadingThread3 = new LoadThread3();
 
-            setThread1 = new SetThread1();
-            setThread2 = new SetThread2();
-            setThread3 = new SetThread3();
-
+            //Submit the 3 loading threads to the thread pool.
             threadPoolExec.submit(loadingThread1);
             threadPoolExec.submit(loadingThread2);
             threadPoolExec.submit(loadingThread3);
         }
 
+        //If both engine fragments are available, retrieve both engine from fragments and do minimal work.
         else {
+
+            //Retrieve engines from fragments.
             soundEngine = soundEngineFragment.getData();
             themeEngine = themeEngineFragment.getData();
 
+            //Update UI
             currentThemeTextView.setText(themeEngine.getCurrentThemeString(this));
-
             adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeEngine.getCurrentTheme().getSoundNameList());
             soundListDisplay.setAdapter(adapter);
         }
