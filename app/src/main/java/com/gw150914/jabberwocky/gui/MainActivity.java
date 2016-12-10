@@ -467,7 +467,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                         //Once Themes are fully set update themeEngine, UI and then fragments.
                         if(thread11JobDone && thread12JobDone && thread13JobDone) {
 
-                            //Add themes to the theme engine
+                            //Add themes to the theme engine. WARNING: themeAll MUST be 1st, themeFav MUST be 2nd.
                             themeEngine.addTheme(themeAll);
                             themeEngine.addTheme(themeFav);
                             themeEngine.addTheme(themeTaunt);
@@ -510,7 +510,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundEngine = new SoundEngine((AudioManager) this.getSystemService(Context.AUDIO_SERVICE));
             themeEngine = new ThemeEngine();
 
-            //Instantiate themes named themeAll and themeFav
+            //Instantiate Themes.
             themeAll = new Theme("All");
             themeFav = new Theme("Favorites");
             themePq = new Theme("PQ");
@@ -557,25 +557,31 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * ====================================[ UI LISTENERS ]================================= *
      *****************************************************************************************/
 
-    /*
-     * OnClick event handler.
-     * All four buttons will use this method if pressed.
-     * For the moment, the method check if the triggered view is
-     * one of the known buttons, and add a word in the ListView.
-     * Does nothing otherwise.
-     *
-     * https://developer.android.com/reference/android/view/View.OnClickListener.html
-     */
+    /***********************[ onClick ]**********************
+     * OnClick event handler. All four buttons will use     *
+     * this method if clicked. There is a check on which    *
+     * button was clicked so the correct action is performed*
+     ********************************************************/
     public void onClick(View v) {
 
-        // I/O TESTING CODE
+        //Search button was clicked
         if(findViewById(R.id.search_button) == v) {
 
-            String FILENAME = "la_rage_file";
-            String string = "LA MAXI #";
+            /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            @ I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE @
+            @ I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE @
+            @ I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE @
+            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+            String filename = "la_rage_file";   //testing file name to be written/read
+            String string = "LA MAXI #";        //testing data to be written/read
+            byte[] inputBuffer = new byte[50];  //testing input buffer for READ operations
+
+            /******************
+             * WRITE I/O TEST *
+             ******************/
             try {
-                FileOutputStream outputStream = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                FileOutputStream outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
                 outputStream.write(string.getBytes());
                 outputStream.close();
             }
@@ -583,11 +589,12 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 e.printStackTrace();
             }
 
-            byte[] inputBuffer = new byte[50];
-
+            /*****************
+             * READ I/O TEST *
+             *****************/
             try {
 
-                FileInputStream inputStream = openFileInput(FILENAME);
+                FileInputStream inputStream = openFileInput(filename);
                 inputStream.read(inputBuffer);
                 inputStream.close();
             }
@@ -595,26 +602,41 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 e.printStackTrace();
             }
 
+            /*********************
+             * DISPLAY READ DATA *
+             *********************/
+
+            //Convert input buffer (array of bytes) to a string
             String byteArrayToString = new String(inputBuffer);
 
+            //Create a minimalist dialog with DEBUG title and read data as body message.
             AlertDialog.Builder debug_dialog = new AlertDialog.Builder(MainActivity.this);
             debug_dialog.setTitle("DEBUG");
             debug_dialog.setMessage(byteArrayToString);
             debug_dialog.create();
             debug_dialog.show();
+
+            /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            @ END OF I/O TESTING CODE | END OF I/O TESTING CODE | END OF I/O TESTING CODE @
+            @ END OF I/O TESTING CODE | END OF I/O TESTING CODE | END OF I/O TESTING CODE @
+            @ END OF I/O TESTING CODE | END OF I/O TESTING CODE | END OF I/O TESTING CODE @
+            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
         }
 
+        //Theme button was clicked
         if(findViewById(R.id.theme_button) == v) {
             AlertDialog.Builder choice_dialog = new AlertDialog.Builder(MainActivity.this);
             choice_dialog.setTitle(getString(R.string.choose_theme));
             choice_dialog.setItems(themeEngine.getThemeNameList(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Theme chosenTheme = themeEngine.getThemeList()[which];
-                    soundListDisplay.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,chosenTheme.getSoundNameList()));
-                    themeEngine.setCurrentTheme(chosenTheme);
+                    //Set current active theme to the chosen theme.
+                    themeEngine.setCurrentTheme(themeEngine.getThemeList()[which]);
+
+                    //Update UI accordingly to the new current active theme.
+                    soundListDisplay.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,themeEngine.getCurrentTheme().getSoundNameList()));
                     currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
-                    themeEngine.setCurrentTheme(chosenTheme);
+
                     dialog.dismiss();
                 }
             });
@@ -622,71 +644,80 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             choice_dialog.show();
         }
 
+        //Random button was clicked
         if(findViewById(R.id.random_button) == v) {
             if (themeEngine.getCurrentTheme().getSoundsCount() != 0) {
                 soundEngine.playSound(themeEngine.getCurrentTheme().getRandomSound().getSoundId());
             }
         }
 
+        //Setting button was clicked
         if(findViewById(R.id.settings_button) == v) {
 
         }
     }
 
-    /*
-     * OnLongClick event handler.
-     * All four buttons will use this method if pressed for a few seconds.
-     * For the moment, the method check if the triggered view is
-     * one of the known buttons, and add a word in the ListView.
-     * Does nothing otherwise
-     * The return value is there to say whether we took care of the event or not.
-     * If not, other event handlers might be fired. Has no implication for the moment.
-     *
-     * https://developer.android.com/reference/android/view/View.OnLongClickListener.html
-     */
+    /*********************[ onLongClick ]********************
+     * OnLongClick event handler. All four buttons will use *
+     * this method if clicked and held for a few seconds.   *
+     * There is a check on which button was clicked so the  *
+     * correct action is performed.                         *
+     * Has no real uses for the moment.                     *
+     ********************************************************/
     public boolean onLongClick(View v) {
 
+        //Search button was clicked and held
         if(findViewById(R.id.search_button) == v) {
             return true;
         }
+
+        //Theme button was clicked and held
         if(findViewById(R.id.theme_button) == v) {
 
             return true;
         }
+
+        //Random button was clicked and held
         if(findViewById(R.id.random_button) == v) {
             return true;
         }
+
+        //Setting button was clicked and held
         if(findViewById(R.id.settings_button) == v) {
             return true;
         }
         return false;
     }
 
-    /*
-     * OnItemClick event handler.
-     * Items in the ListView will use this method if pressed.
-     *
-     * https://developer.android.com/reference/android/widget/AdapterView.OnItemClickListener.html
-     */
+    /*********************[ onItemClick ]********************
+     * OnItemClick event handler. All elements in the       *
+     * listView (sound list shown to the user) will use     *
+     * this method if clicked.                              *
+     * If the item parent is the sound listView, then the   *
+     * correct sound will be played                         *
+     ********************************************************/
     public void onItemClick(AdapterView parent, View v, int pos, long id) {
         if(findViewById(R.id.sound_List_Display) == parent) {
             soundEngine.playSound(themeEngine.getCurrentTheme().getSound(pos).getSoundId());
         }
     }
 
-    /*
-     * OnItemLongClick event handler.
-     * Items in the ListView will use this method if pressed for a few seconds.
-     * Will display a dialog box asking whether the user want to add the pressed
-     * sound to favorites.
-     * The return value is there to say whether we took care of the event or not.
-     * If not, other event handlers might be fired. Has no implication for the moment.
-     *
-     * https://developer.android.com/reference/android/widget/AdapterView.OnItemLongClickListener.html
-     */
-
+    /*******************[ onItemLongClick ]******************
+     * OnItemLongClick event handler. All elements in the   *
+     * listView (sound list shown to the user) will use     *
+     * this method if clicked and held for a few seconds.   *
+     * Will display a dialog box asking if the user want to *
+     * add the pressed sound to favorites.                  *
+     * The return value is there to say whether we took     *
+     * care of the event or not.                            *
+     * If not, other event handlers might be fired.         *
+     ********************************************************/
     public boolean onItemLongClick(AdapterView parent, View v, final int pos, long id) {
+
+        //Check if the item parent is the sound ViewList
         if(findViewById(R.id.sound_List_Display) == parent) {
+
+            //Current active theme is NOT favorites. Create a "add to favorites" dialog.
             if(themeEngine.getCurrentTheme() != themeEngine.getTheme(1)) {
                 AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                 alertDialog.setTitle(getString(R.string.dialog_add_to_fav));
@@ -694,13 +725,18 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+
+                                //Add the sound to the favorites theme.
                                 themeEngine.getTheme(1).addSound(themeEngine.getCurrentTheme().getSound(pos));
+
                                 dialog.dismiss();
                             }
                         });
                 alertDialog.show();
                 return true;
             }
+
+            //Current active theme IS favorites. Create a "remove from favorites" dialog.
             else {
                 AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                 alertDialog.setTitle(getString(R.string.dialog_remove_from_fav));
@@ -708,8 +744,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+
+                                //Remove the sound from the favorites theme and update UI.
                                 themeEngine.getTheme(1).removeSound(themeEngine.getCurrentTheme().getSound(pos));
                                 adapter.notifyDataSetChanged();
+
                                 dialog.dismiss();
                             }
                         });
