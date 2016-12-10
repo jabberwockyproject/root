@@ -39,12 +39,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    private final int thread1TotalSounds = 27; //unused ATM
-    private final int thread2TotalSounds = 27; //unused ATM
-    private final int thread3TotalSounds = 28; //unused ATM
-    private int thread1LoadedSounds; //unused ATM
-    private int thread2LoadedSounds; //unused ATM
-    private int thread3LoadedSounds; //unused ATM
     private boolean thread1JobDone, thread2JobDone, thread3JobDone, thread11JobDone, thread12JobDone, thread13JobDone, loadingDone;
     private SoundEngine soundEngine;
     private ThemeEngine themeEngine;
@@ -407,6 +401,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         //If either of the engine fragment is null, a full initialization/loading is required.
         if(soundEngineFragment == null || themeEngineFragment == null) {
 
+            //Remove the sound ViewList and show the loading circle.
             soundListDisplay.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
 
@@ -481,6 +476,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             soundListDisplay.setAdapter(adapter);
                             currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
 
+                            //Remove the loading circle and show the sound ViewList.
                             progressBar.setVisibility(View.GONE);
                             soundListDisplay.setVisibility(View.VISIBLE);
 
@@ -499,10 +495,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                     }
                 }
             };
-
-            thread1LoadedSounds = 0; //unused ATM
-            thread2LoadedSounds = 0; //unused ATM
-            thread3LoadedSounds = 0; //unused ATM
 
             //Nothing is done/finished at this point
             thread1JobDone = false;
@@ -539,6 +531,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         //If both engine fragments are available, retrieve both engine from fragments and do minimal work.
         else {
 
+            //Remove the loading circle and show the sound ViewList.
             progressBar.setVisibility(View.GONE);
             soundListDisplay.setVisibility(View.VISIBLE);
 
