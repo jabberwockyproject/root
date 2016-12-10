@@ -448,7 +448,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                         }
 
                         //If all Loading threads are finished, then start the set Thread.
-                        //Finally, set loadingDone at true to avoid starting setThreads again later on.
                         if(thread1JobDone && thread2JobDone && thread3JobDone && !loadingDone) {
 
                             //Instantiate all settings threads.
@@ -465,7 +464,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             loadingDone = true;
                         }
 
-                        //Once ThemeAll is fully set, update UI
+                        //Once Themes are fully set update themeEngine, UI and then fragments.
                         if(thread11JobDone && thread12JobDone && thread13JobDone) {
 
                             //Add themes to the theme engine
@@ -544,17 +543,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundListDisplay.setAdapter(adapter);
         }
     }
-
-    //Below code is currently useless. Keep it for ref.
-        /*
-        soundPool.setOnLoadCompleteListener(
-                new SoundPool.OnLoadCompleteListener(){
-                    public void onLoadComplete(SoundPool soundPool, int soundId, int status) {
-                        //nothing
-                    }
-                }
-        );
-        */
 
     @Override
     public void onDestroy() {
