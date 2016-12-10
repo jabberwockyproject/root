@@ -59,9 +59,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private Context appContext;
     private Handler loadingHandler;
     private ThreadPoolExecutor threadPoolExec;
-    private SetThread1 setThread1;
-    private SetThread2 setThread2;
-    private SetThread3 setThread3;
 
 
     /*****************************************************************************************
@@ -451,9 +448,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                         if(thread1JobDone && thread2JobDone && thread3JobDone && !loadingDone) {
 
                             //Instantiate all settings threads.
-                            setThread1 = new SetThread1();
-                            setThread2 = new SetThread2();
-                            setThread3 = new SetThread3();
+                            SetThread1 setThread1 = new SetThread1();
+                            SetThread2 setThread2 = new SetThread2();
+                            SetThread3 setThread3 = new SetThread3();
 
                             //Submit the 3 setting threads to the thread pool.
                             threadPoolExec.submit(setThread1);
