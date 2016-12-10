@@ -22,7 +22,7 @@ public class ThemeEngine {
     private static final int maxTheme = 30; //Maximum number of themes in a ThemeEngine. Final and static.
     private int themeCount;                 //Number of themes contained in this ThemeEngine.
     private Theme[] themeList;              //List of themes contained in this ThemeEngine.
-    private Theme currentTheme;             //Current active theme of this ThemeEngine (displayed theme)
+    private Theme currentTheme;             //Current active theme of this ThemeEngine (displayed theme).
 
 
     /*****************************************************************************************
@@ -141,6 +141,7 @@ public class ThemeEngine {
      * =================================[ PRIVATE METHODS ]================================= *
      *****************************************************************************************/
 
+    //Check whether a theme is already using the name of themeToCheck in the themeList. Internal use only.
     private boolean checkThemeDuplicate(Theme themeToCheck) {
 
         boolean duplicate = false;  //Is the theme a duplicate? (already present in this themeEngine)
