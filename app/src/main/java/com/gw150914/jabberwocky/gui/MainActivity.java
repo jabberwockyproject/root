@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private int thread1LoadedSounds; //unused ATM
     private int thread2LoadedSounds; //unused ATM
     private int thread3LoadedSounds; //unused ATM
-    private boolean thread1JobDone, thread2JobDone, thread3JobDone, thread11JobDone, thread12JobDone, loadingDone;
+    private boolean thread1JobDone, thread2JobDone, thread3JobDone, thread11JobDone, thread12JobDone, thread13JobDone, loadingDone;
     private SoundEngine soundEngine;
     private ThemeEngine themeEngine;
     private Sound soundAndreaPasLa, soundAttention01, soundAttention02, soundAttention03, soundAttention04, soundAttention05, soundAttention06, soundAucunRapport, soundBonneIdee, soundCalomnie, soundChinois01, soundChinois02, soundCokeVachementBath, soundComprendsPas, soundCracheBeaucoup, soundDebandade, soundDefection, soundEmbarrassant, soundExigeReponse, soundFaux, soundFoutLaRage, soundGrosGourdin, soundGrosseBlague, soundHabile, soundHallucine, soundHumour, soundIncomprehensible, soundInteressePas, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMalentendu, soundMarcheBien, soundMeSensSeul, soundMethTropDeLaBalle01, soundMethTropDeLaBalle02, soundMistake, soundNemrod, soundNoFuckingBalls, soundNouveaute, soundOhOui, soundOnSEmmerde, soundOsef, soundPasCool, soundPasDrole, soundPlaisanterie01, soundPlaisanterie02, soundPouleMouillee, soundPourquoi, soundPqEmergency, soundPqIncroyable, soundPqReche, soundPqTropDoux, soundPqTropManque, soundPrejudice, soundPrevoyant, soundPrisPropreJeu, soundPtitZizi, soundPtiteBite, soundPueDuCul, soundQueSePasseTIl, soundQuelqueSorte, soundQuiEstLa, soundQuoi01, soundQuoi02, soundQuoi03, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTripleEpaisseur, soundTropPlaisir, soundTrucDeMazo, soundTrueStory, soundVachementBath, soundViens01, soundViens02, soundVieuxMan, soundVoirMaBite, soundVrai;
@@ -61,12 +61,14 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private ThreadPoolExecutor threadPoolExec;
     private SetThread1 setThread1;
     private SetThread2 setThread2;
+    private SetThread3 setThread3;
 
 
     /*****************************************************************************************
      * ===================================[ NESTED CLASSES ]================================ *
      *****************************************************************************************/
 
+    //This classes is designed to load a set of sounds in memory in a separate thread.
     private class LoadThread1 implements Runnable {
 
         private Message message;
@@ -111,6 +113,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
     }
 
+    //This classes is designed to load a set of sounds in memory in a separate thread.
     private class LoadThread2 implements Runnable {
 
         private Message message;
@@ -155,6 +158,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
     }
 
+    //This classes is designed to load a set of sounds in memory in a separate thread.
     private class LoadThread3 implements Runnable {
 
         private Message message;
@@ -200,6 +204,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
     }
 
+    //This classes is designed to setup the theme "All"
     private class SetThread1 implements Runnable {
 
         private Message message;
@@ -299,6 +304,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
     }
 
+    //This classes is designed to setup all themes but "All" and "Favorites"
     private class SetThread2 implements Runnable {
 
         private Message message;
@@ -334,10 +340,30 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
     }
 
+    //This classes is designed to setup the theme "Favorites"
+    private class SetThread3 implements Runnable {
 
-    /****************************************************************************************
-     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[ ACTIVITY STATE METHODS ] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
-     ****************************************************************************************/
+        private Message message;
+
+        SetThread3() {
+            message = new Message();
+            message.arg1 = 13;  //thread id
+            message.arg2 = 0;   //thread status (0=ongoing, 1=done)
+        }
+
+        public void run() {
+
+            //TODO: Read saved favorites sound list from file and setup themeFav from it.
+
+            message.arg2 = 1;
+            loadingHandler.sendMessage(message);
+        }
+    }
+
+
+    /*****************************************************************************************
+     * ==============================[ ACTIVITY STATE METHODS ]============================= *
+     *****************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -411,6 +437,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             case (12):
                                 thread12JobDone = true;
                                 break;//thread #12 has finished its job.
+                            case (13):
+                                thread13JobDone = true;
+                                break;//thread #13 has finished its job.
                         }
 
                         //If all Loading threads are finished, then start the set Thread.
@@ -418,11 +447,12 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                         if(thread1JobDone && thread2JobDone && thread3JobDone && !loadingDone) {
                             threadPoolExec.submit(setThread1);
                             threadPoolExec.submit(setThread2);
+                            threadPoolExec.submit(setThread3);
                             loadingDone = true;
                         }
 
                         //Once ThemeAll is fully set, update UI
-                        if(thread11JobDone && thread12JobDone) {
+                        if(thread11JobDone && thread12JobDone && thread13JobDone) {
 
                             themeEngine.addTheme(themeAll);
                             themeEngine.addTheme(themeFav);
@@ -484,6 +514,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
             setThread1 = new SetThread1();
             setThread2 = new SetThread2();
+            setThread3 = new SetThread3();
 
             threadPoolExec.submit(loadingThread1);
             threadPoolExec.submit(loadingThread2);
@@ -521,7 +552,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
 
     /*****************************************************************************************
-     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[ UI LISTENERS ] ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ *
+     * ====================================[ UI LISTENERS ]================================= *
      *****************************************************************************************/
 
     /*

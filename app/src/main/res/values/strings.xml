@@ -5,7 +5,7 @@
     <string name="theme_button">Theme</string>
     <string name="random_button">Rand</string>
     <string name="settings_button">Set</string>
-    <string name="current_theme">Current theme is :</string>
+    <string name="current_theme">Current theme: </string>
     <string name="dialog_add_to_fav">Add to favorites ?</string>
     <string name="dialog_remove_from_fav">Remove from favorites ?</string>
     <string name="yes">Yes</string>
@@ -13,4 +13,5 @@
     <string name="dialog_message">Do you want to add this sound to favorites: </string>
     <string name="dialog_title">Add to favorites?</string>
     <string name="choice_list">Liste de choix</string>
+
 </resources>
