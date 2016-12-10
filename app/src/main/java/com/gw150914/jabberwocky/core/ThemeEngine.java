@@ -100,12 +100,14 @@ public class ThemeEngine {
 
     /*********************[ addTheme ]**********************
      * Add a new Theme to this ThemeEngine.                *
-     * Will only work if this ThemeEngine isn't full       *
+     * Will only work if this ThemeEngine isn't full and   *
+     * the new theme name is not already used by another   *
+     * theme in this themeEngine themeList.                *
      * If no theme were present before, set this new theme *
      * as current theme.                                   *
      *******************************************************/
     public boolean addTheme(Theme newTheme) {
-        if(themeCount < maxTheme) {
+        if(themeCount < maxTheme && !checkThemeDuplicate(newTheme)) {
             themeList[themeCount++] = newTheme;
             if(themeCount == 1) {
                 currentTheme = newTheme;
@@ -132,5 +134,24 @@ public class ThemeEngine {
         else{
             return null;
         }
+    }
+
+
+    /*****************************************************************************************
+     * =================================[ PRIVATE METHODS ]================================= *
+     *****************************************************************************************/
+
+    private boolean checkThemeDuplicate(Theme themeToCheck) {
+
+        boolean duplicate = false;  //Is the theme a duplicate? (already present in this themeEngine)
+        int index = 0;              //Current working index.
+
+        //Iterate through themeList and look for a match. Break and set duplicate at true as soon as a match is found.
+        while (!duplicate && index < themeCount) {
+            if(themeToCheck.getName().compareTo(themeList[index++].getName()) == 0) {
+                duplicate = true;
+            }
+        }
+        return duplicate;
     }
 }
