@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gw150914.jabberwocky.R;
@@ -55,6 +56,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private ArrayAdapter<String> adapter;
     private ListView soundListDisplay;
     private TextView currentThemeTextView;
+    private ProgressBar progressBar;
     private SoundPool soundPool;
     private Context appContext;
     private Handler loadingHandler;
@@ -380,6 +382,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         Button settingsButton = (Button) findViewById(R.id.settings_button);
         soundListDisplay = (ListView) findViewById(R.id.sound_List_Display);
         currentThemeTextView = (TextView) findViewById(R.id.current_theme_display);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         //For each object we created above, designate event listeners.
         searchButton.setOnClickListener(this);
@@ -403,6 +406,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         //If either of the engine fragment is null, a full initialization/loading is required.
         if(soundEngineFragment == null || themeEngineFragment == null) {
+
+            soundListDisplay.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
 
             //Create a thread pool with a fixed 3 thread slots. Pre-start all threads immediately.
             threadPoolExec = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
@@ -475,6 +481,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             soundListDisplay.setAdapter(adapter);
                             currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
 
+                            progressBar.setVisibility(View.GONE);
+                            soundListDisplay.setVisibility(View.VISIBLE);
+
                             //Instantiate Fragments for the first time.
                             soundEngineFragment = new SoundEngineFragment();
                             themeEngineFragment = new ThemeEngineFragment();
@@ -529,6 +538,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         //If both engine fragments are available, retrieve both engine from fragments and do minimal work.
         else {
+
+            progressBar.setVisibility(View.GONE);
+            soundListDisplay.setVisibility(View.VISIBLE);
 
             //Retrieve engines from fragments.
             soundEngine = soundEngineFragment.getData();

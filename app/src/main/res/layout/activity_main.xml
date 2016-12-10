@@ -51,25 +51,34 @@
                 android:id="@+id/current_theme_display"
                 />
         </LinearLayout>
-                <LinearLayout
+        <LinearLayout
             android:id="@+id/main_sounds_list"
             style="?metaButtonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_gravity="center|center_horizontal"
-            android:background="@color/white_overlay"
+            android:background="@color/color_title_bg"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
             <ListView
                 android:id="@+id/sound_List_Display"
                 android:textSize="12pt"
-
+                android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/color_list_item"
                 android:dividerHeight="10dp"
                 android:divider="@color/color_list_divider"/>
-        </LinearLayout>
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progress_bar"
+                android:layout_weight="1"
+                android:background="@color/color_title_bg"
+                android:layout_gravity="center|center"
+                android:visibility="gone"/>
+            </LinearLayout>
         <LinearLayout
             android:id="@+id/main_buttons_zone"
             style="?metaButtonBarStyle"
