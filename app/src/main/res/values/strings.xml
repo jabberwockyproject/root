@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Jabberwocky</string>
-    <string name="action_settings">Settings</string>
     <string name="search_button">Search</string>
     <string name="theme_button">Theme</string>
     <string name="random_button">Rand</string>
@@ -10,8 +9,6 @@
     <string name="dialog_remove_from_fav">Remove from favorites ?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="dialog_message">Do you want to add this sound to favorites: </string>
-    <string name="dialog_title">Add to favorites?</string>
     <string name="choice_list">Liste de choix</string>
     <string name="choose_theme">Choose your theme, Bro !</string>
 </resources>
