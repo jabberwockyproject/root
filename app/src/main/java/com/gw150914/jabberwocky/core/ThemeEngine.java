@@ -155,4 +155,52 @@ public class ThemeEngine {
         }
         return duplicate;
     }
+
+    //Search for a theme position in themeList. Return -1 if not found.
+    private int getThemeIndex(Theme themeToCheck){
+
+        boolean nameFound = false;  //Is the themeName found?
+        int index = 0;              //Current working index
+
+        //Iterate through themeList and look for a match. Break and set nameFound to true as soon as a match is found.
+        while (!nameFound && index < themeCount) {
+            if(themeToCheck.getName().compareTo(themeList[index++].getName()) == 0) {
+                nameFound = true;
+            }
+        }
+
+        //If a mach was found, return where.
+        if(nameFound) {
+            return index;
+        }
+
+        //If no match were found, return -1
+        else {
+            return -1;
+        }
+    }
+
+    //Same as getThemeIndex but should be faster.
+    private int getThemeNameIndex(String themeNameToCheck){
+
+        boolean nameFound = false;  //Is the themeName found?
+        int index = 0;              //Current working index
+
+        //Iterate through themeList and look for a match. Break and set nameFound to true as soon as a match is found.
+        while (!nameFound && index < themeCount) {
+            if(themeNameToCheck.compareTo(themeList[index++].getName()) == 0) {
+                nameFound = true;
+            }
+        }
+
+        //If a mach was found, return where.
+        if(nameFound) {
+            return index;
+        }
+
+        //If no match were found, return -1
+        else {
+            return -1;
+        }
+    }
 }
