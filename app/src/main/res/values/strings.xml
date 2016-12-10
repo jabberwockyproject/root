@@ -13,5 +13,5 @@
     <string name="dialog_message">Do you want to add this sound to favorites: </string>
     <string name="dialog_title">Add to favorites?</string>
     <string name="choice_list">Liste de choix</string>
-
+    <string name="choose_theme">Choose your theme, Bro !</string>
 </resources>

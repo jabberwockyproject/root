@@ -8,6 +8,10 @@ package com.gw150914.jabberwocky.core;
 #######################################################################################
 */
 
+import android.content.Context;
+
+import com.gw150914.jabberwocky.R;
+
 public class ThemeEngine {
 
 
@@ -114,8 +118,19 @@ public class ThemeEngine {
     }
 
     //Remove a Theme from this ThemeEngine.
-    public boolean removeTheme(Theme oldTheme){
+    public boolean removeTheme(Theme oldTheme) {
         //TODO
         return false;
+    }
+
+    //Return a String informing the user about the current active theme.
+    //Will return null if no theme are present or if currentTheme is null.
+    public String getCurrentThemeString(Context context) {
+        if(themeCount > 0 && currentTheme != null) {
+            return (context.getString(R.string.current_theme)+" "+currentTheme.getName());
+        }
+        else{
+            return null;
+        }
     }
 }

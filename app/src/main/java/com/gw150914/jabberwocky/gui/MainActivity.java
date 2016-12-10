@@ -404,6 +404,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         soundListDisplay.setOnItemClickListener(this);
         soundListDisplay.setOnItemLongClickListener(this);
 
+        appContext = this.getApplicationContext();
+
         if(soundEngineFragment == null || themeEngineFragment == null) {
             threadPoolExec = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
             threadPoolExec.prestartAllCoreThreads();
@@ -461,6 +463,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
                             adapter.notifyDataSetChanged();
 
+                            currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
+
                             soundEngineFragment = new SoundEngineFragment();
                             themeEngineFragment = new ThemeEngineFragment();
 
@@ -504,9 +508,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeAll.getSoundNameList());
             soundListDisplay.setAdapter(adapter);
 
-            //Load all embedded sounds in memory and create Sound objects
             soundPool = soundEngine.getSoundPool();
-            appContext = this.getApplicationContext();
 
             LoadThread1 loadingThread1 = new LoadThread1();
             LoadThread2 loadingThread2 = new LoadThread2();
@@ -525,10 +527,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundEngine = soundEngineFragment.getData();
             themeEngine = themeEngineFragment.getData();
 
+            currentThemeTextView.setText(themeEngine.getCurrentThemeString(this));
+
             adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeEngine.getCurrentTheme().getSoundNameList());
             soundListDisplay.setAdapter(adapter);
         }
-        currentThemeTextView.setText("Current theme: All");
     }
 
     //Below code is currently useless. Keep it for ref.
@@ -604,13 +607,14 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         if(findViewById(R.id.theme_button) == v) {
             AlertDialog.Builder choice_dialog = new AlertDialog.Builder(MainActivity.this);
-            choice_dialog.setTitle("Choose your theme, Bro !");
+            choice_dialog.setTitle(getString(R.string.choose_theme));
             choice_dialog.setItems(themeEngine.getThemeNameList(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Theme chosenTheme = themeEngine.getThemeList()[which];
                     soundListDisplay.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,chosenTheme.getSoundNameList()));
-                    currentThemeTextView.setText("Current Theme: "+chosenTheme.getName());
+                    themeEngine.setCurrentTheme(chosenTheme);
+                    currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
                     themeEngine.setCurrentTheme(chosenTheme);
                     dialog.dismiss();
                 }
