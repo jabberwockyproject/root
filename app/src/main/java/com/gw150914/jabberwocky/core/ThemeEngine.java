@@ -121,8 +121,25 @@ public class ThemeEngine {
 
     //Remove a Theme from this ThemeEngine.
     public boolean removeTheme(Theme oldTheme) {
-        //TODO
-        return false;
+
+        //Get oldTheme postion in themeList
+        int position = getThemeIndex(oldTheme);
+
+        //oldTheme is present in ThemeEngine.
+        if(position >= 0) {
+
+            //Shift left all themes from index + 1 to the themeList array's end.
+            for(int index = position; index < themeCount - 1; ++index) {
+                themeList[index] = themeList[index + 1];
+            }
+            --themeCount;
+            return true;
+        }
+
+        //oldTheme is not present in themeList so nothing was removed.
+        else {
+            return false;
+        }
     }
 
     //Return a String informing the user about the current active theme.
@@ -164,7 +181,7 @@ public class ThemeEngine {
 
         //Iterate through themeList and look for a match. Break and set nameFound to true as soon as a match is found.
         while (!nameFound && index < themeCount) {
-            if(themeToCheck.getName().compareTo(themeList[index++].getName()) == 0) {
+            if(themeToCheck == themeList[index++]) {
                 nameFound = true;
             }
         }
