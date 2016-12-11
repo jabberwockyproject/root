@@ -12,4 +12,5 @@
     <color name="color_list_item">#228855</color>
     <color name="color_list_divider">#99ee50</color>
     <color name="color_menu_bg">#228855</color>
+    <color name="splash_background">#ff99ee50</color>
 </resources>
