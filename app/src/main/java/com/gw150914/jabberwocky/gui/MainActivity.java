@@ -472,7 +472,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             themeEngine.addTheme(themePq);
 
                             //Update UI
-                            adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeEngine.getCurrentTheme().getSoundNameList());
+                            adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list, themeEngine.getCurrentTheme().getSoundNameList());
                             soundListDisplay.setAdapter(adapter);
                             currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
 
@@ -541,7 +541,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
             //Update UI
             currentThemeTextView.setText(themeEngine.getCurrentThemeString(this));
-            adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, themeEngine.getCurrentTheme().getSoundNameList());
+            adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list, themeEngine.getCurrentTheme().getSoundNameList());
             soundListDisplay.setAdapter(adapter);
         }
     }
@@ -636,7 +636,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                     themeEngine.setCurrentTheme(themeEngine.getThemeList()[which]);
 
                     //Update UI accordingly to the new current active theme.
-                    soundListDisplay.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,themeEngine.getCurrentTheme().getSoundNameList()));
+                    soundListDisplay.setAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list,themeEngine.getCurrentTheme().getSoundNameList()));
                     currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
 
                     dialog.dismiss();

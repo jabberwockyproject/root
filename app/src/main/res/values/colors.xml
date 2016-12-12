@@ -5,12 +5,13 @@
     <color name="colorAccent">#FF4081</color>
     <color name="black_overlay">#ff000000</color>
     <color name="white_overlay">#ffffffff</color>
-    <color name="buttons_overlay">#fff0f000</color>
-    <color name="color_title_bg">#77d555</color>
-    <color name="title_overlay">#502020f0</color>
-    <color name="list_separator">#99ee50</color>
-    <color name="color_list_item">#228855</color>
-    <color name="color_list_divider">#99ee50</color>
-    <color name="color_menu_bg">#228855</color>
-    <color name="splash_background">#ff99ee50</color>
+    <color name="color_buttons_overlay">#ff228855</color>
+    <color name="color_theme_background">#502020f0</color>
+    <color name="color_list_item">#ffc5c5e0</color>
+    <color name="color_list_divider">#ff404040</color>
+    <color name="color_sound_list_text">#ff000000</color>
+    <color name="color_main_title_background">#ffe0c5c5</color>
+    <color name="color_splash_background">#ffa0ee50</color>
+    <color name="color_main_background">#ff708090</color>
+    <color name="color_sound_list_border">#ff404040</color>
 </resources>
