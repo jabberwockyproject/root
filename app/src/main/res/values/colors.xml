@@ -11,7 +11,7 @@
     <color name="color_list_divider">#ff404040</color>
     <color name="color_sound_list_text">#ff000000</color>
     <color name="color_main_title_background">#ffe0c5c5</color>
-    <color name="color_splash_background">#ffa0ee50</color>
+    <color name="color_splash_background">#ff708090</color>
     <color name="color_main_background">#ff708090</color>
     <color name="color_sound_list_border">#ff404040</color>
 </resources>
