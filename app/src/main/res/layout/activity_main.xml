@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:background="@color/color_main_title_background"
         android:text="@string/main_title"
-        android:fontFamily="mono"
+        android:fontFamily="mono-bold"
         android:textSize="16pt"
         android:textAlignment="center"
         />
@@ -67,40 +67,48 @@
         android:id="@+id/main_buttons_zone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:padding="0dp"
         android:layout_alignParentBottom="true">
         <Button
             style="?metaButtonBarButtonStyle"
             android:id="@+id/search_button"
-            android:layout_width="10dp"
-            android:layout_height="40dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="0dp"
             android:layout_weight="0.25"
             android:text="@string/search_button"
             />
         <Button
             style="?metaButtonBarButtonStyle"
             android:id="@+id/theme_button"
-            android:layout_width="10dp"
-            android:layout_height="40dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="0.25"
             android:text="@string/theme_button"
             />
         <Button
             style="?metaButtonBarButtonStyle"
             android:id="@+id/random_button"
-            android:layout_width="10dp"
-            android:layout_height="40dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="0.25"
             android:text="@string/random_button"
             />
         <Button
             style="?metaButtonBarButtonStyle"
             android:id="@+id/settings_button"
-            android:layout_width="10dp"
-            android:layout_height="40dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="0.25"
             android:text="@string/settings_button"
+
             />
     </LinearLayout>
 </RelativeLayout>
