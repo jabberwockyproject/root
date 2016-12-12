@@ -5,5 +5,5 @@
     android:layout_height="match_parent"
     android:textSize="19sp"
     android:fontFamily="sans-serif-condensed"
-    android:textColor="@color/color_sound_list_text">
+    android:textColor="@color/sound_list_text">
 </TextView>

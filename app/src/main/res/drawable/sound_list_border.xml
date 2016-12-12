@@ -4,5 +4,5 @@
     android:shape="rectangle">
     <stroke
         android:width="4dp"
-        android:color="@color/color_sound_list_border" />
+        android:color="@color/sound_list_border" />
 </shape>
