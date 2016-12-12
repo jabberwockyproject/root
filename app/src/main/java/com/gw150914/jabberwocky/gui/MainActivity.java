@@ -509,8 +509,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themeEngine = new ThemeEngine();
 
             //Instantiate Themes.
-            themeAll = new Theme("All");
-            themeFav = new Theme("Favorites");
+            themeAll = new Theme(getString(R.string.theme_all_name));
+            themeFav = new Theme(getString(R.string.theme_favorites_name));
             themePq = new Theme("PQ");
             themeTaunt = new Theme("Taunt");
 

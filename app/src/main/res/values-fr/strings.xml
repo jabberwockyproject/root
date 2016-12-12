@@ -1,0 +1,11 @@
+<resources>
+    <string name="current_theme">Theme actuel: </string>
+    <string name="dialog_add_to_fav">Ajouter aux favoris?</string>
+    <string name="dialog_remove_from_fav">Enlever des favoris?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="choose_theme">Choisis ton theme, Bro !</string>
+    <string name="main_title">La Sound Box des Bros</string>
+    <string name="theme_all_name">tout</string>
+    <string name="theme_favorites_name">Favoris</string>
+</resources>

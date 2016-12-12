@@ -5,11 +5,12 @@
     <string name="random_button">RND</string>
     <string name="settings_button">SET</string>
     <string name="current_theme">Current theme: </string>
-    <string name="dialog_add_to_fav">Add to favorites ?</string>
-    <string name="dialog_remove_from_fav">Remove from favorites ?</string>
+    <string name="dialog_add_to_fav">Add to favorites?</string>
+    <string name="dialog_remove_from_fav">Remove from favorites?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="choice_list">Liste de choix</string>
     <string name="choose_theme">Choose your theme, Bro !</string>
     <string name="main_title">Bros Sound Box</string>
+    <string name="theme_all_name">All</string>
+    <string name="theme_favorites_name">Favorites</string>
 </resources>

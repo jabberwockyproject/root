@@ -108,7 +108,6 @@
             android:layout_marginLeft="5dp"
             android:layout_weight="0.25"
             android:text="@string/settings_button"
-
             />
     </LinearLayout>
 </RelativeLayout>
