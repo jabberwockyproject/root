@@ -477,7 +477,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list, themeEngine.getCurrentTheme().getSoundNameList());
                             soundListDisplay.setAdapter(adapter);
                             currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
-                            soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
+                            soundCountTextView.setText(Integer.toString(themeEngine.getTheme(0).getSoundsCount()) + " " + getString(R.string.sound_count));
 
                             //Remove the loading circle and show the sound ViewList.
                             progressBar.setVisibility(View.GONE);
