@@ -8,4 +8,5 @@
     <string name="main_title">La Sound Box des Bros</string>
     <string name="theme_all_name">tout</string>
     <string name="theme_favorites_name">Favoris</string>
+    <string name="sound_count">Son(s)</string>
 </resources>
