@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +30,7 @@ import com.gw150914.jabberwocky.core.ThemeEngineFragment;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -51,6 +53,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private ListView soundListDisplay;
     private TextView currentThemeTextView;
     private TextView soundCountTextView;
+    private TextView soundSpeedTextView;
     private ProgressBar progressBar;
     private SoundPool soundPool;
     private Context appContext;
@@ -375,9 +378,13 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         ImageButton themeButton     = (ImageButton) findViewById(R.id.theme_button);
         ImageButton randomButton    = (ImageButton) findViewById(R.id.random_button);
         ImageButton settingsButton  = (ImageButton) findViewById(R.id.settings_button);
+        ImageButton slowButton     = (ImageButton) findViewById(R.id.slow_button);
+        ImageButton fastButton    = (ImageButton) findViewById(R.id.fast_button);
+        ImageButton loopButton  = (ImageButton) findViewById(R.id.loop_button);
         soundListDisplay            = (ListView) findViewById(R.id.sound_List_Display);
         currentThemeTextView        = (TextView) findViewById(R.id.current_theme_display);
         soundCountTextView          = (TextView) findViewById(R.id.sound_count_display);
+        soundSpeedTextView          = (TextView) findViewById(R.id.sound_speed);
         progressBar                 = (ProgressBar) findViewById(R.id.progress_bar);
 
         //For each object we created above, designate event listeners.
@@ -389,6 +396,12 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         randomButton.setOnLongClickListener(this);
         settingsButton.setOnClickListener(this);
         settingsButton.setOnLongClickListener(this);
+        slowButton.setOnClickListener(this);
+        slowButton.setOnLongClickListener(this);
+        fastButton.setOnClickListener(this);
+        fastButton.setOnLongClickListener(this);
+        loopButton.setOnClickListener(this);
+        loopButton.setOnLongClickListener(this);
         soundListDisplay.setOnItemClickListener(this);
         soundListDisplay.setOnItemLongClickListener(this);
 
@@ -660,6 +673,35 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         //Setting button was clicked
         if(findViewById(R.id.settings_button) == v) {
+
+        }
+        //Slow button was clicked
+        if(findViewById(R.id.slow_button) == v) {
+            float rate = soundEngine.getRate();
+            if(rate > 0.5) {
+                rate -= 0.1;
+                soundEngine.setRate(rate);
+                soundSpeedTextView.setText("x" + new DecimalFormat("#.##").format(rate));
+            }
+        }
+        //Fast button was clicked
+        if(findViewById(R.id.fast_button) == v) {
+            float rate = soundEngine.getRate();
+            if(rate < 2.0) {
+                rate += 0.1;
+                soundEngine.setRate(rate);
+                soundSpeedTextView.setText("x" + new DecimalFormat("#.##").format(rate));
+            }
+        }
+        //Loop button was clicked
+        if(findViewById(R.id.loop_button) == v) {
+            if(soundEngine.getLoop() == -1) {
+                soundEngine.setLoop(0);
+                soundEngine.stopAllLoopingStreams();
+            }
+            else {
+                soundEngine.setLoop(-1);
+            }
 
         }
     }

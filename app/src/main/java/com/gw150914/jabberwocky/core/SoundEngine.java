@@ -17,8 +17,11 @@ public class SoundEngine {
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
+    private final int maxStreams=20;    //Maximum concurrent streams
     private int loop;                   //Should the sound loop? -1: infinite, 0: no, >0: specific loop
     private int soundPriority;          //Sound priority
+    private int loopingStreamCount;     //Number of current active stream IN LOOP MODE
+    private int[] loopingStreamList;    //List of current active stream IN LOOP MODE
     private boolean hasCustomVolume;    //Sound won't use the system/music sound volume if set at TRUE
     private float customVolume;         //User defined volume
     private float maxVolume;            //System maximum volume
@@ -39,7 +42,10 @@ public class SoundEngine {
             this.soundId = soundId;
         }
         public void run() {
-            soundPool.play(soundId, getFinalSoundVolume(), getFinalSoundVolume(), soundPriority, loop, rate);
+            int streamId = soundPool.play(soundId, getFinalSoundVolume(), getFinalSoundVolume(), soundPriority, loop, rate);
+            if(loop == -1) {
+                loopingStreamList[loopingStreamCount++] = streamId;
+            }
         }
     }
 
@@ -50,10 +56,12 @@ public class SoundEngine {
 
     //Constructor 1
     public SoundEngine(AudioManager newAudioManager) {
-        soundPool = new SoundPool(20, AudioManager.STREAM_MUSIC,0);
+        soundPool = new SoundPool(maxStreams, AudioManager.STREAM_MUSIC,0);
         loop = 0;
         soundPriority = 1;
-        rate = 1f;
+        loopingStreamCount = 0;
+        loopingStreamList = new int[maxStreams];
+        rate = 1;
         audioManager = newAudioManager;
         maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
     }
@@ -66,6 +74,16 @@ public class SoundEngine {
     //Get the soundPool system
     public SoundPool getSoundPool() {
         return soundPool;
+    }
+
+    //Get the loop value for sound playback
+    public int getLoop() {
+        return loop;
+    }
+
+    //Get the rate value for sound playback
+    public float getRate() {
+        return rate;
     }
 
     //Set the loop value for sound playback
@@ -99,21 +117,28 @@ public class SoundEngine {
         hasCustomVolume = false;
     }
 
-    //Get the current system/music volume
-    private float getCurVolume() {
-        return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-    }
-
     //Start a thread to play the sound "soundId"
     public void playSound(int soundId) {
         PlaySound playSoundThread = new PlaySound(soundId);
         playSoundThread.start();
     }
 
+    public void stopAllLoopingStreams() {
+        for(int index = 0; index < loopingStreamCount; ++index){
+            soundPool.stop(loopingStreamList[index]);
+        }
+        loopingStreamCount = 0;
+    }
 
     /*****************************************************************************************
      * =================================[ PRIVATE METHODS ]================================= *
      *****************************************************************************************/
+
+    //Get the current system/music volume
+    private float getCurVolume() {
+        return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+    }
+
 
     /****************[ getFinalSoundVolume ]*****************
      * Return the final volume used to play sounds          *
