@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -69,45 +70,50 @@
         android:layout_height="wrap_content"
         android:padding="0dp"
         android:layout_alignParentBottom="true">
-        <Button
+        <ImageButton
             style="?metaButtonBarButtonStyle"
             android:id="@+id/search_button"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginRight="5dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="10dp"
             android:layout_marginLeft="0dp"
             android:layout_weight="0.25"
-            android:text="@string/search_button"
+            android:background="@color/button_background"
+            android:src="@android:drawable/ic_menu_search"
             />
-        <Button
+        <ImageButton
             style="?metaButtonBarButtonStyle"
             android:id="@+id/theme_button"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="0.25"
-            android:text="@string/theme_button"
+            android:background="@color/button_background"
+            android:src="@android:drawable/ic_menu_today"
             />
-        <Button
+        <ImageButton
             style="?metaButtonBarButtonStyle"
             android:id="@+id/random_button"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="0.25"
-            android:text="@string/random_button"
+            android:background="@color/button_background"
+            android:src="@android:drawable/ic_menu_help"
             />
-        <Button
+        <ImageButton
             style="?metaButtonBarButtonStyle"
             android:id="@+id/settings_button"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginRight="0dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="0.25"
-            android:text="@string/settings_button"
+            android:background="@color/button_background"
+            android:src="@android:drawable/ic_menu_manage"
+
             />
     </LinearLayout>
 </RelativeLayout>

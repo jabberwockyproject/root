@@ -14,4 +14,5 @@
     <color name="splash_background">#ff708090</color>
     <color name="main_background">#ff708090</color>
     <color name="sound_list_border">#ff404040</color>
+    <color name="button_background">#00000000</color>
 </resources>

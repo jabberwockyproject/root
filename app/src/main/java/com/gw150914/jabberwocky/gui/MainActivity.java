@@ -14,7 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -370,10 +370,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         setContentView(R.layout.activity_main);
 
         //Create an object for each view we need to listen to so we can manipulate them in the code.
-        Button searchButton = (Button) findViewById(R.id.search_button);
-        Button themeButton = (Button) findViewById(R.id.theme_button);
-        Button randomButton = (Button) findViewById(R.id.random_button);
-        Button settingsButton = (Button) findViewById(R.id.settings_button);
+        ImageButton searchButton = (ImageButton) findViewById(R.id.search_button);
+        ImageButton themeButton = (ImageButton) findViewById(R.id.theme_button);
+        ImageButton randomButton = (ImageButton) findViewById(R.id.random_button);
+        ImageButton settingsButton = (ImageButton) findViewById(R.id.settings_button);
         soundListDisplay = (ListView) findViewById(R.id.sound_List_Display);
         currentThemeTextView = (TextView) findViewById(R.id.current_theme_display);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
