@@ -370,13 +370,13 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         setContentView(R.layout.activity_main);
 
         //Create an object for each view we need to listen to so we can manipulate them in the code.
-        ImageButton searchButton = (ImageButton) findViewById(R.id.search_button);
-        ImageButton themeButton = (ImageButton) findViewById(R.id.theme_button);
-        ImageButton randomButton = (ImageButton) findViewById(R.id.random_button);
-        ImageButton settingsButton = (ImageButton) findViewById(R.id.settings_button);
-        soundListDisplay = (ListView) findViewById(R.id.sound_List_Display);
-        currentThemeTextView = (TextView) findViewById(R.id.current_theme_display);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        ImageButton searchButton    = (ImageButton) findViewById(R.id.search_button);
+        ImageButton themeButton     = (ImageButton) findViewById(R.id.theme_button);
+        ImageButton randomButton    = (ImageButton) findViewById(R.id.random_button);
+        ImageButton settingsButton  = (ImageButton) findViewById(R.id.settings_button);
+        soundListDisplay            = (ListView) findViewById(R.id.sound_List_Display);
+        currentThemeTextView        = (TextView) findViewById(R.id.current_theme_display);
+        progressBar                 = (ProgressBar) findViewById(R.id.progress_bar);
 
         //For each object we created above, designate event listeners.
         searchButton.setOnClickListener(this);
