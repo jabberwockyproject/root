@@ -636,7 +636,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                     themeEngine.setCurrentTheme(themeEngine.getThemeList()[which]);
 
                     //Update UI accordingly to the new current active theme.
-                    soundListDisplay.setAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list,themeEngine.getCurrentTheme().getSoundNameList()));
+                    adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list,themeEngine.getCurrentTheme().getSoundNameList());
+                    soundListDisplay.setAdapter(adapter);
                     currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
 
                     dialog.dismiss();
