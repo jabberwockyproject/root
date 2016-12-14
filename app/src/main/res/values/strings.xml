@@ -13,4 +13,5 @@
     <string name="main_title">Bros Sound Box</string>
     <string name="theme_all_name">All</string>
     <string name="theme_favorites_name">Favorites</string>
+    <string name="sound_count">Sound(s)</string>
 </resources>

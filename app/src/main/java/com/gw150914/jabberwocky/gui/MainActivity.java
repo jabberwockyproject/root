@@ -50,6 +50,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private ArrayAdapter<String> adapter;
     private ListView soundListDisplay;
     private TextView currentThemeTextView;
+    private TextView soundCountTextView;
     private ProgressBar progressBar;
     private SoundPool soundPool;
     private Context appContext;
@@ -376,6 +377,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         ImageButton settingsButton  = (ImageButton) findViewById(R.id.settings_button);
         soundListDisplay            = (ListView) findViewById(R.id.sound_List_Display);
         currentThemeTextView        = (TextView) findViewById(R.id.current_theme_display);
+        soundCountTextView          = (TextView) findViewById(R.id.sound_count_display);
         progressBar                 = (ProgressBar) findViewById(R.id.progress_bar);
 
         //For each object we created above, designate event listeners.
@@ -475,6 +477,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list, themeEngine.getCurrentTheme().getSoundNameList());
                             soundListDisplay.setAdapter(adapter);
                             currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
+                            soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
 
                             //Remove the loading circle and show the sound ViewList.
                             progressBar.setVisibility(View.GONE);
@@ -626,7 +629,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
 
         //Theme button was clicked
-        if(findViewById(R.id.theme_button) == v) {
+        if(findViewById(R.id.theme_button) == v || findViewById(R.id.current_theme_display) == v) {
             AlertDialog.Builder choice_dialog = new AlertDialog.Builder(MainActivity.this);
             choice_dialog.setTitle(getString(R.string.choose_theme));
             choice_dialog.setItems(themeEngine.getThemeNameList(), new DialogInterface.OnClickListener() {
@@ -639,6 +642,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                     adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list,themeEngine.getCurrentTheme().getSoundNameList());
                     soundListDisplay.setAdapter(adapter);
                     currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
+                    soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
 
                     dialog.dismiss();
                 }

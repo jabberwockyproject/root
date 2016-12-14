@@ -14,33 +14,61 @@
     tools:context="com.gw150914.jabberwocky.gui.MainActivity">
     <TextView
         android:id="@+id/main_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/main_title_background"
+        android:background="@drawable/main_title"
         android:text="@string/main_title"
         android:fontFamily="mono-bold"
         android:textSize="16pt"
         android:textAlignment="center"
+        android:layout_centerHorizontal="true"
         />
-    <TextView
-        android:id="@+id/current_theme_display"
+    <LinearLayout
+        android:id="@+id/info_zone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main_title"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/theme_background"
-        android:text="@string/current_theme"
-        android:fontFamily="mono-italic"
-        android:textSize="8pt"
-        android:textAlignment="textStart"
-        />
+        android:orientation="horizontal"
+        android:padding="0dp"
+        android:layout_below="@+id/main_title">
+        <TextView
+            android:id="@+id/current_theme_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/theme_background"
+            android:text="@string/current_theme"
+            android:fontFamily="mono-italic"
+            android:textSize="8pt"
+            android:textAlignment="textStart"
+            android:clickable="true"
+            android:longClickable="true"
+            android:layout_weight="0.72"
+            android:layout_marginRight="15dp"
+            />
+        <TextView
+            android:id="@+id/sound_count_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/sound_count_display"
+            android:text="@string/sound_count"
+            android:fontFamily="mono-italic"
+            android:textSize="8pt"
+            android:textAlignment="textEnd"
+            android:clickable="true"
+            android:longClickable="true"
+            android:layout_weight="0.28"
+            android:layout_marginLeft="15dp"
+            />
+    </LinearLayout>
     <ListView
         android:id="@+id/sound_List_Display"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/current_theme_display"
+        android:layout_below="@+id/info_zone"
         android:layout_above="@+id/main_buttons_zone"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
@@ -57,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/current_theme_display"
+        android:layout_below="@+id/info_zone"
         android:layout_above="@+id/main_buttons_zone"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
@@ -82,7 +110,7 @@
             android:layout_weight="0.25"
             android:background="@color/button_background"
             android:src="@android:drawable/ic_menu_search"
-            />
+            tools:ignore="RtlHardcoded" />
         <ImageButton
             style="?metaButtonBarButtonStyle"
             android:id="@+id/theme_button"
@@ -115,7 +143,6 @@
             android:layout_weight="0.25"
             android:background="@color/button_background"
             android:src="@android:drawable/ic_menu_manage"
-
-            />
+            tools:ignore="RtlHardcoded" />
     </LinearLayout>
 </RelativeLayout>
