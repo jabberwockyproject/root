@@ -20,6 +20,7 @@ public class SoundEngine {
     private final int maxStreams=20;    //Maximum concurrent streams
     private int loop;                   //Should the sound loop? -1: infinite, 0: no, >0: specific loop
     private int soundPriority;          //Sound priority
+    private int loopingStreamIndex;     //NEXT Index for current active stream IN LOOP MODE in the ring buffer
     private int loopingStreamCount;     //Number of current active stream IN LOOP MODE
     private int[] loopingStreamList;    //List of current active stream IN LOOP MODE
     private boolean hasCustomVolume;    //Sound won't use the system/music sound volume if set at TRUE
@@ -43,8 +44,15 @@ public class SoundEngine {
         }
         public void run() {
             int streamId = soundPool.play(soundId, getFinalSoundVolume(), getFinalSoundVolume(), soundPriority, loop, rate);
-            if(loop == -1) {
-                loopingStreamList[loopingStreamCount++] = streamId;
+            if(loop == -1 && streamId != 0) {
+                loopingStreamList[loopingStreamIndex] = streamId;
+                if(loopingStreamCount < maxStreams) {
+                    ++loopingStreamCount;
+                    ++loopingStreamIndex; 
+                }
+                else{
+                    loopingStreamIndex = 0;
+                }
             }
         }
     }
@@ -59,6 +67,7 @@ public class SoundEngine {
         soundPool = new SoundPool(maxStreams, AudioManager.STREAM_MUSIC,0);
         loop = 0;
         soundPriority = 1;
+        loopingStreamIndex = 0;
         loopingStreamCount = 0;
         loopingStreamList = new int[maxStreams];
         rate = 1;
