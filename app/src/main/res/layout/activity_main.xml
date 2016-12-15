@@ -14,14 +14,18 @@
     tools:context="com.gw150914.jabberwocky.gui.MainActivity">
     <TextView
         android:id="@+id/main_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@drawable/main_title"
+        android:background="@drawable/title_shape"
         android:text="@string/main_title"
         android:fontFamily="mono-bold"
         android:textSize="16pt"
         android:textAlignment="center"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:layout_centerHorizontal="true"
         />
     <LinearLayout
@@ -35,7 +39,7 @@
             android:id="@+id/current_theme_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:background="@color/theme_background"
             android:text="@string/current_theme"
@@ -45,13 +49,13 @@
             android:clickable="true"
             android:longClickable="true"
             android:layout_weight="0.72"
-            android:layout_marginRight="15dp"
+            android:layout_marginEnd="1dp"
             />
         <TextView
             android:id="@+id/sound_count_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:background="@color/sound_count_display"
             android:text="@string/sound_count"
@@ -61,7 +65,7 @@
             android:clickable="true"
             android:longClickable="true"
             android:layout_weight="0.28"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="1dp"
             />
     </LinearLayout>
     <ListView
@@ -75,7 +79,7 @@
         android:paddingRight="2dp"
         android:paddingLeft="2dp"
         android:background="@drawable/sound_list_border"
-        android:dividerHeight="2dp"
+        android:dividerHeight="6dp"
         android:divider="@color/list_divider"
         android:visibility="invisible"
         />

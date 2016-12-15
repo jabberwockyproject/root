@@ -272,6 +272,32 @@ public class Theme {
         //TODO
         return null;
     }
+
+/*
+TERRE DES HOMMES - A.deSaintExupery
+**
+La terre ainsi est à la fois déserte et riche.
+Riche de ces jardins secrets, cachés, difficiles à atteindre,
+mais auxquels le métier nous ramène toujours, un jour ou l’autre.
+Les camarades, la vie peut-être nous en écarte, nous empêche d’y beaucoup penser,
+mais ils sont quelque part, on ne sait trop où, silencieux et oubliés, mais tellement fidèles !
+Et si nous croisons leur chemin, ils nous secouent par les épaules avec de belles flambées de joie !
+Bien sûr, nous avons l’habitude d’attendre…
+**
+Mais peu à peu nous découvrons que le rire clair de celui-là nous ne l’entendrons plus jamais,
+nous découvrons que ce jardin-là nous est interdit pour toujours.
+Alors commence notre deuil véritable qui n’est point déchirant mais un peu amer.
+
+Rien, jamais, en effet, ne remplacera le compagnon perdu. On ne se crée point de vieux camarades.
+Rien ne vaut le trésor de tant de souvenirs communs, de tant de brouilles, de réconciliations, de mouvements du cœur.
+On ne reconstruit pas ces amitiés-là. Il est vain, si l’on plante un chêne, d’espérer s’abriter bientôt sous son feuillage.
+
+Ainsi va la vie. Nous nous sommes enrichis d’abord, nous avons planté pendant des années,
+mais viennent les années où le temps défait ce travail et déboise.
+Les camarades, un à un, nous retirent leur ombre. Et à nos deuils se mêle désormais le regret secret de vieillir.
+*/
+
+
 }
 
 

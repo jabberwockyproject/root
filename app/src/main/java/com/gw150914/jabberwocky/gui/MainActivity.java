@@ -594,13 +594,37 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             @ I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE @
             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
-            String filename = "la_rage_file";   //testing file name to be written/read
-            String string = "LA MAXI #";        //testing data to be written/read
+            String filename = "saved_favorites";   //testing file name to be written/read
+            //String string = "LA MAXI #";        //testing data to be written/read
             byte[] inputBuffer = new byte[50];  //testing input buffer for READ operations
+
+            // test : get name of a sound in the list, and return it in the dialog
+            //then try to add it to favorites using this name and addsound ?
+
+            int soundIndex = 0;
+            String soundBuffer;
+
+            while (soundIndex < themeFav.getSoundsCount()){
+                soundBuffer = themeFav.getSound(soundIndex).getName();
+                try {
+                    FileOutputStream outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                    outputStream.write(soundBuffer.getBytes());
+                    outputStream.close();
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+                soundIndex++;
+
+            }
+
+
+
 
             /******************
              * WRITE I/O TEST *
-             ******************/
+             ******************
             try {
                 FileOutputStream outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
                 outputStream.write(string.getBytes());
@@ -810,4 +834,14 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
         return false;
     }
+
+
+/*
+MEDITATIONS X.XVIII. - M.Aurelius
+**
+Make it not any longer a matter of dispute or discourse,
+what are the signs and proprieties of a good man,
+but really and actually be such.
+*/
+
 }
