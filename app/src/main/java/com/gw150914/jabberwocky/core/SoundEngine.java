@@ -48,7 +48,9 @@ public class SoundEngine {
                 loopingStreamList[loopingStreamIndex] = streamId;
                 if(loopingStreamCount < maxStreams) {
                     ++loopingStreamCount;
-                    ++loopingStreamIndex; 
+                }
+                if(loopingStreamIndex < maxStreams) {
+                    ++loopingStreamIndex;
                 }
                 else{
                     loopingStreamIndex = 0;
