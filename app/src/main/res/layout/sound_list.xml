@@ -3,8 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/list_item"
-    android:textSize="19sp"
+    android:background="@drawable/item_shape"
+    android:paddingEnd="2dp"
+    android:paddingStart="5dp"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp"
+    android:textSize="20sp"
     android:fontFamily="sans-serif-condensed"
     android:textColor="@color/sound_list_text">
 </TextView>
