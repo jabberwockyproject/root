@@ -28,8 +28,15 @@ import com.gw150914.jabberwocky.core.SoundEngine;
 import com.gw150914.jabberwocky.core.ThemeEngine;
 import com.gw150914.jabberwocky.core.ThemeEngineFragment;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -587,85 +594,38 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         //Search button was clicked
         if(findViewById(R.id.search_button) == v) {
-
-            /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            @ I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE @
-            @ I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE @
-            @ I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE | I/O TESTING CODE @
-            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
-            String filename = "saved_favorites";   //testing file name to be written/read
-            //String string = "LA MAXI #";        //testing data to be written/read
-            byte[] inputBuffer = new byte[50];  //testing input buffer for READ operations
-
-            // test : get name of a sound in the list, and return it in the dialog
-            //then try to add it to favorites using this name and addsound ?
-
+            
+            BufferedWriter buffWrite;
+            File saveFile = new File(this.getFilesDir(), "saved_fav.txt");
             int soundIndex = 0;
             String soundBuffer;
 
-            while (soundIndex < themeFav.getSoundsCount()){
-                soundBuffer = themeFav.getSound(soundIndex).getName();
-                try {
-                    FileOutputStream outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-                    outputStream.write(soundBuffer.getBytes());
-                    outputStream.close();
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-
-                soundIndex++;
-
-            }
-
-
-
-
-            /******************
-             * WRITE I/O TEST *
-             ******************
             try {
-                FileOutputStream outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-                outputStream.write(string.getBytes());
-                outputStream.close();
+                if(!saveFile.exists()) {
+                    saveFile.createNewFile();
+                    System.out.println(saveFile + "file created");
+                }
+                FileWriter writer = new FileWriter(saveFile);
+                buffWrite = new BufferedWriter(writer);
+
+                for(soundIndex = 0; soundIndex<themeFav.getSoundsCount();soundIndex++){
+                    soundBuffer = themeFav.getSound(soundIndex).getName();
+                    buffWrite.write(soundBuffer);
+                    System.out.println(soundBuffer);
+                    buffWrite.newLine();
+                    buffWrite.flush();
+                    System.out.println("Line " + soundIndex + " OK");
+
+                 }
+                System.out.println("Fav list saved");
+
+
+
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
             }
-            catch(Exception e) {
-                e.printStackTrace();
-            }
 
-            /*****************
-             * READ I/O TEST *
-             *****************/
-            try {
 
-                FileInputStream inputStream = openFileInput(filename);
-                inputStream.read(inputBuffer);
-                inputStream.close();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            /*********************
-             * DISPLAY READ DATA *
-             *********************/
-
-            //Convert input buffer (array of bytes) to a string
-            String byteArrayToString = new String(inputBuffer);
-
-            //Create a minimalist dialog with DEBUG title and read data as body message.
-            AlertDialog.Builder debug_dialog = new AlertDialog.Builder(MainActivity.this);
-            debug_dialog.setTitle("DEBUG");
-            debug_dialog.setMessage(byteArrayToString);
-            debug_dialog.create();
-            debug_dialog.show();
-
-            /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            @ END OF I/O TESTING CODE | END OF I/O TESTING CODE | END OF I/O TESTING CODE @
-            @ END OF I/O TESTING CODE | END OF I/O TESTING CODE | END OF I/O TESTING CODE @
-            @ END OF I/O TESTING CODE | END OF I/O TESTING CODE | END OF I/O TESTING CODE @
-            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
         }
 
         //Theme button was clicked
@@ -701,7 +661,36 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         //Setting button was clicked
         if(findViewById(R.id.settings_button) == v) {
 
+            File saveFile = new File(this.getFilesDir(), "saved_fav.txt");
+            BufferedReader buffRead;
+            FileReader fileReader;
+            String soundRead;
+            int soundPosition;
+
+
+            try {
+                //FileReader reads the file
+                fileReader = new FileReader(saveFile);
+
+                //Pass stream to BufferedReader
+                buffRead = new BufferedReader(fileReader);
+
+                for (soundRead = buffRead.readLine(); soundRead != null; soundRead = buffRead.readLine()){
+                    System.out.println(soundRead);
+                    soundPosition = themeAll.getSoundNameList().indexOf(soundRead);
+                    themeFav.addSound(themeAll.getSound(soundPosition));
+                    System.out.println("Sound " + soundPosition + " loaded OK");
+                }
+
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+
+            adapter.notifyDataSetChanged();
+            System.out.println("fav list loaded");
+
         }
+
         //Slow button was clicked
         if(findViewById(R.id.slow_button) == v) {
             float rate = soundEngine.getRate();
