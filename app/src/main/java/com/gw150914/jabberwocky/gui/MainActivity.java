@@ -1,6 +1,7 @@
 package com.gw150914.jabberwocky.gui;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -164,7 +165,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
     }
 
-    //This classes is designed to load a set of sounds in memory in a separate thread.
+    //This class is designed to load a set of sounds in memory in a separate thread.
     private class LoadThread3 implements Runnable {
 
         private Message message;
@@ -211,7 +212,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
     }
 
-    //This classes is designed to setup the theme "All"
+    //This class is designed to setup the theme "All"
     private class SetThread1 implements Runnable {
 
         private Message message;
@@ -312,7 +313,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
     }
 
-    //This classes is designed to setup all themes but "All" and "Favorites"
+    //This class is designed to setup all themes but "All" and "Favorites"
     private class SetThread2 implements Runnable {
 
         private Message message;
@@ -349,7 +350,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
     }
 
-    //This classes is designed to setup the theme "Favorites"
+    //This class is designed to setup the theme "Favorites"
     private class SetThread3 implements Runnable {
 
         private Message message;
@@ -362,11 +363,35 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         public void run() {
 
-            //TODO: Read saved favorites sound list from file and setup themeFav from it.
+            File saveFile = new File(appContext.getFilesDir(), "saved_fav.txt");
+            BufferedReader buffRead;
+            FileReader fileReader;
+            String soundRead;
+            int soundPosition;
+
+
+            try {
+                //FileReader reads the file
+                fileReader = new FileReader(saveFile);
+
+                //Pass stream to BufferedReader
+                buffRead = new BufferedReader(fileReader);
+
+                for (soundRead = buffRead.readLine(); soundRead != null; soundRead = buffRead.readLine()){
+                    System.out.println(soundRead);
+                    soundPosition = themeAll.getSoundNameList().indexOf(soundRead);
+                    themeFav.addSound(themeAll.getSound(soundPosition));
+                    System.out.println("Sound " + soundPosition + " loaded OK");
+                }
+
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
             loadingHandler.sendMessage(message);
+            System.out.println("fav list loaded");
         }
     }
 
@@ -578,6 +603,41 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         // store the data in the fragment
         soundEngineFragment.setData(soundEngine);
         themeEngineFragment.setData(themeEngine);
+
+
+        //save Favorites list in a file in the app's internal storage
+        FileWriter writer;
+        BufferedWriter buffWrite;
+        File saveFile = new File(appContext.getFilesDir(), "saved_fav.txt");
+        int soundIndex;
+        String soundBuffer;
+
+        try {
+            if(!saveFile.exists()) {
+                saveFile.createNewFile();
+                System.out.println(saveFile + "file created");
+            }
+            writer = new FileWriter(saveFile);
+            buffWrite = new BufferedWriter(writer);
+
+            for(soundIndex = 0; soundIndex < themeFav.getSoundsCount(); soundIndex++){
+                soundBuffer = themeFav.getSound(soundIndex).getName();
+                buffWrite.write(soundBuffer);
+                System.out.println(soundBuffer);
+                buffWrite.newLine();
+                buffWrite.flush();
+                System.out.println("Line " + soundIndex + " OK");
+
+            }
+            System.out.println("Fav list saved");
+
+
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+
     }
 
 
@@ -594,37 +654,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         //Search button was clicked
         if(findViewById(R.id.search_button) == v) {
-            
-            BufferedWriter buffWrite;
-            File saveFile = new File(this.getFilesDir(), "saved_fav.txt");
-            int soundIndex = 0;
-            String soundBuffer;
-
-            try {
-                if(!saveFile.exists()) {
-                    saveFile.createNewFile();
-                    System.out.println(saveFile + "file created");
-                }
-                FileWriter writer = new FileWriter(saveFile);
-                buffWrite = new BufferedWriter(writer);
-
-                for(soundIndex = 0; soundIndex<themeFav.getSoundsCount();soundIndex++){
-                    soundBuffer = themeFav.getSound(soundIndex).getName();
-                    buffWrite.write(soundBuffer);
-                    System.out.println(soundBuffer);
-                    buffWrite.newLine();
-                    buffWrite.flush();
-                    System.out.println("Line " + soundIndex + " OK");
-
-                 }
-                System.out.println("Fav list saved");
-
-
-
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-
 
         }
 
@@ -658,36 +687,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             }
         }
 
-        //Setting button was clicked
+        //Settings button was clicked
         if(findViewById(R.id.settings_button) == v) {
-
-            File saveFile = new File(this.getFilesDir(), "saved_fav.txt");
-            BufferedReader buffRead;
-            FileReader fileReader;
-            String soundRead;
-            int soundPosition;
-
-
-            try {
-                //FileReader reads the file
-                fileReader = new FileReader(saveFile);
-
-                //Pass stream to BufferedReader
-                buffRead = new BufferedReader(fileReader);
-
-                for (soundRead = buffRead.readLine(); soundRead != null; soundRead = buffRead.readLine()){
-                    System.out.println(soundRead);
-                    soundPosition = themeAll.getSoundNameList().indexOf(soundRead);
-                    themeFav.addSound(themeAll.getSound(soundPosition));
-                    System.out.println("Sound " + soundPosition + " loaded OK");
-                }
-
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-
-            adapter.notifyDataSetChanged();
-            System.out.println("fav list loaded");
 
         }
 
