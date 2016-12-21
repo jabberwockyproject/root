@@ -49,7 +49,13 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    private boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeinitDone;
+    final int  soundLoadThread1StartIndex = 0;
+    final int  soundLoadThread1EndIndex = 40;
+    final int  soundLoadThread2StartIndex = 40;
+    final int  soundLoadThread2EndIndex = 81;
+    final int soundTotal = 81;
+
+    private boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeInitDone;
     private SoundEngine soundEngine;
     private ThemeEngine themeEngine;
     private Sound soundAndreaPasLa, soundAttention01, soundAttention02, soundAttention03, soundAttention04, soundAttention05, soundAttention06, soundAucunRapport, soundBonneIdee, soundCalomnie, soundChinois01, soundChinois02, soundCokeVachementBath, soundComprendsPas, soundCracheBeaucoup, soundDebandade, soundDefection, soundEmbarrassant, soundExigeReponse, soundFaux, soundFoutLaRage, soundGrosGourdin, soundGrosseBlague, soundHabile, soundHallucine, soundHumour, soundIncomprehensible, soundInteressePas, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMalentendu, soundMarcheBien, soundMeSensSeul, soundMethTropDeLaBalle01, soundMethTropDeLaBalle02, soundMistake, soundNemrod, soundNoFuckingBalls, soundNouveaute, soundOhOui, soundOnSEmmerde, soundOsef, soundPasCool, soundPasDrole, soundPlaisanterie01, soundPlaisanterie02, soundPouleMouillee, soundPourquoi, soundPqEmergency, soundPqIncroyable, soundPqReche, soundPqTropDoux, soundPqTropManque, soundPrejudice, soundPrevoyant, soundPrisPropreJeu, soundPtitZizi, soundPtiteBite, soundPueDuCul, soundQueSePasseTIl, soundQuelqueSorte, soundQuiEstLa, soundQuoi01, soundQuoi02, soundQuoi03, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTripleEpaisseur, soundTropPlaisir, soundTrucDeMazo, soundTrueStory, soundVachementBath, soundViens01, soundViens02, soundVieuxMan, soundVoirMaBite, soundVrai;
@@ -68,10 +74,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private Handler loadingHandler;
     private ThreadPoolExecutor threadPoolExec;
 
-    final int  soundLoadThread1StartIndex = 0;
-    final int  soundLoadThread1EndIndex = 39;
-    final int  soundLoadThread2StartIndex = 40;
-    final int  soundLoadThread2EndIndex = 80;
+    Sound[] soundArray;
 
 
     /*****************************************************************************************
@@ -90,88 +93,90 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
 
         public void run() {
-            soundAndreaPasLa = new Sound("Andrea pas la",R.raw.andrea_pas_la);
-            soundAttention01 = new Sound("Attention - 01",R.raw.attention01);
-            soundAttention02 = new Sound("Attention - 02",R.raw.attention02);
-            soundAttention03 = new Sound("Attention - 03",R.raw.attention03);
-            soundAttention04 = new Sound("Attention - 04",R.raw.attention04);
-            soundAttention05 = new Sound("Attention - 05",R.raw.attention05);
-            soundAttention06 = new Sound("Attention - 06",R.raw.attention06);
-            soundAucunRapport = new Sound("Aucun rapport",R.raw.aucun_rapport);
-            soundBonneIdee = new Sound("Bonne idée",R.raw.bonne_idee);
-            soundCalomnie = new Sound("Calomnie",R.raw.calomnie);
-            soundChinois01 = new Sound("Chinois - 01",R.raw.chinois01);
-            soundChinois02 = new Sound("Chinois - 02",R.raw.chinois02);
-            soundCokeVachementBath = new Sound("La Coke c'est vachement bath",R.raw.coke_vachement_bath);
-            soundComprendsPas = new Sound("Comprends pas",R.raw.comprends_pas);
-            soundCracheBeaucoup = new Sound("Crache beaucoup",R.raw.crache_beaucoup);
-            soundDebandade = new Sound("Débandade",R.raw.debandade);
-            soundDefection = new Sound("Défection",R.raw.defection);
-            soundEmbarrassant = new Sound("Embarrasant",R.raw.embarrassant);
-            soundExigeReponse = new Sound("J'exige une réponse",R.raw.exige_reponse);
-            soundFaux = new Sound("Faux !",R.raw.faux);
-            soundFoutLaRage = new Sound("Fout la rage",R.raw.fout_la_rage);
-            soundGrosGourdin = new Sound("Gros gourdin",R.raw.gros_gourdin);
-            soundGrosseBlague = new Sound("Grosse blague",R.raw.grosse_blague);
-            soundHabile = new Sound("Habile",R.raw.habile);
-            soundHallucine = new Sound("Hallucine",R.raw.hallucine);
-            soundHumour = new Sound("Humour",R.raw.humour);
-            soundIncomprehensible = new Sound("Incompréhensible",R.raw.incomprehensible);
-            soundInteressePas = new Sound("Interesse pas",R.raw.interesse_pas);
-            soundLeGitan = new Sound("Ha le Gitan",R.raw.le_gitan);
-            soundMachiavellique = new Sound("Machiavellique",R.raw.machiavellique);
-            soundMagnerLeCul = new Sound("Magner le cul",R.raw.magner_le_cul);
-            soundMaitreMichel = new Sound("Maitre Michel",R.raw.maitre_michel);
-            soundMalentendu = new Sound("C'est un malentendu",R.raw.malentendu);
-            soundMarcheBien = new Sound("Ca marche bien",R.raw.marche_bien);
-            soundMeSensSeul = new Sound("Me sens seul",R.raw.me_sens_seul);
-            soundMethTropDeLaBalle01 = new Sound("La meth c'est trop de la balle - 01",R.raw.meth_trop_de_la_balle);
-            soundMethTropDeLaBalle02 = new Sound("La meth c'est trop de la balle - 02",R.raw.meth_trop_de_la_balle02);
-            soundMistake = new Sound("Mistake",R.raw.mistake);
-            soundNemrod = new Sound("Nemrod",R.raw.nemrod);
-            soundNoFuckingBalls = new Sound("No Fucking Balls",R.raw.no_fucking_balls);
-            soundNouveaute = new Sound("Nouveaute",R.raw.nouveaute);
-            soundOhOui = new Sound("Oh oui",R.raw.oh_oui);
-            soundOnSEmmerde = new Sound("On s'emmerde",R.raw.on_s_emmerde);
-            soundOsef = new Sound("Osef",R.raw.osef);
-            soundPasCool = new Sound("Pas Cool",R.raw.pas_cool);
-            soundPasDrole = new Sound("Pas Drole",R.raw.pas_drole);
-            soundPlaisanterie01 = new Sound("Plaisanterie - 01",R.raw.plaisanterie01);
-            soundPlaisanterie02 = new Sound("Plaisanterie - 02",R.raw.plaisanterie02);
-            soundPouleMouillee = new Sound("Poule mouillée",R.raw.poule_mouillee);
-            soundPourquoi = new Sound("Pourquoi",R.raw.pourquoi);
-            soundPqEmergency = new Sound("PQ Emergency",R.raw.pq_emergency);
-            soundPqIncroyable = new Sound("PQ Incroyable",R.raw.pq_incroyable);
-            soundPqReche = new Sound("Ce PQ est un peu reche",R.raw.pq_reche);
-            soundPqTropDoux = new Sound("PQ trop doux",R.raw.pq_trop_doux);
-            soundPqTropManque = new Sound("PQ Trop manqué",R.raw.pq_trop_manque);
-            soundPrejudice = new Sound("Prejudice",R.raw.prejudice);
-            soundPrevoyant = new Sound("Prevoyant",R.raw.prevoyant);
-            soundPrisPropreJeu = new Sound("Pris propre jeu",R.raw.pris_propre_jeu);
-            soundPtitZizi = new Sound("Ptit zizi",R.raw.ptit_zizi);
-            soundPtiteBite = new Sound("Ptite bite",R.raw.ptite_bite);
-            soundPueDuCul = new Sound("Pue du cul",R.raw.pue_du_cul);
-            soundQueSePasseTIl = new Sound("Que se passe t'il ",R.raw.que_ce_passe_t_il);
-            soundQuelqueSorte = new Sound("Quelque Sorte",R.raw.quelque_sorte);
-            soundQuiEstLa = new Sound("Qui est la",R.raw.qui_est_la);
-            soundQuoi01 = new Sound("Quoi - 01",R.raw.quoi);
-            soundQuoi02 = new Sound("Quoi - 02",R.raw.quoi02);
-            soundQuoi03 = new Sound("Quoi - 03",R.raw.quoi03);
-            soundSante = new Sound("Sante",R.raw.sante);
-            soundScandaleux = new Sound("Scandaleux",R.raw.scandaleux);
-            soundSuperBaise = new Sound("Super Baise",R.raw.super_baise);
-            soundSuperSpirituel = new Sound("Super Spirituel",R.raw.super_spirituel);
-            soundTrahison = new Sound("Trahison",R.raw.trahison);
-            soundTripleEpaisseur = new Sound("Triple epaisseur",R.raw.triple_epaisseur);
-            soundTropPlaisir = new Sound("Trop plaisir",R.raw.trop_plaisir);
-            soundTrucDeMazo = new Sound("Truc de mazo",R.raw.truc_de_mazo);
-            soundTrueStory = new Sound("True Story",R.raw.true_story);
-            soundVachementBath = new Sound("Vachement bath",R.raw.vachement_bath);
-            soundViens01 = new Sound("Viens - 01",R.raw.viens01);
-            soundViens02 = new Sound("Viens - 02",R.raw.viens02);
-            soundVieuxMan = new Sound("Vieux man",R.raw.vieux_man);
-            soundVoirMaBite = new Sound("Voir ma bite",R.raw.voir_ma_bite);
-            soundVrai = new Sound("Vrai",R.raw.vrai);
+            int index = 0;
+            soundArray = new Sound[soundTotal+1];
+            soundArray[index++] = new Sound("Andrea pas la",R.raw.andrea_pas_la);
+            soundArray[index++] = new Sound("Attention - 01",R.raw.attention01);
+            soundArray[index++] = new Sound("Attention - 02",R.raw.attention02);
+            soundArray[index++] = new Sound("Attention - 03",R.raw.attention03);
+            soundArray[index++] = new Sound("Attention - 04",R.raw.attention04);
+            soundArray[index++] = new Sound("Attention - 05",R.raw.attention05);
+            soundArray[index++] = new Sound("Attention - 06",R.raw.attention06);
+            soundArray[index++] = new Sound("Aucun rapport",R.raw.aucun_rapport);
+            soundArray[index++] = new Sound("Bonne idée",R.raw.bonne_idee);
+            soundArray[index++] = new Sound("Calomnie",R.raw.calomnie);
+            soundArray[index++] = new Sound("Chinois - 01",R.raw.chinois01);
+            soundArray[index++] = new Sound("Chinois - 02",R.raw.chinois02);
+            soundArray[index++] = new Sound("La Coke c'est vachement bath",R.raw.coke_vachement_bath);
+            soundArray[index++] = new Sound("Comprends pas",R.raw.comprends_pas);
+            soundArray[index++] = new Sound("Crache beaucoup",R.raw.crache_beaucoup);
+            soundArray[index++] = new Sound("Débandade",R.raw.debandade);
+            soundArray[index++] = new Sound("Défection",R.raw.defection);
+            soundArray[index++] = new Sound("Embarrasant",R.raw.embarrassant);
+            soundArray[index++] = new Sound("J'exige une réponse",R.raw.exige_reponse);
+            soundArray[index++] = new Sound("Faux !",R.raw.faux);
+            soundArray[index++] = new Sound("Fout la rage",R.raw.fout_la_rage);
+            soundArray[index++] = new Sound("Gros gourdin",R.raw.gros_gourdin);
+            soundArray[index++] = new Sound("Grosse blague",R.raw.grosse_blague);
+            soundArray[index++] = new Sound("Habile",R.raw.habile);
+            soundArray[index++] = new Sound("Hallucine",R.raw.hallucine);
+            soundArray[index++] = new Sound("Humour",R.raw.humour);
+            soundArray[index++] = new Sound("Incompréhensible",R.raw.incomprehensible);
+            soundArray[index++] = new Sound("Interesse pas",R.raw.interesse_pas);
+            soundArray[index++] = new Sound("Ha le Gitan",R.raw.le_gitan);
+            soundArray[index++] = new Sound("Machiavellique",R.raw.machiavellique);
+            soundArray[index++] = new Sound("Magner le cul",R.raw.magner_le_cul);
+            soundArray[index++] = new Sound("Maitre Michel",R.raw.maitre_michel);
+            soundArray[index++] = new Sound("C'est un malentendu",R.raw.malentendu);
+            soundArray[index++] = new Sound("Ca marche bien",R.raw.marche_bien);
+            soundArray[index++] = new Sound("Me sens seul",R.raw.me_sens_seul);
+            soundArray[index++] = new Sound("La meth c'est trop de la balle - 01",R.raw.meth_trop_de_la_balle);
+            soundArray[index++] = new Sound("La meth c'est trop de la balle - 02",R.raw.meth_trop_de_la_balle02);
+            soundArray[index++] = new Sound("Mistake",R.raw.mistake);
+            soundArray[index++] = new Sound("Nemrod",R.raw.nemrod);
+            soundArray[index++] = new Sound("No Fucking Balls",R.raw.no_fucking_balls);
+            soundArray[index++] = new Sound("Nouveaute",R.raw.nouveaute);
+            soundArray[index++] = new Sound("Oh oui",R.raw.oh_oui);
+            soundArray[index++] = new Sound("On s'emmerde",R.raw.on_s_emmerde);
+            soundArray[index++] = new Sound("Osef",R.raw.osef);
+            soundArray[index++] = new Sound("Pas Cool",R.raw.pas_cool);
+            soundArray[index++] = new Sound("Pas Drole",R.raw.pas_drole);
+            soundArray[index++] = new Sound("Plaisanterie - 01",R.raw.plaisanterie01);
+            soundArray[index++] = new Sound("Plaisanterie - 02",R.raw.plaisanterie02);
+            soundArray[index++] = new Sound("Poule mouillée",R.raw.poule_mouillee);
+            soundArray[index++] = new Sound("Pourquoi",R.raw.pourquoi);
+            soundArray[index++] = new Sound("PQ Emergency",R.raw.pq_emergency);
+            soundArray[index++] = new Sound("PQ Incroyable",R.raw.pq_incroyable);
+            soundArray[index++] = new Sound("Ce PQ est un peu reche",R.raw.pq_reche);
+            soundArray[index++] = new Sound("PQ trop doux",R.raw.pq_trop_doux);
+            soundArray[index++] = new Sound("PQ Trop manqué",R.raw.pq_trop_manque);
+            soundArray[index++] = new Sound("Prejudice",R.raw.prejudice);
+            soundArray[index++] = new Sound("Prevoyant",R.raw.prevoyant);
+            soundArray[index++] = new Sound("Pris propre jeu",R.raw.pris_propre_jeu);
+            soundArray[index++] = new Sound("Ptit zizi",R.raw.ptit_zizi);
+            soundArray[index++] = new Sound("Ptite bite",R.raw.ptite_bite);
+            soundArray[index++] = new Sound("Pue du cul",R.raw.pue_du_cul);
+            soundArray[index++] = new Sound("Que se passe t'il ",R.raw.que_ce_passe_t_il);
+            soundArray[index++] = new Sound("Quelque Sorte",R.raw.quelque_sorte);
+            soundArray[index++] = new Sound("Qui est la",R.raw.qui_est_la);
+            soundArray[index++] = new Sound("Quoi - 01",R.raw.quoi);
+            soundArray[index++] = new Sound("Quoi - 02",R.raw.quoi02);
+            soundArray[index++] = new Sound("Quoi - 03",R.raw.quoi03);
+            soundArray[index++] = new Sound("Sante",R.raw.sante);
+            soundArray[index++] = new Sound("Scandaleux",R.raw.scandaleux);
+            soundArray[index++] = new Sound("Super Baise",R.raw.super_baise);
+            soundArray[index++] = new Sound("Super Spirituel",R.raw.super_spirituel);
+            soundArray[index++] = new Sound("Trahison",R.raw.trahison);
+            soundArray[index++] = new Sound("Triple epaisseur",R.raw.triple_epaisseur);
+            soundArray[index++] = new Sound("Trop plaisir",R.raw.trop_plaisir);
+            soundArray[index++] = new Sound("Truc de mazo",R.raw.truc_de_mazo);
+            soundArray[index++] = new Sound("True Story",R.raw.true_story);
+            soundArray[index++] = new Sound("Vachement bath",R.raw.vachement_bath);
+            soundArray[index++] = new Sound("Viens - 01",R.raw.viens01);
+            soundArray[index++] = new Sound("Viens - 02",R.raw.viens02);
+            soundArray[index++] = new Sound("Vieux man",R.raw.vieux_man);
+            soundArray[index++] = new Sound("Voir ma bite",R.raw.voir_ma_bite);
+            soundArray[index++] = new Sound("Vrai",R.raw.vrai);
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
@@ -192,6 +197,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         public void run() {
 
+            for(int index = soundLoadThread1StartIndex; index < soundLoadThread1EndIndex; ++index) {
+                soundArray[index].setSoundId(soundPool.load(appContext, soundArray[index].getResId(), 1));
+            }
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
@@ -212,6 +220,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         public void run() {
 
+            for(int index = soundLoadThread2StartIndex; index < soundLoadThread2EndIndex; ++index) {
+                soundArray[index].setSoundId(soundPool.load(appContext, soundArray[index].getResId(), 1));
+            }
+
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
             loadingHandler.sendMessage(message);
@@ -230,89 +242,12 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
 
         public void run() {
-            themeAll.addSound(soundAndreaPasLa);
-            themeAll.addSound(soundAttention01);
-            themeAll.addSound(soundAttention02);
-            themeAll.addSound(soundAttention03);
-            themeAll.addSound(soundAttention04);
-            themeAll.addSound(soundAttention05);
-            themeAll.addSound(soundAttention06);
-            themeAll.addSound(soundAucunRapport);
-            themeAll.addSound(soundBonneIdee);
-            themeAll.addSound(soundCalomnie);
-            themeAll.addSound(soundChinois01);
-            themeAll.addSound(soundChinois02);
-            themeAll.addSound(soundCokeVachementBath);
-            themeAll.addSound(soundComprendsPas);
-            themeAll.addSound(soundCracheBeaucoup);
-            themeAll.addSound(soundDebandade);
-            themeAll.addSound(soundDefection);
-            themeAll.addSound(soundEmbarrassant);
-            themeAll.addSound(soundExigeReponse);
-            themeAll.addSound(soundFaux);
-            themeAll.addSound(soundFoutLaRage);
-            themeAll.addSound(soundGrosGourdin);
-            themeAll.addSound(soundGrosseBlague);
-            themeAll.addSound(soundHabile);
-            themeAll.addSound(soundHallucine);
-            themeAll.addSound(soundHumour);
-            themeAll.addSound(soundIncomprehensible);
-            themeAll.addSound(soundInteressePas);
-            themeAll.addSound(soundLeGitan);
-            themeAll.addSound(soundMachiavellique);
-            themeAll.addSound(soundMagnerLeCul);
-            themeAll.addSound(soundMaitreMichel);
-            themeAll.addSound(soundMalentendu);
-            themeAll.addSound(soundMarcheBien);
-            themeAll.addSound(soundMeSensSeul);
-            themeAll.addSound(soundMethTropDeLaBalle01);
-            themeAll.addSound(soundMethTropDeLaBalle02);
-            themeAll.addSound(soundMistake);
-            themeAll.addSound(soundNemrod);
-            themeAll.addSound(soundNoFuckingBalls);
-            themeAll.addSound(soundNouveaute);
-            themeAll.addSound(soundOhOui);
-            themeAll.addSound(soundOnSEmmerde);
-            themeAll.addSound(soundOsef);
-            themeAll.addSound(soundPasCool);
-            themeAll.addSound(soundPasDrole);
-            themeAll.addSound(soundPlaisanterie01);
-            themeAll.addSound(soundPlaisanterie02);
-            themeAll.addSound(soundPouleMouillee);
-            themeAll.addSound(soundPourquoi);
-            themeAll.addSound(soundPqEmergency);
-            themeAll.addSound(soundPqIncroyable);
-            themeAll.addSound(soundPqReche);
-            themeAll.addSound(soundPqTropDoux);
-            themeAll.addSound(soundPqTropManque);
-            themeAll.addSound(soundPrejudice);
-            themeAll.addSound(soundPrevoyant);
-            themeAll.addSound(soundPrisPropreJeu);
-            themeAll.addSound(soundPtiteBite);
-            themeAll.addSound(soundPtitZizi);
-            themeAll.addSound(soundPueDuCul);
-            themeAll.addSound(soundQueSePasseTIl);
-            themeAll.addSound(soundQuelqueSorte);
-            themeAll.addSound(soundQuiEstLa);
-            themeAll.addSound(soundQuoi01);
-            themeAll.addSound(soundQuoi02);
-            themeAll.addSound(soundQuoi03);
-            themeAll.addSound(soundSante);
-            themeAll.addSound(soundScandaleux);
-            themeAll.addSound(soundSuperBaise);
-            themeAll.addSound(soundSuperSpirituel);
-            themeAll.addSound(soundTrahison);
-            themeAll.addSound(soundTripleEpaisseur);
-            themeAll.addSound(soundTropPlaisir);
-            themeAll.addSound(soundTrucDeMazo);
-            themeAll.addSound(soundTrueStory);
-            themeAll.addSound(soundVachementBath);
-            themeAll.addSound(soundViens01);
-            themeAll.addSound(soundViens02);
-            themeAll.addSound(soundVieuxMan);
-            themeAll.addSound(soundVoirMaBite);
-            themeAll.addSound(soundVrai);
 
+            for(int index = 0; index < soundTotal; ++index) {
+                themeAll.addSound(soundArray[index]);
+            }
+
+            /*
             themeTaunt.addSound(soundInteressePas);
             themeTaunt.addSound(soundLeGitan);
             themeTaunt.addSound(soundMagnerLeCul);
@@ -331,6 +266,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themePq.addSound(soundPqTropDoux);
             themePq.addSound(soundPqTropManque);
             themePq.addSound(soundTripleEpaisseur);
+            */
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
@@ -491,20 +427,20 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             threadPoolExec.submit(soundLoadThread1);
                             threadPoolExec.submit(soundLoadThread2);
                             threadPoolExec.submit(themeinitThread);
-                            threadPoolExec.submit(favLoadThread);
+                            //threadPoolExec.submit(favLoadThread);
 
                             //Set loadingDone to true to prevent restarting setting threads later on.
                             soundInitDone = true;
                         }
 
                         //Once Themes are fully set update themeEngine, UI and then fragments.
-                        if(thread10JobDone && thread11JobDone && !themeinitDone) {
+                        if(thread10JobDone && !themeInitDone) {
 
                             //Add themes to the theme engine. WARNING: themeAll MUST be 1st, themeFav MUST be 2nd.
                             themeEngine.addTheme(themeAll);
-                            themeEngine.addTheme(themeFav);
-                            themeEngine.addTheme(themeTaunt);
-                            themeEngine.addTheme(themePq);
+                            //themeEngine.addTheme(themeFav);
+                            //themeEngine.addTheme(themeTaunt);
+                            //themeEngine.addTheme(themePq);
 
                             //Update UI
                             adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list, themeEngine.getCurrentTheme().getSoundNameList());
@@ -540,7 +476,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             thread10JobDone = false;
             thread11JobDone = false;
             soundInitDone = false;
-            themeinitDone = false;
+            themeInitDone = false;
 
             //Instantiate the sound engine.
             soundEngine = new SoundEngine((AudioManager) this.getSystemService(Context.AUDIO_SERVICE));
