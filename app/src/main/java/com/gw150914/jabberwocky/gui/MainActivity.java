@@ -85,33 +85,33 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
 
         public void run() {
-            soundAndreaPasLa = new Sound("Andrea pas la",soundPool.load(appContext,R.raw.andrea_pas_la,1));
-            soundAttention01 = new Sound("Attention - 01",soundPool.load(appContext,R.raw.attention01,1));
-            soundAttention02 = new Sound("Attention - 02",soundPool.load(appContext,R.raw.attention02,1));
-            soundAttention03 = new Sound("Attention - 03",soundPool.load(appContext,R.raw.attention03,1));
-            soundAttention04 = new Sound("Attention - 04",soundPool.load(appContext,R.raw.attention04,1));
-            soundAttention05 = new Sound("Attention - 05",soundPool.load(appContext,R.raw.attention05,1));
-            soundAttention06 = new Sound("Attention - 06",soundPool.load(appContext,R.raw.attention06,1));
-            soundAucunRapport = new Sound("Aucun rapport",soundPool.load(appContext,R.raw.aucun_rapport,1));
-            soundBonneIdee = new Sound("Bonne idée",soundPool.load(appContext,R.raw.bonne_idee,1));
-            soundCalomnie = new Sound("Calomnie",soundPool.load(appContext,R.raw.calomnie,1));
-            soundChinois01 = new Sound("Chinois - 01",soundPool.load(appContext,R.raw.chinois01,1));
-            soundChinois02 = new Sound("Chinois - 02",soundPool.load(appContext,R.raw.chinois02,1));
-            soundCokeVachementBath = new Sound("La Coke c'est vachement bath",soundPool.load(appContext,R.raw.coke_vachement_bath,1));
-            soundComprendsPas = new Sound("Comprends pas",soundPool.load(appContext,R.raw.comprends_pas,1));
-            soundCracheBeaucoup = new Sound("Crache beaucoup",soundPool.load(appContext,R.raw.crache_beaucoup,1));
-            soundDebandade = new Sound("Débandade",soundPool.load(appContext,R.raw.debandade,1));
-            soundDefection = new Sound("Défection",soundPool.load(appContext,R.raw.defection,1));
-            soundEmbarrassant = new Sound("Embarrasant",soundPool.load(appContext,R.raw.embarrassant,1));
-            soundExigeReponse = new Sound("J'exige une réponse",soundPool.load(appContext,R.raw.exige_reponse,1));
-            soundFaux = new Sound("Faux !",soundPool.load(appContext,R.raw.faux,1));
-            soundFoutLaRage = new Sound("Fout la rage",soundPool.load(appContext,R.raw.fout_la_rage,1));
-            soundGrosGourdin = new Sound("Gros gourdin",soundPool.load(appContext,R.raw.gros_gourdin,1));
-            soundGrosseBlague = new Sound("Grosse blague",soundPool.load(appContext,R.raw.grosse_blague,1));
-            soundHabile = new Sound("Habile",soundPool.load(appContext,R.raw.habile,1));
-            soundHallucine = new Sound("Hallucine",soundPool.load(appContext,R.raw.hallucine,1));
-            soundHumour = new Sound("Humour",soundPool.load(appContext,R.raw.humour,1));
-            soundIncomprehensible = new Sound("Incompréhensible",soundPool.load(appContext,R.raw.incomprehensible,1));
+            soundAndreaPasLa = new Sound("Andrea pas la",R.raw.andrea_pas_la);
+            soundAttention01 = new Sound("Attention - 01",R.raw.attention01);
+            soundAttention02 = new Sound("Attention - 02",R.raw.attention02);
+            soundAttention03 = new Sound("Attention - 03",R.raw.attention03);
+            soundAttention04 = new Sound("Attention - 04",R.raw.attention04);
+            soundAttention05 = new Sound("Attention - 05",R.raw.attention05);
+            soundAttention06 = new Sound("Attention - 06",R.raw.attention06);
+            soundAucunRapport = new Sound("Aucun rapport",R.raw.aucun_rapport);
+            soundBonneIdee = new Sound("Bonne idée",R.raw.bonne_idee);
+            soundCalomnie = new Sound("Calomnie",R.raw.calomnie);
+            soundChinois01 = new Sound("Chinois - 01",R.raw.chinois01);
+            soundChinois02 = new Sound("Chinois - 02",R.raw.chinois02);
+            soundCokeVachementBath = new Sound("La Coke c'est vachement bath",R.raw.coke_vachement_bath);
+            soundComprendsPas = new Sound("Comprends pas",R.raw.comprends_pas);
+            soundCracheBeaucoup = new Sound("Crache beaucoup",R.raw.crache_beaucoup);
+            soundDebandade = new Sound("Débandade",R.raw.debandade);
+            soundDefection = new Sound("Défection",R.raw.defection);
+            soundEmbarrassant = new Sound("Embarrasant",R.raw.embarrassant);
+            soundExigeReponse = new Sound("J'exige une réponse",R.raw.exige_reponse);
+            soundFaux = new Sound("Faux !",R.raw.faux);
+            soundFoutLaRage = new Sound("Fout la rage",R.raw.fout_la_rage);
+            soundGrosGourdin = new Sound("Gros gourdin",R.raw.gros_gourdin);
+            soundGrosseBlague = new Sound("Grosse blague",R.raw.grosse_blague);
+            soundHabile = new Sound("Habile",R.raw.habile);
+            soundHallucine = new Sound("Hallucine",R.raw.hallucine);
+            soundHumour = new Sound("Humour",R.raw.humour);
+            soundIncomprehensible = new Sound("Incompréhensible",R.raw.incomprehensible);
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
@@ -131,33 +131,33 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
 
         public void run() {
-            soundInteressePas = new Sound("Interesse pas",soundPool.load(appContext,R.raw.interesse_pas,1));
-            soundLeGitan = new Sound("Ha le Gitan",soundPool.load(appContext,R.raw.le_gitan,1));
-            soundMachiavellique = new Sound("Machiavellique",soundPool.load(appContext,R.raw.machiavellique,1));
-            soundMagnerLeCul = new Sound("Magner le cul",soundPool.load(appContext,R.raw.magner_le_cul,1));
-            soundMaitreMichel = new Sound("Maitre Michel",soundPool.load(appContext,R.raw.maitre_michel,1));
-            soundMalentendu = new Sound("C'est un malentendu",soundPool.load(appContext,R.raw.malentendu,1));
-            soundMarcheBien = new Sound("Ca marche bien",soundPool.load(appContext,R.raw.marche_bien,1));
-            soundMeSensSeul = new Sound("Me sens seul",soundPool.load(appContext,R.raw.me_sens_seul,1));
-            soundMethTropDeLaBalle01 = new Sound("La meth c'est trop de la balle - 01",soundPool.load(appContext,R.raw.meth_trop_de_la_balle,1));
-            soundMethTropDeLaBalle02 = new Sound("La meth c'est trop de la balle - 02",soundPool.load(appContext,R.raw.meth_trop_de_la_balle02,1));
-            soundMistake = new Sound("Mistake",soundPool.load(appContext,R.raw.mistake,1));
-            soundNemrod = new Sound("Nemrod",soundPool.load(appContext,R.raw.nemrod,1));
-            soundNoFuckingBalls = new Sound("No Fucking Balls",soundPool.load(appContext,R.raw.no_fucking_balls,1));
-            soundNouveaute = new Sound("Nouveaute",soundPool.load(appContext,R.raw.nouveaute,1));
-            soundOhOui = new Sound("Oh oui",soundPool.load(appContext,R.raw.oh_oui,1));
-            soundOnSEmmerde = new Sound("On s'emmerde",soundPool.load(appContext,R.raw.on_s_emmerde,1));
-            soundOsef = new Sound("Osef",soundPool.load(appContext,R.raw.osef,1));
-            soundPasCool = new Sound("Pas Cool",soundPool.load(appContext,R.raw.pas_cool,1));
-            soundPasDrole = new Sound("Pas Drole",soundPool.load(appContext,R.raw.pas_drole,1));
-            soundPlaisanterie01 = new Sound("Plaisanterie - 01",soundPool.load(appContext,R.raw.plaisanterie01,1));
-            soundPlaisanterie02 = new Sound("Plaisanterie - 02",soundPool.load(appContext,R.raw.plaisanterie02,1));
-            soundPouleMouillee = new Sound("Poule mouillée",soundPool.load(appContext,R.raw.poule_mouillee,1));
-            soundPourquoi = new Sound("Pourquoi",soundPool.load(appContext,R.raw.pourquoi,1));
-            soundPqEmergency = new Sound("PQ Emergency",soundPool.load(appContext,R.raw.pq_emergency,1));
-            soundPqIncroyable = new Sound("PQ Incroyable",soundPool.load(appContext,R.raw.pq_incroyable,1));
-            soundPqReche = new Sound("Ce PQ est un peu reche",soundPool.load(appContext,R.raw.pq_reche,1));
-            soundPqTropDoux = new Sound("PQ trop doux",soundPool.load(appContext,R.raw.pq_trop_doux,1));
+            soundInteressePas = new Sound("Interesse pas",R.raw.interesse_pas);
+            soundLeGitan = new Sound("Ha le Gitan",R.raw.le_gitan);
+            soundMachiavellique = new Sound("Machiavellique",R.raw.machiavellique);
+            soundMagnerLeCul = new Sound("Magner le cul",R.raw.magner_le_cul);
+            soundMaitreMichel = new Sound("Maitre Michel",R.raw.maitre_michel);
+            soundMalentendu = new Sound("C'est un malentendu",R.raw.malentendu);
+            soundMarcheBien = new Sound("Ca marche bien",R.raw.marche_bien);
+            soundMeSensSeul = new Sound("Me sens seul",R.raw.me_sens_seul);
+            soundMethTropDeLaBalle01 = new Sound("La meth c'est trop de la balle - 01",R.raw.meth_trop_de_la_balle);
+            soundMethTropDeLaBalle02 = new Sound("La meth c'est trop de la balle - 02",R.raw.meth_trop_de_la_balle02);
+            soundMistake = new Sound("Mistake",R.raw.mistake);
+            soundNemrod = new Sound("Nemrod",R.raw.nemrod);
+            soundNoFuckingBalls = new Sound("No Fucking Balls",R.raw.no_fucking_balls);
+            soundNouveaute = new Sound("Nouveaute",R.raw.nouveaute);
+            soundOhOui = new Sound("Oh oui",R.raw.oh_oui);
+            soundOnSEmmerde = new Sound("On s'emmerde",R.raw.on_s_emmerde);
+            soundOsef = new Sound("Osef",R.raw.osef);
+            soundPasCool = new Sound("Pas Cool",R.raw.pas_cool);
+            soundPasDrole = new Sound("Pas Drole",R.raw.pas_drole);
+            soundPlaisanterie01 = new Sound("Plaisanterie - 01",R.raw.plaisanterie01);
+            soundPlaisanterie02 = new Sound("Plaisanterie - 02",R.raw.plaisanterie02);
+            soundPouleMouillee = new Sound("Poule mouillée",R.raw.poule_mouillee);
+            soundPourquoi = new Sound("Pourquoi",R.raw.pourquoi);
+            soundPqEmergency = new Sound("PQ Emergency",R.raw.pq_emergency);
+            soundPqIncroyable = new Sound("PQ Incroyable",R.raw.pq_incroyable);
+            soundPqReche = new Sound("Ce PQ est un peu reche",R.raw.pq_reche);
+            soundPqTropDoux = new Sound("PQ trop doux",R.raw.pq_trop_doux);
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
@@ -177,34 +177,34 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
 
         public void run() {
-            soundPqTropManque = new Sound("PQ Trop manqué",soundPool.load(appContext,R.raw.pq_trop_manque,1));
-            soundPrejudice = new Sound("Prejudice",soundPool.load(appContext,R.raw.prejudice,1));
-            soundPrevoyant = new Sound("Prevoyant",soundPool.load(appContext,R.raw.prevoyant,1));
-            soundPrisPropreJeu = new Sound("Pris propre jeu",soundPool.load(appContext,R.raw.pris_propre_jeu,1));
-            soundPtitZizi = new Sound("Ptit zizi",soundPool.load(appContext,R.raw.ptit_zizi,1));
-            soundPtiteBite = new Sound("Ptite bite",soundPool.load(appContext,R.raw.ptite_bite,1));
-            soundPueDuCul = new Sound("Pue du cul",soundPool.load(appContext,R.raw.pue_du_cul,1));
-            soundQueSePasseTIl = new Sound("Que se passe t'il ",soundPool.load(appContext,R.raw.que_ce_passe_t_il,1));
-            soundQuelqueSorte = new Sound("Quelque Sorte",soundPool.load(appContext,R.raw.quelque_sorte,1));
-            soundQuiEstLa = new Sound("Qui est la",soundPool.load(appContext,R.raw.qui_est_la,1));
-            soundQuoi01 = new Sound("Quoi - 01",soundPool.load(appContext,R.raw.quoi,1));
-            soundQuoi02 = new Sound("Quoi - 02",soundPool.load(appContext,R.raw.quoi02,1));
-            soundQuoi03 = new Sound("Quoi - 03",soundPool.load(appContext,R.raw.quoi03,1));
-            soundSante = new Sound("Sante",soundPool.load(appContext,R.raw.sante,1));
-            soundScandaleux = new Sound("Scandaleux",soundPool.load(appContext,R.raw.scandaleux,1));
-            soundSuperBaise = new Sound("Super Baise",soundPool.load(appContext,R.raw.super_baise,1));
-            soundSuperSpirituel = new Sound("Super Spirituel",soundPool.load(appContext,R.raw.super_spirituel,1));
-            soundTrahison = new Sound("Trahison",soundPool.load(appContext,R.raw.trahison,1));
-            soundTripleEpaisseur = new Sound("Triple epaisseur",soundPool.load(appContext,R.raw.triple_epaisseur,1));
-            soundTropPlaisir = new Sound("Trop plaisir",soundPool.load(appContext,R.raw.trop_plaisir,1));
-            soundTrucDeMazo = new Sound("Truc de mazo",soundPool.load(appContext,R.raw.truc_de_mazo,1));
-            soundTrueStory = new Sound("True Story",soundPool.load(appContext,R.raw.true_story,1));
-            soundVachementBath = new Sound("Vachement bath",soundPool.load(appContext,R.raw.vachement_bath,1));
-            soundViens01 = new Sound("Viens - 01",soundPool.load(appContext,R.raw.viens01,1));
-            soundViens02 = new Sound("Viens - 02",soundPool.load(appContext,R.raw.viens02,1));
-            soundVieuxMan = new Sound("Vieux man",soundPool.load(appContext,R.raw.vieux_man,1));
-            soundVoirMaBite = new Sound("Voir ma bite",soundPool.load(appContext,R.raw.voir_ma_bite,1));
-            soundVrai = new Sound("Vrai",soundPool.load(appContext,R.raw.vrai,1));
+            soundPqTropManque = new Sound("PQ Trop manqué",R.raw.pq_trop_manque);
+            soundPrejudice = new Sound("Prejudice",R.raw.prejudice);
+            soundPrevoyant = new Sound("Prevoyant",R.raw.prevoyant);
+            soundPrisPropreJeu = new Sound("Pris propre jeu",R.raw.pris_propre_jeu);
+            soundPtitZizi = new Sound("Ptit zizi",R.raw.ptit_zizi);
+            soundPtiteBite = new Sound("Ptite bite",R.raw.ptite_bite);
+            soundPueDuCul = new Sound("Pue du cul",R.raw.pue_du_cul);
+            soundQueSePasseTIl = new Sound("Que se passe t'il ",R.raw.que_ce_passe_t_il);
+            soundQuelqueSorte = new Sound("Quelque Sorte",R.raw.quelque_sorte);
+            soundQuiEstLa = new Sound("Qui est la",R.raw.qui_est_la);
+            soundQuoi01 = new Sound("Quoi - 01",R.raw.quoi);
+            soundQuoi02 = new Sound("Quoi - 02",R.raw.quoi02);
+            soundQuoi03 = new Sound("Quoi - 03",R.raw.quoi03);
+            soundSante = new Sound("Sante",R.raw.sante);
+            soundScandaleux = new Sound("Scandaleux",R.raw.scandaleux);
+            soundSuperBaise = new Sound("Super Baise",R.raw.super_baise);
+            soundSuperSpirituel = new Sound("Super Spirituel",R.raw.super_spirituel);
+            soundTrahison = new Sound("Trahison",R.raw.trahison);
+            soundTripleEpaisseur = new Sound("Triple epaisseur",R.raw.triple_epaisseur);
+            soundTropPlaisir = new Sound("Trop plaisir",R.raw.trop_plaisir);
+            soundTrucDeMazo = new Sound("Truc de mazo",R.raw.truc_de_mazo);
+            soundTrueStory = new Sound("True Story",R.raw.true_story);
+            soundVachementBath = new Sound("Vachement bath",R.raw.vachement_bath);
+            soundViens01 = new Sound("Viens - 01",R.raw.viens01);
+            soundViens02 = new Sound("Viens - 02",R.raw.viens02);
+            soundVieuxMan = new Sound("Vieux man",R.raw.vieux_man);
+            soundVoirMaBite = new Sound("Voir ma bite",R.raw.voir_ma_bite);
+            soundVrai = new Sound("Vrai",R.raw.vrai);
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
