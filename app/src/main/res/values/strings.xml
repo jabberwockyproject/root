@@ -15,4 +15,7 @@
     <string name="theme_favorites_name">Favorites</string>
     <string name="sound_count">Sound(s)</string>
     <string name="base_speed">x1</string>
+    <string name="search_dialog_title">What do you want, Bro ?</string>
+    <string name="search_type">Type your research</string>
+
 </resources>

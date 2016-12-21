@@ -13,9 +13,11 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -371,6 +373,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
 
             try {
+
+                if(!saveFile.exists()) {
+                    saveFile.createNewFile();
+                    System.out.println(saveFile + " file created on load");
+                }
                 //FileReader reads the file
                 fileReader = new FileReader(saveFile);
 
@@ -615,7 +622,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         try {
             if(!saveFile.exists()) {
                 saveFile.createNewFile();
-                System.out.println(saveFile + "file created");
+                System.out.println(saveFile + " file created on quit");
             }
             writer = new FileWriter(saveFile);
             buffWrite = new BufferedWriter(writer);
@@ -650,12 +657,64 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * this method if clicked. There is a check on which    *
      * button was clicked so the correct action is performed*
      ********************************************************/
+
     public void onClick(View v) {
 
         //Search button was clicked
+
+
+
+
+
+
+
         if(findViewById(R.id.search_button) == v) {
+            LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
+            View searchView = layoutInflaterAndroid.inflate(R.layout.search_dialog, null);
+            AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(MainActivity.this);
+            alertDialogBuilderUserInput.setView(searchView);
+
+
+            final EditText userInputDialogEditText = (EditText) searchView.findViewById(R.id.userInputDialog);
+            alertDialogBuilderUserInput
+                    .setCancelable(false)
+                    .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogBox, int id) {
+                            String userInput = userInputDialogEditText.getText().toString();
+                            System.out.println(userInput);
+                            dialogBox.cancel();
+
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogBox, int id) {
+                            dialogBox.cancel();
+                        }
+                    });
+            AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+            alertDialogAndroid.show();
+
+
+
+
+
+
+            /*********** TEST TO UNIFY TO LOWER CASE
+            String test = "This is not an exercise";
+            boolean b = false;
+            String entry = "Not";
+
+            if (test.toLowerCase().contains(entry.toLowerCase())){
+                b = true;
+                System.out.println("test is " + b);
+            }
+            else System.out.println(b);
+            END OF USELESS CODE *********/
+
 
         }
+
 
         //Theme button was clicked
         if(findViewById(R.id.theme_button) == v || findViewById(R.id.current_theme_display) == v) {
