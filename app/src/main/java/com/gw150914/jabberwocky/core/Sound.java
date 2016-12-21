@@ -15,8 +15,9 @@ public class Sound {
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    private String name;    //Sound name.
-    private int soundId;    //Sound ID. provided by a SoundPool. CHANGES AT EACH COLD-START
+    String name;    //Sound name.
+    int resId;      //Resource ID.
+    int soundId;    //Sound ID. provided by a SoundPool. CHANGES AT EACH COLD-START
 
 
     /*****************************************************************************************
@@ -24,23 +25,25 @@ public class Sound {
      *****************************************************************************************/
 
     //Constructor 1
-    public Sound() {
-        name = "unnamed";
+    public Sound(String name) {
+        this.name = name;
+        resId = 0;
         soundId = 0;
     }
 
     //Constructor 2
-    public Sound(String newName) {
-        name = newName;
+    public Sound(String name, int resId) {
+        this.name = name;
+        this.resId = resId;
         soundId = 0;
     }
 
     //Constructor 3
-    public Sound(String newName, int newSoundId) {
-        name = newName;
-        soundId = newSoundId;
+    public Sound(String name, int resId, int soundId) {
+        this.name = name;
+        this.resId = resId;
+        this.soundId = soundId;
     }
-
 
     /*****************************************************************************************
      * =================================[ GETTORS / SETTORS ]=============================== *
@@ -51,21 +54,31 @@ public class Sound {
         return name;
     }
 
+    //Return Resource ID
+    public int getResId() {
+        return resId;
+    }
+
     //Return Sound ID
     public int getSoundId() {
         return soundId;
     }
 
     //Set Sound name
-    public void setName(String newName) {
-        name = newName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    //Set Resource ID
+    public void setResId(int resId) {
+        this.resId = resId;
     }
 
     //Set Sound ID
-    public void setSoundID(int newSoundId) {
-        soundId = newSoundId;
+    public void setSoundId(int soundId) {
+        this.soundId = soundId;
     }
-
+}
 
 /*
 MEDITATIONS VII.XL - M.Aurelius
@@ -76,5 +89,3 @@ never hot and vehement in his affections,
 nor yet so cold and stupid as one that had no sense;
 and free from all manner of dissimulation.
 */
-
-}
