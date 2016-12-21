@@ -154,8 +154,8 @@ public class Theme {
         //Iterate through the soundList until the sound is found or all sounds are scanned.
         while(!soundFound && index < soundsCount) {
 
-            //If the sound is a match, set soundFound as true. Sounds' soundIds are used to find a match.
-            if (oldSound.getSoundId() == soundList[index].getSoundId()) {
+            //If the sound is a match, set soundFound as true. Sounds' resIds are used to find a match.
+            if (oldSound.getResId() == soundList[index].getResId()) {
                 soundFound = true;
             }
 
@@ -260,7 +260,7 @@ public class Theme {
 
         //Iterate through soundList and look for a match. Break and set duplicate at true as soon as a match is found.
         while(!duplicate && index < soundsCount) {
-            if(soundToCheck.getSoundId() == soundList[index++].getSoundId()) {
+            if(soundToCheck.getResId() == soundList[index++].getResId()) {
                 duplicate = true;
             }
         }
