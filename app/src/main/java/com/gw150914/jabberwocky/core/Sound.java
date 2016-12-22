@@ -15,9 +15,10 @@ public class Sound {
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    String name;    //Sound name.
-    int resId;      //Resource ID.
-    int soundId;    //Sound ID. provided by a SoundPool. CHANGES AT EACH COLD-START
+    private String name;    //Sound name.
+    private int resId;      //Resource ID.
+    private int soundId;    //Sound ID. provided by a SoundPool. CHANGES AT EACH COLD-START
+    private boolean onDemandFlag;
 
 
     /*****************************************************************************************
@@ -29,6 +30,7 @@ public class Sound {
         this.name = name;
         resId = 0;
         soundId = 0;
+        onDemandFlag = false;
     }
 
     //Constructor 2
@@ -36,6 +38,7 @@ public class Sound {
         this.name = name;
         this.resId = resId;
         soundId = 0;
+        onDemandFlag = false;
     }
 
     //Constructor 3
@@ -43,6 +46,7 @@ public class Sound {
         this.name = name;
         this.resId = resId;
         this.soundId = soundId;
+        onDemandFlag = false;
     }
 
     /*****************************************************************************************
@@ -64,6 +68,11 @@ public class Sound {
         return soundId;
     }
 
+    //Return onDemand flag
+    public boolean getonDemandFlag() {
+        return onDemandFlag;
+    }
+
     //Set Sound name
     public void setName(String name) {
         this.name = name;
@@ -77,6 +86,11 @@ public class Sound {
     //Set Sound ID
     public void setSoundId(int soundId) {
         this.soundId = soundId;
+    }
+
+    //Set onDemand flag
+    public void setOnDemandFlag(boolean flag) {
+        onDemandFlag = flag;
     }
 }
 

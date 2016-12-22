@@ -18,6 +18,6 @@
     <color name="sound_count_display">#aa7fb4c4</color>
     <color name="buttons_zone_separator">#EE006688</color>
     <color name="sound_speed_background">#00000000</color>
+    <color name="sound_loaded">#00ff00ff</color>
 
-    sound_count_display
 </resources>

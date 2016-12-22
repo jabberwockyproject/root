@@ -490,6 +490,22 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
             //Save the soundEngine sound pool now to avoid multiple soundEngine calls in threads.
             soundPool = soundEngine.getSoundPool();
+            soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+                        public void onLoadComplete(SoundPool soundPool, int soundId, int status) {
+                            System.out.println("SOUNDID: " + soundId);
+                            int index = themeEngine.getTheme(0).getIndexBySoundId(soundId);
+                            Sound sound;
+                            System.out.println("INDEX: " + index);
+                            if(index >= 0) {
+                                sound = themeEngine.getTheme(0).getSound(index);
+                                if(sound.getonDemandFlag()) {
+                                    soundEngine.playSound(soundId);
+                                    sound.setOnDemandFlag(false);
+                                }
+                            }
+                        }
+                    }
+            );
 
             //Instantiate all loading threads.
             SoundInitThread loadingThread1 = new SoundInitThread();
@@ -687,9 +703,12 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         if(findViewById(R.id.sound_List_Display) == parent) {
             Sound sound = themeEngine.getCurrentTheme().getSound(pos);
             if(sound.getSoundId() == 0) {
+                sound.setOnDemandFlag(true);
                 sound.setSoundId(soundEngine.getSoundPool().load(appContext, sound.getResId(), 1));
             }
-            soundEngine.playSound(themeEngine.getCurrentTheme().getSound(pos).getSoundId());
+            else {
+                soundEngine.playSound(themeEngine.getCurrentTheme().getSound(pos).getSoundId());
+            }
         }
     }
 

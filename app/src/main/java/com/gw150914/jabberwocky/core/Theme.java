@@ -232,6 +232,23 @@ public class Theme {
         }
     }
 
+    public int getIndexBySoundId(int id) {
+        if(id != 0) {
+            int index = 0;
+            while(index < soundsCount) {
+                if(soundList[index].getSoundId() == id) {
+                    return index;
+                }
+                else {
+                    ++index;
+                }
+            }
+            return -1;
+        }
+        else {
+            return -2;
+        }
+    }
 
     /*****************************************************************************************
      * =================================[ PRIVATE METHODS ]================================= *
