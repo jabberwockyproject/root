@@ -436,6 +436,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                         //Once Themes are fully set update themeEngine, UI and then fragments.
                         if(thread10JobDone && !themeInitDone) {
 
+                            //We do not want to go there anymore
+                            themeInitDone = true;
+
                             //Add themes to the theme engine. WARNING: themeAll MUST be 1st, themeFav MUST be 2nd.
                             themeEngine.addTheme(themeAll);
                             //themeEngine.addTheme(themeFav);
