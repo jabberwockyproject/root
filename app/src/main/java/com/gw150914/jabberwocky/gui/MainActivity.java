@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     final int  soundLoadThread2EndIndex = 81;
     final int soundTotal = 81;
 
-    private boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeInitDone;
+    private boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeInitDone, soundLoadDone;
     private SoundEngine soundEngine;
     private ThemeEngine themeEngine;
     private Sound soundAndreaPasLa, soundAttention01, soundAttention02, soundAttention03, soundAttention04, soundAttention05, soundAttention06, soundAucunRapport, soundBonneIdee, soundCalomnie, soundChinois01, soundChinois02, soundCokeVachementBath, soundComprendsPas, soundCracheBeaucoup, soundDebandade, soundDefection, soundEmbarrassant, soundExigeReponse, soundFaux, soundFoutLaRage, soundGrosGourdin, soundGrosseBlague, soundHabile, soundHallucine, soundHumour, soundIncomprehensible, soundInteressePas, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMalentendu, soundMarcheBien, soundMeSensSeul, soundMethTropDeLaBalle01, soundMethTropDeLaBalle02, soundMistake, soundNemrod, soundNoFuckingBalls, soundNouveaute, soundOhOui, soundOnSEmmerde, soundOsef, soundPasCool, soundPasDrole, soundPlaisanterie01, soundPlaisanterie02, soundPouleMouillee, soundPourquoi, soundPqEmergency, soundPqIncroyable, soundPqReche, soundPqTropDoux, soundPqTropManque, soundPrejudice, soundPrevoyant, soundPrisPropreJeu, soundPtitZizi, soundPtiteBite, soundPueDuCul, soundQueSePasseTIl, soundQuelqueSorte, soundQuiEstLa, soundQuoi01, soundQuoi02, soundQuoi03, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTripleEpaisseur, soundTropPlaisir, soundTrucDeMazo, soundTrueStory, soundVachementBath, soundViens01, soundViens02, soundVieuxMan, soundVoirMaBite, soundVrai;
@@ -189,6 +189,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         private Message message;
 
+
         SoundLoadThread1() {
             message = new Message();
             message.arg1 = 1;   //thread id
@@ -198,7 +199,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         public void run() {
 
             for(int index = soundLoadThread1StartIndex; index < soundLoadThread1EndIndex; ++index) {
-                soundArray[index].setSoundId(soundPool.load(appContext, soundArray[index].getResId(), 1));
+                if(soundArray[index].getSoundId() == 0) {
+                    soundArray[index].setSoundId(soundPool.load(appContext, soundArray[index].getResId(), 1));
+                }
             }
 
             //Send a message to handler with the finished flag set
@@ -221,7 +224,37 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         public void run() {
 
             for(int index = soundLoadThread2StartIndex; index < soundLoadThread2EndIndex; ++index) {
-                soundArray[index].setSoundId(soundPool.load(appContext, soundArray[index].getResId(), 1));
+                if(soundArray[index].getSoundId() == 0) {
+                    soundArray[index].setSoundId(soundPool.load(appContext, soundArray[index].getResId(), 1));
+                }
+            }
+
+            //Send a message to handler with the finished flag set
+            message.arg2 = 1;
+            loadingHandler.sendMessage(message);
+        }
+    }
+
+    //This classes is designed to load a set of sounds in memory in a separate thread.
+    private class SoundLoadThread implements Runnable {
+
+        private Message message;
+        private Sound[] soundList;
+        private int soundCount;
+
+        SoundLoadThread(Sound[] soundList, int soundCount) {
+            message = new Message();
+            message.arg1 = 30;   //thread id
+            message.arg2 = 0;   //thread status (0=ongoing, 1=done)
+            this.soundList = soundList;
+            this.soundCount = soundCount;
+        }
+
+        public void run() {
+            for(int index = 0; index < soundCount; ++index) {
+                if(soundList[index].getSoundId() == 0) {
+                    soundList[index].setSoundId(soundPool.load(appContext, soundList[index].getResId(), 1));
+                }
             }
 
             //Send a message to handler with the finished flag set
@@ -468,6 +501,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             soundEngineFragment.setData(soundEngine);
                             themeEngineFragment.setData(themeEngine);
                         }
+                        if(thread1JobDone && thread2JobDone && !soundLoadDone) {
+                            soundLoadDone = true;
+                        }
                     }
                 }
             };
@@ -480,6 +516,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             thread11JobDone = false;
             soundInitDone = false;
             themeInitDone = false;
+            soundLoadDone = false;
 
             //Instantiate the sound engine.
             soundEngine = new SoundEngine((AudioManager) this.getSystemService(Context.AUDIO_SERVICE));
@@ -612,7 +649,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                     soundListDisplay.setAdapter(adapter);
                     currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
                     soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
-
+                    if(!soundLoadDone) {
+                        threadPoolExec.submit(new SoundLoadThread(themeEngine.getCurrentTheme().getSoundList(), themeEngine.getCurrentTheme().getSoundsCount()));
+                    }
                     dialog.dismiss();
                 }
             });
