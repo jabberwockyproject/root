@@ -685,6 +685,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      ********************************************************/
     public void onItemClick(AdapterView parent, View v, int pos, long id) {
         if(findViewById(R.id.sound_List_Display) == parent) {
+            Sound sound = themeEngine.getCurrentTheme().getSound(pos);
+            if(sound.getSoundId() == 0) {
+                sound.setSoundId(soundEngine.getSoundPool().load(appContext, sound.getResId(), 1));
+            }
             soundEngine.playSound(themeEngine.getCurrentTheme().getSound(pos).getSoundId());
         }
     }
