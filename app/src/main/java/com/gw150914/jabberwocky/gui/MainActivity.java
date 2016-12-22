@@ -1,7 +1,6 @@
 package com.gw150914.jabberwocky.gui;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,12 +27,9 @@ import com.gw150914.jabberwocky.core.SoundEngine;
 import com.gw150914.jabberwocky.core.ThemeEngine;
 import com.gw150914.jabberwocky.core.ThemeEngineFragment;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -55,25 +50,23 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     final int  soundLoadThread2EndIndex = 81;
     final int soundTotal = 81;
 
-    private boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeInitDone, soundLoadDone;
-    private SoundEngine soundEngine;
-    private ThemeEngine themeEngine;
-    private Sound soundAndreaPasLa, soundAttention01, soundAttention02, soundAttention03, soundAttention04, soundAttention05, soundAttention06, soundAucunRapport, soundBonneIdee, soundCalomnie, soundChinois01, soundChinois02, soundCokeVachementBath, soundComprendsPas, soundCracheBeaucoup, soundDebandade, soundDefection, soundEmbarrassant, soundExigeReponse, soundFaux, soundFoutLaRage, soundGrosGourdin, soundGrosseBlague, soundHabile, soundHallucine, soundHumour, soundIncomprehensible, soundInteressePas, soundLeGitan, soundMachiavellique, soundMagnerLeCul, soundMaitreMichel, soundMalentendu, soundMarcheBien, soundMeSensSeul, soundMethTropDeLaBalle01, soundMethTropDeLaBalle02, soundMistake, soundNemrod, soundNoFuckingBalls, soundNouveaute, soundOhOui, soundOnSEmmerde, soundOsef, soundPasCool, soundPasDrole, soundPlaisanterie01, soundPlaisanterie02, soundPouleMouillee, soundPourquoi, soundPqEmergency, soundPqIncroyable, soundPqReche, soundPqTropDoux, soundPqTropManque, soundPrejudice, soundPrevoyant, soundPrisPropreJeu, soundPtitZizi, soundPtiteBite, soundPueDuCul, soundQueSePasseTIl, soundQuelqueSorte, soundQuiEstLa, soundQuoi01, soundQuoi02, soundQuoi03, soundSante, soundScandaleux, soundSuperBaise, soundSuperSpirituel, soundTrahison, soundTripleEpaisseur, soundTropPlaisir, soundTrucDeMazo, soundTrueStory, soundVachementBath, soundViens01, soundViens02, soundVieuxMan, soundVoirMaBite, soundVrai;
-    private Theme themeAll, themeFav, themePq, themeTaunt;
-    private SoundEngineFragment soundEngineFragment;
-    private ThemeEngineFragment themeEngineFragment;
-    private FragmentManager fragmentManager;
-    private ArrayAdapter<String> adapter;
-    private ListView soundListDisplay;
-    private TextView currentThemeTextView;
-    private TextView soundCountTextView;
-    private TextView soundSpeedTextView;
-    private ProgressBar progressBar;
-    private SoundPool soundPool;
-    private Context appContext;
-    private Handler loadingHandler;
-    private ThreadPoolExecutor threadPoolExec;
-
+    boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeInitDone, soundLoadDone;
+    SoundEngine soundEngine;
+    ThemeEngine themeEngine;
+    Theme themeAll, themeFav, themePq, themeTaunt;
+    SoundEngineFragment soundEngineFragment;
+    ThemeEngineFragment themeEngineFragment;
+    FragmentManager fragmentManager;
+    ArrayAdapter<String> adapter;
+    ListView soundListDisplay;
+    TextView currentThemeTextView;
+    TextView soundCountTextView;
+    TextView soundSpeedTextView;
+    ProgressBar progressBar;
+    SoundPool soundPool;
+    Context appContext;
+    Handler loadingHandler;
+    ThreadPoolExecutor threadPoolExec;
     Sound[] soundArray;
 
 
