@@ -231,26 +231,24 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 themeAll.addSound(soundArray[index]);
             }
 
-            /*
-            themeTaunt.addSound(soundInteressePas);
-            themeTaunt.addSound(soundLeGitan);
-            themeTaunt.addSound(soundMagnerLeCul);
-            themeTaunt.addSound(soundNoFuckingBalls);
-            themeTaunt.addSound(soundOnSEmmerde);
-            themeTaunt.addSound(soundOsef);
-            themeTaunt.addSound(soundPasDrole);
-            themeTaunt.addSound(soundPouleMouillee);
-            themeTaunt.addSound(soundPtiteBite);
-            themeTaunt.addSound(soundPtitZizi);
-            themeTaunt.addSound(soundVieuxMan);
+            themeTaunt.addSound(soundArray[27]);
+            themeTaunt.addSound(soundArray[28]);
+            themeTaunt.addSound(soundArray[30]);
+            themeTaunt.addSound(soundArray[39]);
+            themeTaunt.addSound(soundArray[42]);
+            themeTaunt.addSound(soundArray[43]);
+            themeTaunt.addSound(soundArray[45]);
+            themeTaunt.addSound(soundArray[48]);
+            themeTaunt.addSound(soundArray[58]);
+            themeTaunt.addSound(soundArray[59]);
+            themeTaunt.addSound(soundArray[79]);
 
-            themePq.addSound(soundPqEmergency);
-            themePq.addSound(soundPqIncroyable);
-            themePq.addSound(soundPqReche);
-            themePq.addSound(soundPqTropDoux);
-            themePq.addSound(soundPqTropManque);
-            themePq.addSound(soundTripleEpaisseur);
-            */
+            themePq.addSound(soundArray[50]);
+            themePq.addSound(soundArray[51]);
+            themePq.addSound(soundArray[52]);
+            themePq.addSound(soundArray[50]);
+            themePq.addSound(soundArray[50]);
+            themePq.addSound(soundArray[72]);
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
@@ -421,9 +419,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
                             //Add themes to the theme engine. WARNING: themeAll MUST be 1st, themeFav MUST be 2nd.
                             themeEngine.addTheme(themeAll);
-                            //themeEngine.addTheme(themeFav);
-                            //themeEngine.addTheme(themeTaunt);
-                            //themeEngine.addTheme(themePq);
+                            themeEngine.addTheme(themeFav);
+                            themeEngine.addTheme(themeTaunt);
+                            themeEngine.addTheme(themePq);
 
                             //Update UI
                             adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list, themeEngine.getCurrentTheme().getSoundNameList());
