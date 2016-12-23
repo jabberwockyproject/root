@@ -154,8 +154,8 @@ public class Theme {
         //Iterate through the soundList until the sound is found or all sounds are scanned.
         while(!soundFound && index < soundsCount) {
 
-            //If the sound is a match, set soundFound as true. Sounds' soundIds are used to find a match.
-            if (oldSound.getSoundId() == soundList[index].getSoundId()) {
+            //If the sound is a match, set soundFound as true. Sounds' resIds are used to find a match.
+            if (oldSound.getResId() == soundList[index].getResId()) {
                 soundFound = true;
             }
 
@@ -232,6 +232,32 @@ public class Theme {
         }
     }
 
+    /******************[ getIndexBySoundId ]*****************
+     * Get a sound index (in soundList) from a sound ID.    *
+     ********************************************************/
+    public int getIndexBySoundId(int id) {
+
+        //If the sound ID is not 0
+        if(id != 0) {
+            int index = 0;
+            while(index < soundsCount) {
+                if(soundList[index].getSoundId() == id) {
+                    return index;
+                }
+                else {
+                    ++index;
+                }
+            }
+
+            //Return -1 if not sound has this sound ID.
+            return -1;
+        }
+
+        //If the sound ID is 0 then return -2 (uniqueness cannot be guaranteed).
+        else {
+            return -2;
+        }
+    }
 
     /*****************************************************************************************
      * =================================[ PRIVATE METHODS ]================================= *
@@ -260,7 +286,7 @@ public class Theme {
 
         //Iterate through soundList and look for a match. Break and set duplicate at true as soon as a match is found.
         while(!duplicate && index < soundsCount) {
-            if(soundToCheck.getSoundId() == soundList[index++].getSoundId()) {
+            if(soundToCheck.getResId() == soundList[index++].getResId()) {
                 duplicate = true;
             }
         }

@@ -15,8 +15,10 @@ public class Sound {
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    private String name;    //Sound name.
-    private int soundId;    //Sound ID. provided by a SoundPool. CHANGES AT EACH COLD-START
+    private String name;            //Sound name.
+    private int resId;              //Resource ID.
+    private int soundId;            //Sound ID. provided by a SoundPool. CHANGES AT EACH COLD-START
+    private boolean onDemandFlag;   //Has this sound an ongoing on demand loading process?
 
 
     /*****************************************************************************************
@@ -24,23 +26,28 @@ public class Sound {
      *****************************************************************************************/
 
     //Constructor 1
-    public Sound() {
-        name = "unnamed";
+    public Sound(String name) {
+        this.name = name;
+        resId = 0;
         soundId = 0;
+        onDemandFlag = false;
     }
 
     //Constructor 2
-    public Sound(String newName) {
-        name = newName;
+    public Sound(String name, int resId) {
+        this.name = name;
+        this.resId = resId;
         soundId = 0;
+        onDemandFlag = false;
     }
 
     //Constructor 3
-    public Sound(String newName, int newSoundId) {
-        name = newName;
-        soundId = newSoundId;
+    public Sound(String name, int resId, int soundId) {
+        this.name = name;
+        this.resId = resId;
+        this.soundId = soundId;
+        onDemandFlag = false;
     }
-
 
     /*****************************************************************************************
      * =================================[ GETTORS / SETTORS ]=============================== *
@@ -51,21 +58,41 @@ public class Sound {
         return name;
     }
 
+    //Return Resource ID
+    public int getResId() {
+        return resId;
+    }
+
     //Return Sound ID
     public int getSoundId() {
         return soundId;
     }
 
+    //Return onDemand flag
+    public boolean getonDemandFlag() {
+        return onDemandFlag;
+    }
+
     //Set Sound name
-    public void setName(String newName) {
-        name = newName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    //Set Resource ID
+    public void setResId(int resId) {
+        this.resId = resId;
     }
 
     //Set Sound ID
-    public void setSoundID(int newSoundId) {
-        soundId = newSoundId;
+    public void setSoundId(int soundId) {
+        this.soundId = soundId;
     }
 
+    //Set onDemand flag
+    public void setOnDemandFlag(boolean flag) {
+        onDemandFlag = flag;
+    }
+}
 
 /*
 MEDITATIONS VII.XL - M.Aurelius
@@ -76,5 +103,3 @@ never hot and vehement in his affections,
 nor yet so cold and stupid as one that had no sense;
 and free from all manner of dissimulation.
 */
-
-}
