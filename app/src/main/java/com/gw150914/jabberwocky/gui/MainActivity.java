@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -371,13 +372,17 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             String soundRead;
             int soundPosition;
 
-
-            try {
-
-                if(!saveFile.exists()) {
+            if (!saveFile.exists()){
+                try {
                     saveFile.createNewFile();
                     System.out.println(saveFile + " file created on load");
+                }catch (IOException ioe){
+                    ioe.printStackTrace();
                 }
+            } else
+
+                try {
+
                 //FileReader reads the file
                 fileReader = new FileReader(saveFile);
 
@@ -605,8 +610,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         // store the data in the fragment
         soundEngineFragment.setData(soundEngine);
         themeEngineFragment.setData(themeEngine);
@@ -620,10 +625,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         String soundBuffer;
 
         try {
-            if(!saveFile.exists()) {
-                saveFile.createNewFile();
-                System.out.println(saveFile + " file created on quit");
-            }
+
             writer = new FileWriter(saveFile);
             buffWrite = new BufferedWriter(writer);
 
@@ -671,46 +673,63 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         if(findViewById(R.id.search_button) == v) {
             LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
             View searchView = layoutInflaterAndroid.inflate(R.layout.search_dialog, null);
-            AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(MainActivity.this);
-            alertDialogBuilderUserInput.setView(searchView);
+
+            final AlertDialog searchDialog = new AlertDialog.Builder(this).create();
+            searchDialog.setCanceledOnTouchOutside(false);
+            final EditText userInput = (EditText) searchView.findViewById(R.id.userInputDialog);
+            Button sendButton = (Button) searchView.findViewById(R.id.send_button);
+            Button cancelButton = (Button) searchView.findViewById(R.id.cancel_button);
+            final Theme themeSearch = new Theme("Last search");
+
+            sendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int searchIndex;
+                    //get text from EditText and store in a String
+                    String userSearch = userInput.getText().toString();
+                    System.out.println(userSearch);
+                    searchDialog.dismiss();
+
+                     for(searchIndex = 0; searchIndex < themeAll.getSoundsCount(); searchIndex++) {
+                           String buffSearch = themeAll.getSoundNameList().get(searchIndex);
+                           if (buffSearch.toLowerCase().contains(userSearch.toLowerCase())) {
+                               themeSearch.addSound(themeAll.getSound(searchIndex));
+
+                           }
+                      }
+
+                    int nbResults = themeSearch.getSoundsCount();
+                        if (nbResults != 0) {
 
 
-            final EditText userInputDialogEditText = (EditText) searchView.findViewById(R.id.userInputDialog);
-            alertDialogBuilderUserInput
-                    .setCancelable(false)
-                    .setPositiveButton("Send", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogBox, int id) {
-                            String userInput = userInputDialogEditText.getText().toString();
-                            System.out.println(userInput);
-                            dialogBox.cancel();
+                            //Set current active theme to the search results.
+                            themeEngine.setCurrentTheme(themeSearch);
+
+                            //Update UI accordingly to the new current active theme.
+                            adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list, themeEngine.getCurrentTheme().getSoundNameList());
+                            soundListDisplay.setAdapter(adapter);
+                            currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
+                            soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
+                        }
+                        else {
+                            System.out.println("No results for " + userSearch);
+                            //TODO add a dialog with "no results found"
 
                         }
-                    })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialogBox, int id) {
-                            dialogBox.cancel();
-                        }
-                    });
-            AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
-            alertDialogAndroid.show();
 
+                }
+            });
 
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    themeEngine.removeTheme(themeSearch);
+                    searchDialog.cancel();
+                }
+            });
+            searchDialog.setView(searchView);
+            searchDialog.show();
 
-
-
-
-            /*********** TEST TO UNIFY TO LOWER CASE
-            String test = "This is not an exercise";
-            boolean b = false;
-            String entry = "Not";
-
-            if (test.toLowerCase().contains(entry.toLowerCase())){
-                b = true;
-                System.out.println("test is " + b);
-            }
-            else System.out.println(b);
-            END OF USELESS CODE *********/
 
 
         }
