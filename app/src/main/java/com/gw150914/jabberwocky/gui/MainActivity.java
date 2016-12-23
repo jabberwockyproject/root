@@ -227,10 +227,15 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         public void run() {
 
+            //Set theme all
             for(int index = 0; index < TOTAL_SOUND; ++index) {
                 themeAll.addSound(soundArray[index]);
             }
 
+            //Theme all is ready, theme fav loading can now start.
+            threadPoolExec.submit(new FavLoadThread());
+
+            //Set theme taunt
             themeTaunt.addSound(soundArray[27]);
             themeTaunt.addSound(soundArray[28]);
             themeTaunt.addSound(soundArray[30]);
@@ -243,6 +248,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themeTaunt.addSound(soundArray[59]);
             themeTaunt.addSound(soundArray[79]);
 
+            //Set theme pq
             themePq.addSound(soundArray[50]);
             themePq.addSound(soundArray[51]);
             themePq.addSound(soundArray[52]);
@@ -275,25 +281,25 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             String soundRead;
             int soundPosition;
 
+            if(saveFile.canRead()) {
+                try {
+                    //FileReader reads the file
+                    fileReader = new FileReader(saveFile);
 
-            try {
-                //FileReader reads the file
-                fileReader = new FileReader(saveFile);
+                    //Pass stream to BufferedReader
+                    buffRead = new BufferedReader(fileReader);
 
-                //Pass stream to BufferedReader
-                buffRead = new BufferedReader(fileReader);
+                    for (soundRead = buffRead.readLine(); soundRead != null; soundRead = buffRead.readLine()) {
+                        System.out.println(soundRead);
+                        soundPosition = themeAll.getSoundNameList().indexOf(soundRead);
+                        themeFav.addSound(themeAll.getSound(soundPosition));
+                        System.out.println("Sound " + soundPosition + " loaded OK");
+                    }
 
-                for (soundRead = buffRead.readLine(); soundRead != null; soundRead = buffRead.readLine()){
-                    System.out.println(soundRead);
-                    soundPosition = themeAll.getSoundNameList().indexOf(soundRead);
-                    themeFav.addSound(themeAll.getSound(soundPosition));
-                    System.out.println("Sound " + soundPosition + " loaded OK");
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
                 }
-
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
             }
-
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
             loadingHandler.sendMessage(message);
@@ -403,7 +409,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
                             //Submit loading threads to the thread pool.
                             for(int loadingThreadId = 1; loadingThreadId <= MAX_LOADING_THREAD; ++loadingThreadId) {
-                                threadPoolExec.submit(new SoundLoadThread(soundArray, (loadingThreadId - 1), TOTAL_SOUND, MAX_LOADING_THREAD , loadingThreadId ));
+                                //threadPoolExec.submit(new SoundLoadThread(soundArray, (loadingThreadId - 1), TOTAL_SOUND, MAX_LOADING_THREAD , loadingThreadId ));
                             }
 
                             //Submit the Theme init thread to the thread pool.
@@ -520,8 +526,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         // store the data in the fragment
         soundEngineFragment.setData(soundEngine);
         themeEngineFragment.setData(themeEngine);
@@ -534,32 +540,37 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         int soundIndex;
         String soundBuffer;
 
-        try {
-            if(!saveFile.exists()) {
-                saveFile.createNewFile();
-                System.out.println(saveFile + "file created");
+        System.out.println("DEBUG: Trying to save favorites file");
+        if(!saveFile.exists()) {
+            try {
+                if (!saveFile.exists()) {
+                    saveFile.createNewFile();
+                    System.out.println("DEBUG: File does not exist, creating it: " + saveFile);
+                }
             }
+            catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+        else {
+            System.out.println("DEBUG: File already exist");
+        }
+
+        try {
             writer = new FileWriter(saveFile);
             buffWrite = new BufferedWriter(writer);
 
-            for(soundIndex = 0; soundIndex < themeFav.getSoundsCount(); soundIndex++){
+            for(soundIndex = 0; soundIndex < themeFav.getSoundsCount(); ++soundIndex){
                 soundBuffer = themeFav.getSound(soundIndex).getName();
                 buffWrite.write(soundBuffer);
                 System.out.println(soundBuffer);
                 buffWrite.newLine();
                 buffWrite.flush();
                 System.out.println("Line " + soundIndex + " OK");
-
             }
-            System.out.println("Fav list saved");
-
-
-
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-
-
     }
 
 
