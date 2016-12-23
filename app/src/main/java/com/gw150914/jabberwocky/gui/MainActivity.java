@@ -72,7 +72,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * ===================================[ NESTED CLASSES ]================================ *
      *****************************************************************************************/
 
-    //This classes is designed to load a set of sounds in memory in a separate thread.
+    //This classes is designed to init a set of sound objects in a separate thread.
     private class SoundInitThread implements Runnable {
 
         private Message message;
@@ -84,7 +84,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
 
         public void run() {
-            int index = 0;
             soundArray = new Sound[TOTAL_SOUND];
             soundArray[0] = new Sound("Andrea pas la",R.raw.andrea_pas_la);
             soundArray[1] = new Sound("Attention - 01",R.raw.attention01);
@@ -186,13 +185,14 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         private Sound[] soundList;
 
         SoundLoadThread(Sound[] soundList, int start, int end, int modulo, int threadId) {
-            message = new Message();
+
+            message = new Message();    //message object to be sent to thread handler
             message.arg1 = threadId;    //thread id
             message.arg2 = 0;           //thread status (0=ongoing, 1=done)
-            this.soundList = soundList;
-            this.start = start;
-            this.end = end;
-            this.modulo = modulo;
+            this.soundList = soundList; //the sound list to load in memory
+            this.start = start;         //starting point in the sound list to load
+            this.end = end;             //ending point in the sound list to load
+            this.modulo = modulo;       //iteration modulo in the sound list to load
         }
 
         public void run() {

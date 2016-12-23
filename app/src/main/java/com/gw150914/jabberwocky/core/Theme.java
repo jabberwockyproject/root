@@ -232,7 +232,12 @@ public class Theme {
         }
     }
 
+    /******************[ getIndexBySoundId ]*****************
+     * Get a sound index (in soundList) from a sound ID.    *
+     ********************************************************/
     public int getIndexBySoundId(int id) {
+
+        //If the sound ID is not 0
         if(id != 0) {
             int index = 0;
             while(index < soundsCount) {
@@ -243,8 +248,12 @@ public class Theme {
                     ++index;
                 }
             }
+
+            //Return -1 if not sound has this sound ID.
             return -1;
         }
+
+        //If the sound ID is 0 then return -2 (uniqueness cannot be guaranteed).
         else {
             return -2;
         }

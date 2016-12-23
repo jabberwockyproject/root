@@ -15,10 +15,10 @@ public class Sound {
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    private String name;    //Sound name.
-    private int resId;      //Resource ID.
-    private int soundId;    //Sound ID. provided by a SoundPool. CHANGES AT EACH COLD-START
-    private boolean onDemandFlag;
+    private String name;            //Sound name.
+    private int resId;              //Resource ID.
+    private int soundId;            //Sound ID. provided by a SoundPool. CHANGES AT EACH COLD-START
+    private boolean onDemandFlag;   //Has this sound an ongoing on demand loading process?
 
 
     /*****************************************************************************************
