@@ -44,11 +44,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    final int  soundLoadThread1StartIndex = 0;
-    final int  soundLoadThread1EndIndex = 40;
-    final int  soundLoadThread2StartIndex = 40;
-    final int  soundLoadThread2EndIndex = 81;
-    final int soundTotal = 81;
+    final int TOTAL_SOUND = 82;
+    final int MAX_LOADING_THREAD = 2;
 
     boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeInitDone, soundLoadDone;
     SoundEngine soundEngine;
@@ -87,89 +84,89 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         public void run() {
             int index = 0;
-            soundArray = new Sound[soundTotal+1];
-            soundArray[index++] = new Sound("Andrea pas la",R.raw.andrea_pas_la);
-            soundArray[index++] = new Sound("Attention - 01",R.raw.attention01);
-            soundArray[index++] = new Sound("Attention - 02",R.raw.attention02);
-            soundArray[index++] = new Sound("Attention - 03",R.raw.attention03);
-            soundArray[index++] = new Sound("Attention - 04",R.raw.attention04);
-            soundArray[index++] = new Sound("Attention - 05",R.raw.attention05);
-            soundArray[index++] = new Sound("Attention - 06",R.raw.attention06);
-            soundArray[index++] = new Sound("Aucun rapport",R.raw.aucun_rapport);
-            soundArray[index++] = new Sound("Bonne idée",R.raw.bonne_idee);
-            soundArray[index++] = new Sound("Calomnie",R.raw.calomnie);
-            soundArray[index++] = new Sound("Chinois - 01",R.raw.chinois01);
-            soundArray[index++] = new Sound("Chinois - 02",R.raw.chinois02);
-            soundArray[index++] = new Sound("La Coke c'est vachement bath",R.raw.coke_vachement_bath);
-            soundArray[index++] = new Sound("Comprends pas",R.raw.comprends_pas);
-            soundArray[index++] = new Sound("Crache beaucoup",R.raw.crache_beaucoup);
-            soundArray[index++] = new Sound("Débandade",R.raw.debandade);
-            soundArray[index++] = new Sound("Défection",R.raw.defection);
-            soundArray[index++] = new Sound("Embarrasant",R.raw.embarrassant);
-            soundArray[index++] = new Sound("J'exige une réponse",R.raw.exige_reponse);
-            soundArray[index++] = new Sound("Faux !",R.raw.faux);
-            soundArray[index++] = new Sound("Fout la rage",R.raw.fout_la_rage);
-            soundArray[index++] = new Sound("Gros gourdin",R.raw.gros_gourdin);
-            soundArray[index++] = new Sound("Grosse blague",R.raw.grosse_blague);
-            soundArray[index++] = new Sound("Habile",R.raw.habile);
-            soundArray[index++] = new Sound("Hallucine",R.raw.hallucine);
-            soundArray[index++] = new Sound("Humour",R.raw.humour);
-            soundArray[index++] = new Sound("Incompréhensible",R.raw.incomprehensible);
-            soundArray[index++] = new Sound("Interesse pas",R.raw.interesse_pas);
-            soundArray[index++] = new Sound("Ha le Gitan",R.raw.le_gitan);
-            soundArray[index++] = new Sound("Machiavellique",R.raw.machiavellique);
-            soundArray[index++] = new Sound("Magner le cul",R.raw.magner_le_cul);
-            soundArray[index++] = new Sound("Maitre Michel",R.raw.maitre_michel);
-            soundArray[index++] = new Sound("C'est un malentendu",R.raw.malentendu);
-            soundArray[index++] = new Sound("Ca marche bien",R.raw.marche_bien);
-            soundArray[index++] = new Sound("Me sens seul",R.raw.me_sens_seul);
-            soundArray[index++] = new Sound("La meth c'est trop de la balle - 01",R.raw.meth_trop_de_la_balle);
-            soundArray[index++] = new Sound("La meth c'est trop de la balle - 02",R.raw.meth_trop_de_la_balle02);
-            soundArray[index++] = new Sound("Mistake",R.raw.mistake);
-            soundArray[index++] = new Sound("Nemrod",R.raw.nemrod);
-            soundArray[index++] = new Sound("No Fucking Balls",R.raw.no_fucking_balls);
-            soundArray[index++] = new Sound("Nouveaute",R.raw.nouveaute);
-            soundArray[index++] = new Sound("Oh oui",R.raw.oh_oui);
-            soundArray[index++] = new Sound("On s'emmerde",R.raw.on_s_emmerde);
-            soundArray[index++] = new Sound("Osef",R.raw.osef);
-            soundArray[index++] = new Sound("Pas Cool",R.raw.pas_cool);
-            soundArray[index++] = new Sound("Pas Drole",R.raw.pas_drole);
-            soundArray[index++] = new Sound("Plaisanterie - 01",R.raw.plaisanterie01);
-            soundArray[index++] = new Sound("Plaisanterie - 02",R.raw.plaisanterie02);
-            soundArray[index++] = new Sound("Poule mouillée",R.raw.poule_mouillee);
-            soundArray[index++] = new Sound("Pourquoi",R.raw.pourquoi);
-            soundArray[index++] = new Sound("PQ Emergency",R.raw.pq_emergency);
-            soundArray[index++] = new Sound("PQ Incroyable",R.raw.pq_incroyable);
-            soundArray[index++] = new Sound("Ce PQ est un peu reche",R.raw.pq_reche);
-            soundArray[index++] = new Sound("PQ trop doux",R.raw.pq_trop_doux);
-            soundArray[index++] = new Sound("PQ Trop manqué",R.raw.pq_trop_manque);
-            soundArray[index++] = new Sound("Prejudice",R.raw.prejudice);
-            soundArray[index++] = new Sound("Prevoyant",R.raw.prevoyant);
-            soundArray[index++] = new Sound("Pris propre jeu",R.raw.pris_propre_jeu);
-            soundArray[index++] = new Sound("Ptit zizi",R.raw.ptit_zizi);
-            soundArray[index++] = new Sound("Ptite bite",R.raw.ptite_bite);
-            soundArray[index++] = new Sound("Pue du cul",R.raw.pue_du_cul);
-            soundArray[index++] = new Sound("Que se passe t'il ",R.raw.que_ce_passe_t_il);
-            soundArray[index++] = new Sound("Quelque Sorte",R.raw.quelque_sorte);
-            soundArray[index++] = new Sound("Qui est la",R.raw.qui_est_la);
-            soundArray[index++] = new Sound("Quoi - 01",R.raw.quoi);
-            soundArray[index++] = new Sound("Quoi - 02",R.raw.quoi02);
-            soundArray[index++] = new Sound("Quoi - 03",R.raw.quoi03);
-            soundArray[index++] = new Sound("Sante",R.raw.sante);
-            soundArray[index++] = new Sound("Scandaleux",R.raw.scandaleux);
-            soundArray[index++] = new Sound("Super Baise",R.raw.super_baise);
-            soundArray[index++] = new Sound("Super Spirituel",R.raw.super_spirituel);
-            soundArray[index++] = new Sound("Trahison",R.raw.trahison);
-            soundArray[index++] = new Sound("Triple epaisseur",R.raw.triple_epaisseur);
-            soundArray[index++] = new Sound("Trop plaisir",R.raw.trop_plaisir);
-            soundArray[index++] = new Sound("Truc de mazo",R.raw.truc_de_mazo);
-            soundArray[index++] = new Sound("True Story",R.raw.true_story);
-            soundArray[index++] = new Sound("Vachement bath",R.raw.vachement_bath);
-            soundArray[index++] = new Sound("Viens - 01",R.raw.viens01);
-            soundArray[index++] = new Sound("Viens - 02",R.raw.viens02);
-            soundArray[index++] = new Sound("Vieux man",R.raw.vieux_man);
-            soundArray[index++] = new Sound("Voir ma bite",R.raw.voir_ma_bite);
-            soundArray[index++] = new Sound("Vrai",R.raw.vrai);
+            soundArray = new Sound[TOTAL_SOUND];
+            soundArray[0] = new Sound("Andrea pas la",R.raw.andrea_pas_la);
+            soundArray[1] = new Sound("Attention - 01",R.raw.attention01);
+            soundArray[2] = new Sound("Attention - 02",R.raw.attention02);
+            soundArray[3] = new Sound("Attention - 03",R.raw.attention03);
+            soundArray[4] = new Sound("Attention - 04",R.raw.attention04);
+            soundArray[5] = new Sound("Attention - 05",R.raw.attention05);
+            soundArray[6] = new Sound("Attention - 06",R.raw.attention06);
+            soundArray[7] = new Sound("Aucun rapport",R.raw.aucun_rapport);
+            soundArray[8] = new Sound("Bonne idée",R.raw.bonne_idee);
+            soundArray[9] = new Sound("Calomnie",R.raw.calomnie);
+            soundArray[10] = new Sound("Chinois - 01",R.raw.chinois01);
+            soundArray[11] = new Sound("Chinois - 02",R.raw.chinois02);
+            soundArray[12] = new Sound("La Coke c'est vachement bath",R.raw.coke_vachement_bath);
+            soundArray[13] = new Sound("Comprends pas",R.raw.comprends_pas);
+            soundArray[14] = new Sound("Crache beaucoup",R.raw.crache_beaucoup);
+            soundArray[15] = new Sound("Débandade",R.raw.debandade);
+            soundArray[16] = new Sound("Défection",R.raw.defection);
+            soundArray[17] = new Sound("Embarrasant",R.raw.embarrassant);
+            soundArray[18] = new Sound("J'exige une réponse",R.raw.exige_reponse);
+            soundArray[19] = new Sound("Faux !",R.raw.faux);
+            soundArray[20] = new Sound("Fout la rage",R.raw.fout_la_rage);
+            soundArray[21] = new Sound("Gros gourdin",R.raw.gros_gourdin);
+            soundArray[22] = new Sound("Grosse blague",R.raw.grosse_blague);
+            soundArray[23] = new Sound("Habile",R.raw.habile);
+            soundArray[24] = new Sound("Hallucine",R.raw.hallucine);
+            soundArray[25] = new Sound("Humour",R.raw.humour);
+            soundArray[26] = new Sound("Incompréhensible",R.raw.incomprehensible);
+            soundArray[27] = new Sound("Interesse pas",R.raw.interesse_pas);
+            soundArray[28] = new Sound("Ha le Gitan",R.raw.le_gitan);
+            soundArray[29] = new Sound("Machiavellique",R.raw.machiavellique);
+            soundArray[30] = new Sound("Magner le cul",R.raw.magner_le_cul);
+            soundArray[31] = new Sound("Maitre Michel",R.raw.maitre_michel);
+            soundArray[32] = new Sound("C'est un malentendu",R.raw.malentendu);
+            soundArray[33] = new Sound("Ca marche bien",R.raw.marche_bien);
+            soundArray[34] = new Sound("Me sens seul",R.raw.me_sens_seul);
+            soundArray[35] = new Sound("La meth c'est trop de la balle - 01",R.raw.meth_trop_de_la_balle);
+            soundArray[36] = new Sound("La meth c'est trop de la balle - 02",R.raw.meth_trop_de_la_balle02);
+            soundArray[37] = new Sound("Mistake",R.raw.mistake);
+            soundArray[38] = new Sound("Nemrod",R.raw.nemrod);
+            soundArray[39] = new Sound("No Fucking Balls",R.raw.no_fucking_balls);
+            soundArray[40] = new Sound("Nouveaute",R.raw.nouveaute);
+            soundArray[41] = new Sound("Oh oui",R.raw.oh_oui);
+            soundArray[42] = new Sound("On s'emmerde",R.raw.on_s_emmerde);
+            soundArray[43] = new Sound("Osef",R.raw.osef);
+            soundArray[44] = new Sound("Pas Cool",R.raw.pas_cool);
+            soundArray[45] = new Sound("Pas Drole",R.raw.pas_drole);
+            soundArray[46] = new Sound("Plaisanterie - 01",R.raw.plaisanterie01);
+            soundArray[47] = new Sound("Plaisanterie - 02",R.raw.plaisanterie02);
+            soundArray[48] = new Sound("Poule mouillée",R.raw.poule_mouillee);
+            soundArray[49] = new Sound("Pourquoi",R.raw.pourquoi);
+            soundArray[50] = new Sound("PQ Emergency",R.raw.pq_emergency);
+            soundArray[51] = new Sound("PQ Incroyable",R.raw.pq_incroyable);
+            soundArray[52] = new Sound("Ce PQ est un peu reche",R.raw.pq_reche);
+            soundArray[53] = new Sound("PQ trop doux",R.raw.pq_trop_doux);
+            soundArray[54] = new Sound("PQ Trop manqué",R.raw.pq_trop_manque);
+            soundArray[55] = new Sound("Prejudice",R.raw.prejudice);
+            soundArray[56] = new Sound("Prevoyant",R.raw.prevoyant);
+            soundArray[57] = new Sound("Pris propre jeu",R.raw.pris_propre_jeu);
+            soundArray[58] = new Sound("Ptit zizi",R.raw.ptit_zizi);
+            soundArray[59] = new Sound("Ptite bite",R.raw.ptite_bite);
+            soundArray[60] = new Sound("Pue du cul",R.raw.pue_du_cul);
+            soundArray[61] = new Sound("Que se passe t'il ",R.raw.que_ce_passe_t_il);
+            soundArray[62] = new Sound("Quelque Sorte",R.raw.quelque_sorte);
+            soundArray[63] = new Sound("Qui est la",R.raw.qui_est_la);
+            soundArray[64] = new Sound("Quoi - 01",R.raw.quoi);
+            soundArray[65] = new Sound("Quoi - 02",R.raw.quoi02);
+            soundArray[66] = new Sound("Quoi - 03",R.raw.quoi03);
+            soundArray[67] = new Sound("Sante",R.raw.sante);
+            soundArray[68] = new Sound("Scandaleux",R.raw.scandaleux);
+            soundArray[69] = new Sound("Super Baise",R.raw.super_baise);
+            soundArray[70] = new Sound("Super Spirituel",R.raw.super_spirituel);
+            soundArray[71] = new Sound("Trahison",R.raw.trahison);
+            soundArray[72] = new Sound("Triple epaisseur",R.raw.triple_epaisseur);
+            soundArray[73] = new Sound("Trop plaisir",R.raw.trop_plaisir);
+            soundArray[74] = new Sound("Truc de mazo",R.raw.truc_de_mazo);
+            soundArray[75] = new Sound("True Story",R.raw.true_story);
+            soundArray[76] = new Sound("Vachement bath",R.raw.vachement_bath);
+            soundArray[77] = new Sound("Viens - 01",R.raw.viens01);
+            soundArray[78] = new Sound("Viens - 02",R.raw.viens02);
+            soundArray[79] = new Sound("Vieux man",R.raw.vieux_man);
+            soundArray[80] = new Sound("Voir ma bite",R.raw.voir_ma_bite);
+            soundArray[81] = new Sound("Vrai",R.raw.vrai);
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
@@ -177,74 +174,35 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
     }
 
-    //This classes is designed to load a set of sounds in memory in a separate thread.
-    private class SoundLoadThread1 implements Runnable {
-
-        private Message message;
-
-
-        SoundLoadThread1() {
-            message = new Message();
-            message.arg1 = 1;   //thread id
-            message.arg2 = 0;   //thread status (0=ongoing, 1=done)
-        }
-
-        public void run() {
-
-            for(int index = soundLoadThread1StartIndex; index < soundLoadThread1EndIndex; ++index) {
-                if(soundArray[index].getSoundId() == 0) {
-                    soundArray[index].setSoundId(soundPool.load(appContext, soundArray[index].getResId(), 1));
-                }
-            }
-
-            //Send a message to handler with the finished flag set
-            message.arg2 = 1;
-            loadingHandler.sendMessage(message);
-        }
-    }
-
-    //This class is designed to load a set of sounds in memory in a separate thread.
-    private class SoundLoadThread2 implements Runnable {
-
-        private Message message;
-
-        SoundLoadThread2() {
-            message = new Message();
-            message.arg1 = 2;   //thread id
-            message.arg2 = 0;   //thread status (0=ongoing, 1=done)
-        }
-
-        public void run() {
-
-            for(int index = soundLoadThread2StartIndex; index < soundLoadThread2EndIndex; ++index) {
-                if(soundArray[index].getSoundId() == 0) {
-                    soundArray[index].setSoundId(soundPool.load(appContext, soundArray[index].getResId(), 1));
-                }
-            }
-
-            //Send a message to handler with the finished flag set
-            message.arg2 = 1;
-            loadingHandler.sendMessage(message);
-        }
-    }
 
     //This classes is designed to load a set of sounds in memory in a separate thread.
     private class SoundLoadThread implements Runnable {
 
+        private int start;
+        private int end;
+        private int modulo;
         private Message message;
         private Sound[] soundList;
-        private int soundCount;
 
-        SoundLoadThread(Sound[] soundList, int soundCount) {
+        SoundLoadThread(Sound[] soundList, int start, int end, int modulo, int threadId) {
             message = new Message();
-            message.arg1 = 30;   //thread id
-            message.arg2 = 0;   //thread status (0=ongoing, 1=done)
+            message.arg1 = threadId;    //thread id
+            message.arg2 = 0;           //thread status (0=ongoing, 1=done)
             this.soundList = soundList;
-            this.soundCount = soundCount;
+            this.start = start;
+            this.end = end;
+            this.modulo = modulo;
         }
 
         public void run() {
-            for(int index = 0; index < soundCount; ++index) {
+
+            System.out.println("LOADING THREAD");
+            System.out.println("START: " + start);
+            System.out.println("END: " + end);
+            System.out.println("MODULO: " + modulo);
+            System.out.println("ID: " + message.arg1);
+            
+            for(int index = start; index < end; index += modulo) {
                 if(soundList[index].getSoundId() == 0) {
                     soundList[index].setSoundId(soundPool.load(appContext, soundList[index].getResId(), 1));
                 }
@@ -269,7 +227,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         public void run() {
 
-            for(int index = 0; index < soundTotal; ++index) {
+            for(int index = 0; index < TOTAL_SOUND; ++index) {
                 themeAll.addSound(soundArray[index]);
             }
 
@@ -442,27 +400,23 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                         //If all Loading threads are finished, then start the set Thread.
                         if(thread0JobDone && !soundInitDone) {
 
-                            //Instantiate all settings threads.
-
-                            SoundLoadThread1 soundLoadThread1 = new SoundLoadThread1();
-                            SoundLoadThread2 soundLoadThread2 = new SoundLoadThread2();
-                            ThemeInitThread themeinitThread = new ThemeInitThread();
-                            FavLoadThread favLoadThread = new FavLoadThread();
-
-                            //Submit the 3 setting threads to the thread pool.
-                            threadPoolExec.submit(soundLoadThread1);
-                            threadPoolExec.submit(soundLoadThread2);
-                            threadPoolExec.submit(themeinitThread);
-                            //threadPoolExec.submit(favLoadThread);
-
-                            //Set loadingDone to true to prevent restarting setting threads later on.
+                            //We do not want to go there anymore.
                             soundInitDone = true;
+
+                            //Submit loading threads to the thread pool.
+                            for(int loadingThreadId = 1; loadingThreadId <= MAX_LOADING_THREAD; ++loadingThreadId) {
+                                threadPoolExec.submit(new SoundLoadThread(soundArray, (loadingThreadId - 1), TOTAL_SOUND, MAX_LOADING_THREAD , loadingThreadId ));
+                            }
+
+                            //Submit the Theme init thread to the thread pool.
+                            threadPoolExec.submit(new ThemeInitThread());
+                            //threadPoolExec.submit(new FavLoadThread());
                         }
 
                         //Once Themes are fully set update themeEngine, UI and then fragments.
                         if(thread10JobDone && !themeInitDone) {
 
-                            //We do not want to go there anymore
+                            //We do not want to go there anymore.
                             themeInitDone = true;
 
                             //Add themes to the theme engine. WARNING: themeAll MUST be 1st, themeFav MUST be 2nd.
@@ -643,7 +597,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                     currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
                     soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
                     if(!soundLoadDone) {
-                        threadPoolExec.submit(new SoundLoadThread(themeEngine.getCurrentTheme().getSoundList(), themeEngine.getCurrentTheme().getSoundsCount()));
+                        threadPoolExec.submit(new SoundLoadThread(themeEngine.getCurrentTheme().getSoundList(), 0, themeEngine.getCurrentTheme().getSoundsCount(), 1, -1));
                     }
                     dialog.dismiss();
                 }
