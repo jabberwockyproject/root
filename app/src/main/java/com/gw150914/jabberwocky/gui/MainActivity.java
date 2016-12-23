@@ -46,6 +46,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
     final int TOTAL_SOUND = 82;
     final int MAX_LOADING_THREAD = 2;
+    final int MAX_THREAD = 4;
 
     boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeInitDone, soundLoadDone;
     SoundEngine soundEngine;
@@ -295,8 +296,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                         themeFav.addSound(themeAll.getSound(soundPosition));
                         System.out.println("Sound " + soundPosition + " loaded OK");
                     }
-
-                } catch (IOException ioe) {
+                }
+                catch (IOException ioe) {
                     ioe.printStackTrace();
                 }
             }
@@ -322,9 +323,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         ImageButton themeButton     = (ImageButton) findViewById(R.id.theme_button);
         ImageButton randomButton    = (ImageButton) findViewById(R.id.random_button);
         ImageButton settingsButton  = (ImageButton) findViewById(R.id.settings_button);
-        ImageButton slowButton     = (ImageButton) findViewById(R.id.slow_button);
-        ImageButton fastButton    = (ImageButton) findViewById(R.id.fast_button);
-        ImageButton loopButton  = (ImageButton) findViewById(R.id.loop_button);
+        ImageButton slowButton      = (ImageButton) findViewById(R.id.slow_button);
+        ImageButton fastButton      = (ImageButton) findViewById(R.id.fast_button);
+        ImageButton loopButton      = (ImageButton) findViewById(R.id.loop_button);
         soundListDisplay            = (ListView) findViewById(R.id.sound_List_Display);
         currentThemeTextView        = (TextView) findViewById(R.id.current_theme_display);
         soundCountTextView          = (TextView) findViewById(R.id.sound_count_display);
@@ -365,7 +366,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             progressBar.setVisibility(View.VISIBLE);
 
             //Create a thread pool with a fixed 3 thread slots. Pre-start all threads immediately.
-            threadPoolExec = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
+            threadPoolExec = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_THREAD);
             threadPoolExec.prestartAllCoreThreads();
 
             /********************************************************
@@ -409,12 +410,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
                             //Submit loading threads to the thread pool.
                             for(int loadingThreadId = 1; loadingThreadId <= MAX_LOADING_THREAD; ++loadingThreadId) {
-                                //threadPoolExec.submit(new SoundLoadThread(soundArray, (loadingThreadId - 1), TOTAL_SOUND, MAX_LOADING_THREAD , loadingThreadId ));
+                                threadPoolExec.submit(new SoundLoadThread(soundArray, (loadingThreadId - 1), TOTAL_SOUND, MAX_LOADING_THREAD , loadingThreadId ));
                             }
 
                             //Submit the Theme init thread to the thread pool.
                             threadPoolExec.submit(new ThemeInitThread());
-                            //threadPoolExec.submit(new FavLoadThread());
                         }
 
                         //Once Themes are fully set update themeEngine, UI and then fragments.
@@ -460,35 +460,38 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             };
 
             //Nothing is done/finished at this point
-            thread0JobDone = false;
-            thread1JobDone = false;
-            thread2JobDone = false;
+            thread0JobDone  = false;
+            thread1JobDone  = false;
+            thread2JobDone  = false;
             thread10JobDone = false;
             thread11JobDone = false;
-            soundInitDone = false;
-            themeInitDone = false;
-            soundLoadDone = false;
+            soundInitDone   = false;
+            themeInitDone   = false;
+            soundLoadDone   = false;
 
             //Instantiate the sound engine.
-            soundEngine = new SoundEngine((AudioManager) this.getSystemService(Context.AUDIO_SERVICE));
-            themeEngine = new ThemeEngine();
+            soundEngine     = new SoundEngine((AudioManager) this.getSystemService(Context.AUDIO_SERVICE));
+            themeEngine     = new ThemeEngine();
 
             //Instantiate Themes.
-            themeAll = new Theme(getString(R.string.theme_all_name));
-            themeFav = new Theme(getString(R.string.theme_favorites_name));
-            themePq = new Theme("PQ");
-            themeTaunt = new Theme("Taunt");
+            themeAll        = new Theme(getString(R.string.theme_all_name));
+            themeFav        = new Theme(getString(R.string.theme_favorites_name));
+            themePq         = new Theme("PQ");
+            themeTaunt      = new Theme("Taunt");
 
             //Save the soundEngine sound pool now to avoid multiple soundEngine calls in threads.
             soundPool = soundEngine.getSoundPool();
+
+            //Set an onLoadComplete listener for the soundPool.
             soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
                         public void onLoadComplete(SoundPool soundPool, int soundId, int status) {
-                            System.out.println("SOUNDID: " + soundId);
+
                             int index = themeEngine.getTheme(0).getIndexBySoundId(soundId);
                             Sound sound;
-                            System.out.println("INDEX: " + index);
+
                             if(index >= 0) {
                                 sound = themeEngine.getTheme(0).getSound(index);
+                                System.out.println("SOUND LOADED: ID=" + soundId + " | Index=" + index + " | name=" + sound.getName());
                                 if(sound.getonDemandFlag()) {
                                     soundEngine.playSound(soundId);
                                     sound.setOnDemandFlag(false);
