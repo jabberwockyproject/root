@@ -17,5 +17,9 @@
     <string name="base_speed">x1</string>
     <string name="search_dialog_title">What do you want, Bro ?</string>
     <string name="search_type">Type your research</string>
+    <string name="display_tab_name">Display</string>
+    <string name="sound_tab_name">Sound</string>
+    <string name="advanced_tab_name">Advanced</string>
+
 
 </resources>

@@ -5,6 +5,7 @@ import android.app.Application;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -366,12 +367,27 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         soundEngineFragment = (SoundEngineFragment) fragmentManager.findFragmentByTag("soundEngine");
         themeEngineFragment = (ThemeEngineFragment) fragmentManager.findFragmentByTag("themeEngine");
 
+        if(soundEngineFragment == null) {
+            System.out.println("DEBUG: Sound Engine is not available from fragments.");
+        }
+        else {
+            System.out.println("DEBUG: Sound Engine is available from fragments.");
+        }
+        if(themeEngineFragment == null) {
+            System.out.println("DEBUG: Theme Engine is not available from fragments.");
+        }
+        else {
+            System.out.println("DEBUG: Theme Engine is available from fragments.");
+        }
+
         //If either of the engine fragment is null, a full initialization/loading is required.
         if(soundEngineFragment == null || themeEngineFragment == null) {
 
+            System.out.println("DEBUG: Engines not available from fragments.");
+
             //Remove the sound ViewList and show the loading circle.
-            soundListDisplay.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
+            //soundListDisplay.setVisibility(View.GONE);
+            //progressBar.setVisibility(View.VISIBLE);
 
             //Create a thread pool with a fixed 3 thread slots. Pre-start all threads immediately.
             threadPoolExec = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_THREAD);
@@ -445,8 +461,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             soundCountTextView.setText(Integer.toString(themeEngine.getTheme(0).getSoundsCount()) + " " + getString(R.string.sound_count));
 
                             //Remove the loading circle and show the sound ViewList.
-                            progressBar.setVisibility(View.GONE);
-                            soundListDisplay.setVisibility(View.VISIBLE);
+                            //progressBar.setVisibility(View.GONE);
+                            //soundListDisplay.setVisibility(View.VISIBLE);
 
                             //Instantiate Fragments for the first time.
                             soundEngineFragment = new SoundEngineFragment();
@@ -519,9 +535,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         //If both engine fragments are available, retrieve both engine from fragments and do minimal work.
         else {
 
+            System.out.println("DEBUG: Loading engines from fragments");
+
             //Remove the loading circle and show the sound ViewList.
-            progressBar.setVisibility(View.GONE);
-            soundListDisplay.setVisibility(View.VISIBLE);
+            //progressBar.setVisibility(View.GONE);
+            //soundListDisplay.setVisibility(View.VISIBLE);
 
             //Retrieve engines from fragments.
             soundEngine = soundEngineFragment.getData();
@@ -583,6 +601,20 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             ioe.printStackTrace();
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == 1) {
+
+            String[] settingsBundle = (String[]) data.getExtras().get("settings");
+            System.out.println("User saved new changes");
+        }
+        if(resultCode == 0) {
+            System.out.println("User cancelled changes");
+        }
+    }
+
 
 
     /*****************************************************************************************
@@ -705,6 +737,13 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         //Settings button was clicked
         if(findViewById(R.id.settings_button) == v) {
 
+            //Store the data in the fragment
+            soundEngineFragment.setData(soundEngine);
+            themeEngineFragment.setData(themeEngine);
+
+            //Start Settings Activity
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivityForResult(intent, 0);
         }
 
         //Slow button was clicked
