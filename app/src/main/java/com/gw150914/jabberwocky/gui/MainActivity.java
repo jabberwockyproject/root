@@ -1,7 +1,6 @@
 package com.gw150914.jabberwocky.gui;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +31,9 @@ import com.gw150914.jabberwocky.core.SoundEngine;
 import com.gw150914.jabberwocky.core.ThemeEngine;
 import com.gw150914.jabberwocky.core.ThemeEngineFragment;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -630,13 +625,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     public void onClick(View v) {
 
         //Search button was clicked
-
-
-
-
-
-
-
         if(findViewById(R.id.search_button) == v) {
             LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
             View searchView = layoutInflaterAndroid.inflate(R.layout.search_dialog, null);
@@ -661,13 +649,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                            String buffSearch = themeAll.getSoundNameList().get(searchIndex);
                            if (buffSearch.toLowerCase().contains(userSearch.toLowerCase())) {
                                themeSearch.addSound(themeAll.getSound(searchIndex));
-
                            }
                       }
 
                     int nbResults = themeSearch.getSoundsCount();
                         if (nbResults != 0) {
-
 
                             //Set current active theme to the search results.
                             themeEngine.setCurrentTheme(themeSearch);
@@ -683,7 +669,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             //TODO add a dialog with "no results found"
 
                         }
-
                 }
             });
 
@@ -696,9 +681,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             });
             searchDialog.setView(searchView);
             searchDialog.show();
-
-
-
         }
 
 
@@ -736,12 +718,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         //Settings button was clicked
         if(findViewById(R.id.settings_button) == v) {
-
-            //Store the data in the fragment
-            soundEngineFragment.setData(soundEngine);
-            themeEngineFragment.setData(themeEngine);
-
-            //Start Settings Activity
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivityForResult(intent, 0);
         }
