@@ -14,8 +14,8 @@ import com.gw150914.jabberwocky.R;
 
 public class SettingsActivity extends Activity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener{
 
-    public static final String SETTINGS_FILE_NAME = "Settings";
-    private int LINEAR_LOADING_THREAD_DEFAULT = 2;
+    public static String SETTINGS_FILE_NAME = "Settings";
+    public static int LINEAR_LOADING_THREAD_DEFAULT = 2;
 
     int linearLoadingThread; //Package wide
 
@@ -67,7 +67,7 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         tabHost.addTab(tabSpec);
 
         // Restore preferences
-        SharedPreferences settings = getSharedPreferences(SETTINGS_FILE_NAME, 0);
+        SharedPreferences settings = getSharedPreferences(SETTINGS_FILE_NAME, MODE_PRIVATE);
         linearLoadingThread = settings.getInt("linearLoadingThread", LINEAR_LOADING_THREAD_DEFAULT);
         if(linearLoadingThread == 0) {
             linearLoadingThreadButton0.setChecked(true);
@@ -87,10 +87,10 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
 
         if (view == findViewById(R.id.settings_accept_button)) {
 
-            SharedPreferences settings = getSharedPreferences(SETTINGS_FILE_NAME, 0);
+            SharedPreferences settings = getSharedPreferences(SETTINGS_FILE_NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();
             editor.putInt("linearLoadingThread", linearLoadingThread);
-            editor.commit();
+            editor.apply();
 
             System.out.println("DEBUG: linearLoadingThread: " + linearLoadingThread);
             Intent intent = new Intent();

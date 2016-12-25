@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -49,8 +50,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      *****************************************************************************************/
 
     final int TOTAL_SOUND = 82;
-    final int MAX_LOADING_THREAD = 2;
+    //final int MAX_LOADING_THREAD = 2;
     final int MAX_THREAD = 4;
+
+    int linearLoadingThread;
 
     boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeInitDone, soundLoadDone;
     SoundEngine soundEngine;
@@ -213,6 +216,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 }
             }
 
+            System.out.println("DEBUG: Loading Thread finished: " + message.arg1);
+            System.out.println("DEBUG: Loading Thread finished: " + message.arg1);
+            System.out.println("DEBUG: Loading Thread finished: " + message.arg1);
+            System.out.println("DEBUG: Loading Thread finished: " + message.arg1);
+
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
             loadingHandler.sendMessage(message);
@@ -322,6 +330,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Restore preferences
+        SharedPreferences settings = getSharedPreferences(SettingsActivity.SETTINGS_FILE_NAME,MODE_PRIVATE);
+
         //Create an object for each view we need to listen to so we can manipulate them in the code.
         ImageButton searchButton    = (ImageButton) findViewById(R.id.search_button);
         ImageButton themeButton     = (ImageButton) findViewById(R.id.theme_button);
@@ -380,6 +391,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
             System.out.println("DEBUG: Engines not available from fragments.");
 
+            linearLoadingThread = settings.getInt("linearLoadingThread", SettingsActivity.LINEAR_LOADING_THREAD_DEFAULT);
+
             //Remove the sound ViewList and show the loading circle.
             //soundListDisplay.setVisibility(View.GONE);
             //progressBar.setVisibility(View.VISIBLE);
@@ -427,9 +440,16 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             //We do not want to go there anymore.
                             soundInitDone = true;
 
+                            System.out.println("DEBUG: linearLoadingThread: " + linearLoadingThread);
+                            System.out.println("DEBUG: linearLoadingThread: " + linearLoadingThread);
+                            System.out.println("DEBUG: linearLoadingThread: " + linearLoadingThread);
+                            System.out.println("DEBUG: linearLoadingThread: " + linearLoadingThread);
+                            System.out.println("DEBUG: linearLoadingThread: " + linearLoadingThread);
+                            System.out.println("DEBUG: linearLoadingThread: " + linearLoadingThread);
+
                             //Submit loading threads to the thread pool.
-                            for(int loadingThreadId = 1; loadingThreadId <= MAX_LOADING_THREAD; ++loadingThreadId) {
-                                threadPoolExec.submit(new SoundLoadThread(soundArray, (loadingThreadId - 1), TOTAL_SOUND, MAX_LOADING_THREAD , loadingThreadId ));
+                            for(int loadingThreadId = 1; loadingThreadId <= linearLoadingThread; ++loadingThreadId) {
+                                threadPoolExec.submit(new SoundLoadThread(soundArray, (loadingThreadId - 1), TOTAL_SOUND, linearLoadingThread , loadingThreadId ));
                             }
 
                             //Submit the Theme init thread to the thread pool.
