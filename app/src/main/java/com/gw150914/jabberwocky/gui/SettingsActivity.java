@@ -2,6 +2,7 @@ package com.gw150914.jabberwocky.gui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,33 +14,36 @@ import com.gw150914.jabberwocky.R;
 
 public class SettingsActivity extends Activity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener{
 
-    int linearLoadingThread = 5; //Package wide
+    public static final String SETTINGS_FILE_NAME = "Settings";
+    private int LINEAR_LOADING_THREAD_DEFAULT = 2;
 
-    int loadingThreadButton0Id, loadingThreadButton1Id, loadingThreadButton2Id, loadingThreadButton3Id;
-    RadioButton loadingThreadButton0, loadingThreadButton1, loadingThreadButton2, loadingThreadButton3;
-    RadioGroup loadingThreadRadioGroup;
+    int linearLoadingThread; //Package wide
+
+    int linearLoadingThreadButton0Id, linearLoadingThreadButton1Id, linearLoadingThreadButton2Id, linearLoadingThreadButton3Id;
+    RadioButton linearLoadingThreadButton0, linearLoadingThreadButton1, linearLoadingThreadButton2, linearLoadingThreadButton3;
+    RadioGroup linearLoadingThreadRadioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        Button acceptButton     = (Button) findViewById(R.id.settings_accept_button);
-        Button cancelButton     = (Button) findViewById(R.id.settings_cancel_button);
-        loadingThreadButton0    = (RadioButton) findViewById(R.id.linear_loading_thread_0);
-        loadingThreadButton1    = (RadioButton) findViewById(R.id.linear_loading_thread_1);
-        loadingThreadButton2    = (RadioButton) findViewById(R.id.linear_loading_thread_2);
-        loadingThreadButton3    = (RadioButton) findViewById(R.id.linear_loading_thread_3);
-        loadingThreadRadioGroup = (RadioGroup) findViewById(R.id.linear_loading_thread_radio_group);
+        Button acceptButton             = (Button) findViewById(R.id.settings_accept_button);
+        Button cancelButton             = (Button) findViewById(R.id.settings_cancel_button);
+        linearLoadingThreadButton0      = (RadioButton) findViewById(R.id.linear_loading_thread_0);
+        linearLoadingThreadButton1      = (RadioButton) findViewById(R.id.linear_loading_thread_1);
+        linearLoadingThreadButton2      = (RadioButton) findViewById(R.id.linear_loading_thread_2);
+        linearLoadingThreadButton3      = (RadioButton) findViewById(R.id.linear_loading_thread_3);
+        linearLoadingThreadRadioGroup   = (RadioGroup) findViewById(R.id.linear_loading_thread_radio_group);
 
         acceptButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
 
-        loadingThreadButton0Id = loadingThreadButton0.getId();
-        loadingThreadButton1Id = loadingThreadButton1.getId();
-        loadingThreadButton2Id = loadingThreadButton2.getId();
-        loadingThreadButton3Id = loadingThreadButton3.getId();
-        loadingThreadRadioGroup.setOnCheckedChangeListener(this);
+        linearLoadingThreadButton0Id = linearLoadingThreadButton0.getId();
+        linearLoadingThreadButton1Id = linearLoadingThreadButton1.getId();
+        linearLoadingThreadButton2Id = linearLoadingThreadButton2.getId();
+        linearLoadingThreadButton3Id = linearLoadingThreadButton3.getId();
+        linearLoadingThreadRadioGroup.setOnCheckedChangeListener(this);
 
         TabHost tabHost = (TabHost)findViewById(R.id.settings_tab_host);
         tabHost.setup();
@@ -61,11 +65,33 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         tabSpec.setContent(R.id.settings_tab_advanced);
         tabSpec.setIndicator(getString(R.string.advanced_tab_name));
         tabHost.addTab(tabSpec);
+
+        // Restore preferences
+        SharedPreferences settings = getSharedPreferences(SETTINGS_FILE_NAME, 0);
+        linearLoadingThread = settings.getInt("linearLoadingThread", LINEAR_LOADING_THREAD_DEFAULT);
+        if(linearLoadingThread == 0) {
+            linearLoadingThreadButton0.setChecked(true);
+        }
+        if(linearLoadingThread == 1) {
+            linearLoadingThreadButton1.setChecked(true);
+        }
+        if(linearLoadingThread == 2) {
+            linearLoadingThreadButton2.setChecked(true);
+        }
+        if(linearLoadingThread == 3) {
+            linearLoadingThreadButton3.setChecked(true);
+        }
     }
 
     public void onClick(View view) {
 
         if (view == findViewById(R.id.settings_accept_button)) {
+
+            SharedPreferences settings = getSharedPreferences(SETTINGS_FILE_NAME, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putInt("linearLoadingThread", linearLoadingThread);
+            editor.commit();
+
             System.out.println("DEBUG: linearLoadingThread: " + linearLoadingThread);
             Intent intent = new Intent();
             intent.putExtra("linearLoadingThread", linearLoadingThread);
@@ -80,16 +106,16 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
     public void onCheckedChanged(RadioGroup radioGroup, int item) {
         if(radioGroup == findViewById(R.id.linear_loading_thread_radio_group)) {
             System.out.println("DEBUG: Checked ID: " + item);
-            if(item == loadingThreadButton0Id) {
+            if(item == linearLoadingThreadButton0Id) {
                 linearLoadingThread = 0;
             }
-            if(item == loadingThreadButton1Id) {
+            if(item == linearLoadingThreadButton1Id) {
                 linearLoadingThread = 1;
             }
-            if(item == loadingThreadButton2Id) {
+            if(item == linearLoadingThreadButton2Id) {
                 linearLoadingThread = 2;
             }
-            if(item == loadingThreadButton3Id) {
+            if(item == linearLoadingThreadButton3Id) {
                 linearLoadingThread = 3;
             }
         }
