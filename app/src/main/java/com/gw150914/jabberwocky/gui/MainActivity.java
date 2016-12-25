@@ -50,10 +50,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      *****************************************************************************************/
 
     final int TOTAL_SOUND = 82;
-    //final int MAX_LOADING_THREAD = 2;
     final int MAX_THREAD = 4;
 
-    int linearLoadingThread;
+    int linearLoadingThread, smartLoadingThread, ondemandLoadingThread;
 
     boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeInitDone, soundLoadDone;
     SoundEngine soundEngine;
@@ -67,7 +66,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     TextView currentThemeTextView;
     TextView soundCountTextView;
     TextView soundSpeedTextView;
-    ProgressBar progressBar;
     SoundPool soundPool;
     Context appContext;
     Handler loadingHandler;
@@ -345,7 +343,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         currentThemeTextView        = (TextView) findViewById(R.id.current_theme_display);
         soundCountTextView          = (TextView) findViewById(R.id.sound_count_display);
         soundSpeedTextView          = (TextView) findViewById(R.id.sound_speed);
-        progressBar                 = (ProgressBar) findViewById(R.id.progress_bar);
 
         //For each object we created above, designate event listeners.
         searchButton.setOnClickListener(this);
@@ -392,12 +389,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             System.out.println("DEBUG: Engines not available from fragments.");
 
             linearLoadingThread = settings.getInt("linearLoadingThread", SettingsActivity.LINEAR_LOADING_THREAD_DEFAULT);
+            smartLoadingThread = settings.getInt("smartLoadingThread", SettingsActivity.SMART_LOADING_THREAD_DEFAULT);
+            ondemandLoadingThread = settings.getInt("ondemandLoadingThread", SettingsActivity.ONDEMAND_LOADING_THREAD_DEFAULT);
 
-            //Remove the sound ViewList and show the loading circle.
-            //soundListDisplay.setVisibility(View.GONE);
-            //progressBar.setVisibility(View.VISIBLE);
-
-            //Create a thread pool with a fixed 3 thread slots. Pre-start all threads immediately.
+            //Create a thread pool with a fixed MAX_THREAD thread slots. Pre-start all threads immediately.
             threadPoolExec = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_THREAD);
             threadPoolExec.prestartAllCoreThreads();
 
@@ -475,10 +470,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             soundSpeedTextView.setText("x" + new DecimalFormat("#.##").format(soundEngine.getRate()));
                             soundCountTextView.setText(Integer.toString(themeEngine.getTheme(0).getSoundsCount()) + " " + getString(R.string.sound_count));
 
-                            //Remove the loading circle and show the sound ViewList.
-                            //progressBar.setVisibility(View.GONE);
-                            //soundListDisplay.setVisibility(View.VISIBLE);
-
                             //Instantiate Fragments for the first time.
                             soundEngineFragment = new SoundEngineFragment();
                             themeEngineFragment = new ThemeEngineFragment();
@@ -551,10 +542,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         else {
 
             System.out.println("DEBUG: Loading engines from fragments");
-
-            //Remove the loading circle and show the sound ViewList.
-            //progressBar.setVisibility(View.GONE);
-            //soundListDisplay.setVisibility(View.VISIBLE);
 
             //Retrieve engines from fragments.
             soundEngine = soundEngineFragment.getData();

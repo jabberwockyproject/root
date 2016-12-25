@@ -81,21 +81,6 @@
         android:background="@drawable/sound_list_border"
         android:dividerHeight="3dp"
         android:divider="@color/list_divider"
-        android:visibility="visible"
-        />
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/info_zone"
-        android:layout_above="@+id/top_buttons_zone"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:paddingRight="2dp"
-        android:paddingLeft="2dp"
-        android:visibility="gone"
         />
     <LinearLayout
         style="?metaButtonBarStyle"

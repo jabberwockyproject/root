@@ -20,7 +20,9 @@
     <string name="display_tab_name">Display</string>
     <string name="sound_tab_name">Sound</string>
     <string name="advanced_tab_name">Advanced</string>
-    <string name="max_linear_loading_thread">Max linear loading thread</string>
+    <string name="linear_loading_thread">Linear loading threads</string>
+    <string name="smart_loading_thread">Smart loading threads</string>
+    <string name="ondemand_loading_thread">On demand loading threads</string>
 
 
 </resources>
