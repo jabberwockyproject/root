@@ -16,6 +16,9 @@
     <string name="sound_count">Sound(s)</string>
     <string name="base_speed">x1</string>
     <string name="search_dialog_title">What do you want, Bro ?</string>
+    <string name="no_results_dialog">No results found</string>
+    <string name="try_again">Try again</string>
+    <string name="rage_quit">Rage quit !</string>
     <string name="search_type">Type your research</string>
     <string name="display_tab_name">Display</string>
     <string name="sound_tab_name">Sound</string>

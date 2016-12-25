@@ -1,6 +1,7 @@
 package com.gw150914.jabberwocky.gui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -648,9 +649,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 public void onClick(View v) {
                     int searchIndex;
                     //get text from EditText and store in a String
-                    String userSearch = userInput.getText().toString();
+                    final String userSearch = userInput.getText().toString();
                     System.out.println(userSearch);
-                    searchDialog.dismiss();
+
 
                      for(searchIndex = 0; searchIndex < themeAll.getSoundsCount(); searchIndex++) {
                            String buffSearch = themeAll.getSoundNameList().get(searchIndex);
@@ -661,6 +662,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
                     int nbResults = themeSearch.getSoundsCount();
                         if (nbResults != 0) {
+                            searchDialog.dismiss();
 
                             //Set current active theme to the search results.
                             themeEngine.setCurrentTheme(themeSearch);
@@ -672,9 +674,21 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
                         }
                         else {
-                            System.out.println("No results for " + userSearch);
-                            //TODO add a dialog with "no results found"
+                            AlertDialog noResultsDialog = new AlertDialog.Builder(MainActivity.this).create();
+                            noResultsDialog.setTitle(getString(R.string.no_results_dialog));
+                            noResultsDialog.setCancelable(false);
+                            noResultsDialog.setButton(android.app.AlertDialog.BUTTON_POSITIVE, getString(R.string.rage_quit),
+                                    new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface d, int which) {
+                                    System.out.println("No results for " + userSearch);
+                                    searchDialog.dismiss();
+                                    d.dismiss();
+                                }
+                            });
 
+
+                            noResultsDialog.show();
                         }
                 }
             });
