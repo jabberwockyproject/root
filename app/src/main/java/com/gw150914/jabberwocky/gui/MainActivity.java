@@ -601,12 +601,12 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == 1) {
-
-            String[] settingsBundle = (String[]) data.getExtras().get("settings");
-            System.out.println("User saved new changes");
+            int linearLoadingThread = (int) data.getExtras().get("linearLoadingThread");
+            System.out.println("DEBUG: User saved new changes:");
+            System.out.println("DEBUG: linearLoadingThread: " + linearLoadingThread);
         }
         if(resultCode == 0) {
-            System.out.println("User cancelled changes");
+            System.out.println("DEBUG: User cancelled changes");
         }
     }
 
