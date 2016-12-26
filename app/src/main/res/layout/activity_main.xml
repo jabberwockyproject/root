@@ -6,7 +6,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
+    android:background="@color/s00_main_background"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/theme_background"
+            android:background="@color/s00_theme_background"
             android:text="@string/current_theme"
             android:fontFamily="mono-italic"
             android:textSize="8pt"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/sound_count_display"
+            android:background="@color/s00_sound_count_display"
             android:text="@string/sound_count"
             android:fontFamily="mono-italic"
             android:textSize="8pt"
@@ -80,7 +80,7 @@
         android:paddingLeft="5dp"
         android:background="@drawable/sound_list_border"
         android:dividerHeight="3dp"
-        android:divider="@color/list_divider"
+        android:divider="@color/s00_list_divider"
         />
     <LinearLayout
         style="?metaButtonBarStyle"
@@ -97,7 +97,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginLeft="0dp"
             android:layout_weight="0.25"
-            android:background="@color/button_background"
+            android:background="@color/s00_button_background"
             android:src="@android:drawable/ic_menu_search"
             tools:ignore="RtlHardcoded" />
         <ImageButton
@@ -108,7 +108,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:layout_weight="0.25"
-            android:background="@color/button_background"
+            android:background="@color/s00_button_background"
             android:src="@android:drawable/ic_menu_today"
             />
         <ImageButton
@@ -119,7 +119,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:layout_weight="0.25"
-            android:background="@color/button_background"
+            android:background="@color/s00_button_background"
             android:src="@android:drawable/ic_menu_help"
             />
         <ImageButton
@@ -130,7 +130,7 @@
             android:layout_marginRight="0dp"
             android:layout_marginLeft="15dp"
             android:layout_weight="0.25"
-            android:background="@color/button_background"
+            android:background="@color/s00_button_background"
             android:src="@android:drawable/ic_menu_manage"
             tools:ignore="RtlHardcoded" />
     </LinearLayout>
@@ -140,7 +140,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:padding="0dp"
-        android:background="@color/buttons_zone_separator"
+        android:background="@color/s00_buttons_zone_separator"
         android:layout_above="@id/bottom_buttons_zone"
         android:orientation="horizontal">
     </LinearLayout>
@@ -159,7 +159,7 @@
             android:layout_marginRight="0dp"
             android:layout_marginLeft="15dp"
             android:layout_weight="0.25"
-            android:background="@color/button_background"
+            android:background="@color/s00_button_background"
             android:src="@android:drawable/ic_media_rew"
             tools:ignore="RtlHardcoded"
             />
@@ -170,7 +170,7 @@
             android:layout_marginRight="0dp"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="9dp"
-            android:background="@color/sound_speed_background"
+            android:background="@color/s00_sound_speed_background"
             android:text="@string/base_speed"
             android:fontFamily="mono"
             android:textSize="22sp"
@@ -186,7 +186,7 @@
             android:layout_marginRight="25dp"
             android:layout_marginLeft="5dp"
             android:layout_weight="0.25"
-            android:background="@color/button_background"
+            android:background="@color/s00_button_background"
             android:src="@android:drawable/ic_media_ff"
             />
         <ImageButton
@@ -197,7 +197,7 @@
             android:layout_marginRight="25dp"
             android:layout_marginLeft="10dp"
             android:layout_weight="0.40"
-            android:background="@color/button_background"
+            android:background="@color/s00_button_background"
             android:src="@android:drawable/ic_menu_rotate"
             />
     </LinearLayout>

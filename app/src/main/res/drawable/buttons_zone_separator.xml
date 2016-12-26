@@ -4,6 +4,6 @@
     android:shape="line">
     <stroke
         android:width="2dp"
-        android:color="@color/buttons_zone_separator"
+        android:color="@color/s00_buttons_zone_separator"
         />
 </shape>

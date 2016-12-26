@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle" >
-
+    android:shape="rectangle"
+    android:id="@+id/main_title_shape">
     <stroke
         android:dashGap="5dp"
         android:dashWidth="10dp"
         android:width="3dp"
         android:color="@color/black_overlay" />
 
-    <solid android:color="@color/main_title_background" />
+    <solid
+        android:color="@color/s04_main_title_background">
+    </solid>
 
     <padding
         android:bottom="12dp"

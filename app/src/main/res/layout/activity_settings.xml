@@ -35,6 +35,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/skins_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/skin"
+                            android:fontFamily="mono-italic"
+                            android:textSize="8pt"
+                            android:textAlignment="textStart"
+                            >
+                        </TextView>
+                        <Spinner
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/skins_spinner">
+                        </Spinner>
+                    </LinearLayout>
                     <CheckBox
                         android:text="CheckBox"
                         android:layout_width="match_parent"
@@ -45,10 +66,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/toggleButton" />
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinner" />
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/settings_tab_sound"

@@ -1,12 +1,12 @@
 package com.gw150914.jabberwocky.gui;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -21,8 +21,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gw150914.jabberwocky.R;
@@ -54,6 +55,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     final int MAX_THREAD = 4;
 
     int linearLoadingThread, smartLoadingThread, ondemandLoadingThread;
+    int skinId;
 
     boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeInitDone, soundLoadDone;
     SoundEngine soundEngine;
@@ -72,6 +74,18 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     Handler loadingHandler;
     ThreadPoolExecutor threadPoolExec;
     Sound[] soundArray;
+
+    RelativeLayout activityMain;
+    LinearLayout buttonZoneSeparator;
+    TextView mainTitle;
+
+    ImageButton searchButton;
+    ImageButton themeButton;
+    ImageButton randomButton;
+    ImageButton settingsButton;
+    ImageButton slowButton;
+    ImageButton fastButton;
+    ImageButton loopButton;
 
 
     /*****************************************************************************************
@@ -333,17 +347,21 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         SharedPreferences settings = getSharedPreferences(SettingsActivity.SETTINGS_FILE_NAME,MODE_PRIVATE);
 
         //Create an object for each view we need to listen to so we can manipulate them in the code.
-        ImageButton searchButton    = (ImageButton) findViewById(R.id.search_button);
-        ImageButton themeButton     = (ImageButton) findViewById(R.id.theme_button);
-        ImageButton randomButton    = (ImageButton) findViewById(R.id.random_button);
-        ImageButton settingsButton  = (ImageButton) findViewById(R.id.settings_button);
-        ImageButton slowButton      = (ImageButton) findViewById(R.id.slow_button);
-        ImageButton fastButton      = (ImageButton) findViewById(R.id.fast_button);
-        ImageButton loopButton      = (ImageButton) findViewById(R.id.loop_button);
+        searchButton                = (ImageButton) findViewById(R.id.search_button);
+        themeButton                 = (ImageButton) findViewById(R.id.theme_button);
+        randomButton                = (ImageButton) findViewById(R.id.random_button);
+        settingsButton              = (ImageButton) findViewById(R.id.settings_button);
+        slowButton                  = (ImageButton) findViewById(R.id.slow_button);
+        fastButton                  = (ImageButton) findViewById(R.id.fast_button);
+        loopButton                  = (ImageButton) findViewById(R.id.loop_button);
         soundListDisplay            = (ListView) findViewById(R.id.sound_List_Display);
         currentThemeTextView        = (TextView) findViewById(R.id.current_theme_display);
         soundCountTextView          = (TextView) findViewById(R.id.sound_count_display);
         soundSpeedTextView          = (TextView) findViewById(R.id.sound_speed);
+        activityMain                = (RelativeLayout) findViewById(R.id.activity_main);
+        mainTitle                   = (TextView) findViewById(R.id.main_title);
+        buttonZoneSeparator         = (LinearLayout) findViewById(R.id.buttons_zone_separator);
+
 
         //For each object we created above, designate event listeners.
         searchButton.setOnClickListener(this);
@@ -362,6 +380,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         loopButton.setOnLongClickListener(this);
         soundListDisplay.setOnItemClickListener(this);
         soundListDisplay.setOnItemLongClickListener(this);
+
+        skinId = settings.getInt("skinId", SettingsActivity.SKIN_ID_DEFAULT);
+        switchSkin(skinId);
 
         //Save the app context so threads can get a context when needed.
         appContext = this.getApplicationContext();
@@ -609,13 +630,22 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == 1) {
-            int linearLoadingThread = (int) data.getExtras().get("linearLoadingThread");
+            linearLoadingThread = (int) data.getExtras().get("linearLoadingThread");
+            smartLoadingThread = (int) data.getExtras().get("smartLoadingThread");
+            ondemandLoadingThread = (int) data.getExtras().get("ondemandLoadingThread");
+            skinId = (int) data.getExtras().get("skinId");
+
             System.out.println("DEBUG: User saved new changes:");
             System.out.println("DEBUG: linearLoadingThread: " + linearLoadingThread);
+            System.out.println("DEBUG: smartLoadingThread: " + smartLoadingThread);
+            System.out.println("DEBUG: ondemandLoadingThread: " + ondemandLoadingThread);
+            System.out.println("DEBUG: skinId: " + skinId);
         }
         if(resultCode == 0) {
             System.out.println("DEBUG: User cancelled changes");
         }
+
+        switchSkin(skinId);
     }
 
 
@@ -883,6 +913,91 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         return false;
     }
 
+    private void switchSkin(int skin) {
+        System.out.println("DEBUG: skinId: " + skinId);
+        System.out.println("DEBUG: skin: " + skin);
+
+
+        switch(skin) {
+            case(0):
+                activityMain.setBackgroundColor(getResources().getColor(R.color.s00_main_background));
+                currentThemeTextView.setBackgroundColor(getResources().getColor(R.color.s00_theme_background));
+                soundCountTextView.setBackgroundColor(getResources().getColor(R.color.s00_sound_count_display));
+                searchButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
+                themeButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
+                randomButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
+                settingsButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
+                slowButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
+                fastButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
+                loopButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
+                buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s00_buttons_zone_separator));
+                soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s00_sound_speed_background));
+
+                break;
+            case(1):
+                activityMain.setBackgroundColor(getResources().getColor(R.color.s01_main_background));
+                currentThemeTextView.setBackgroundColor(getResources().getColor(R.color.s01_theme_background));
+                soundCountTextView.setBackgroundColor(getResources().getColor(R.color.s01_sound_count_display));
+                searchButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
+                themeButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
+                randomButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
+                settingsButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
+                slowButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
+                fastButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
+                loopButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
+                buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s01_buttons_zone_separator));
+                soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s01_sound_speed_background));
+                ((GradientDrawable)mainTitle.getBackground()).setStroke(10,getResources().getColor(R.color.s01_main_title_background));
+                mainTitle.setBackground(getResources().getDrawable(R.drawable.s00_main_title));
+
+                break;
+            case(2):
+                activityMain.setBackgroundColor(getResources().getColor(R.color.s02_main_background));
+                currentThemeTextView.setBackgroundColor(getResources().getColor(R.color.s02_theme_background));
+                soundCountTextView.setBackgroundColor(getResources().getColor(R.color.s02_sound_count_display));
+                searchButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
+                themeButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
+                randomButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
+                settingsButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
+                slowButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
+                fastButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
+                loopButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
+                buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s02_buttons_zone_separator));
+                soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s02_sound_speed_background));
+
+                break;
+            case(3):
+                activityMain.setBackgroundColor(getResources().getColor(R.color.s03_main_background));
+                currentThemeTextView.setBackgroundColor(getResources().getColor(R.color.s03_theme_background));
+                soundCountTextView.setBackgroundColor(getResources().getColor(R.color.s03_sound_count_display));
+                searchButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
+                themeButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
+                randomButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
+                settingsButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
+                slowButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
+                fastButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
+                loopButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
+                buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s03_buttons_zone_separator));
+                soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s03_sound_speed_background));
+
+                break;
+            case(4):
+                activityMain.setBackgroundColor(getResources().getColor(R.color.s04_main_background));
+                currentThemeTextView.setBackgroundColor(getResources().getColor(R.color.s04_theme_background));
+                soundCountTextView.setBackgroundColor(getResources().getColor(R.color.s04_sound_count_display));
+                searchButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
+                themeButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
+                randomButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
+                settingsButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
+                slowButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
+                fastButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
+                loopButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
+                buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s04_buttons_zone_separator));
+                soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s04_sound_speed_background));
+
+                break;
+        }
+    }
 
 /*
 MEDITATIONS X.XVIII. - M.Aurelius

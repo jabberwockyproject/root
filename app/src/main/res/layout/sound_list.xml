@@ -10,5 +10,5 @@
     android:paddingBottom="3dp"
     android:textSize="20sp"
     android:fontFamily="sans-serif-condensed"
-    android:textColor="@color/sound_list_text">
+    android:textColor="@color/s00_sound_list_text">
 </TextView>

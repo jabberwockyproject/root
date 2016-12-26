@@ -26,6 +26,12 @@
     <string name="linear_loading_thread">Linear loading threads</string>
     <string name="smart_loading_thread">Smart loading threads</string>
     <string name="ondemand_loading_thread">On demand loading threads</string>
-
-
+    <string name="skin">Skin: </string>
+    <string-array name="skins_array">
+        <item>Azure</item>
+        <item>Lava</item>
+        <item>Hulk</item>
+        <item>Deep Blue</item>
+        <item>Sunset</item>
+    </string-array>
 </resources>

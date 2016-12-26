@@ -5,24 +5,29 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TabHost;
 
 import com.gw150914.jabberwocky.R;
 
-public class SettingsActivity extends Activity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, Switch.OnCheckedChangeListener{
+public class SettingsActivity extends Activity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, Switch.OnCheckedChangeListener, AdapterView.OnItemSelectedListener {
 
     public final static String SETTINGS_FILE_NAME = "Settings";
     public final static int LINEAR_LOADING_THREAD_DEFAULT = 1;
     public final static int SMART_LOADING_THREAD_DEFAULT = 1;
     public final static int ONDEMAND_LOADING_THREAD_DEFAULT = 2;
+    public final static int SKIN_ID_DEFAULT = 0;
     public final static boolean ADV_SWITCH1_DEFAULT = false;
     public final static boolean ADV_SWITCH2_DEFAULT = false;
     public final static boolean ADV_SWITCH3_DEFAULT = false;
+    int skinId;
     int linearLoadingThread;
     int smartLoadingThread;
     int ondemandLoadingThread;
@@ -64,8 +69,17 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         tabSpec.setIndicator(getString(R.string.advanced_tab_name));
         tabHost.addTab(tabSpec);
 
+        Spinner skinsSpinner = (Spinner) findViewById(R.id.skins_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.skins_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        skinsSpinner.setAdapter(adapter);
+        skinsSpinner.setOnItemSelectedListener(this);
+
         Button acceptButton = (Button) findViewById(R.id.settings_accept_button);
         Button cancelButton = (Button) findViewById(R.id.settings_cancel_button);
+
+        acceptButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
         
         linearLoadingThreadButton0      = (RadioButton) findViewById(R.id.linear_loading_thread_0);
         linearLoadingThreadButton1      = (RadioButton) findViewById(R.id.linear_loading_thread_1);
@@ -85,13 +99,6 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         ondemandLoadingThreadButton4      = (RadioButton) findViewById(R.id.ondemand_loading_thread_4);
         ondemandLoadingThreadRadioGroup   = (RadioGroup) findViewById(R.id.ondemand_loading_thread_radio_group);
 
-        adv_switch1 = (Switch) findViewById(R.id.adv_switch1);
-        adv_switch2 = (Switch) findViewById(R.id.adv_switch2);
-        adv_switch3 = (Switch) findViewById(R.id.adv_switch3);
-
-        acceptButton.setOnClickListener(this);
-        cancelButton.setOnClickListener(this);
-
         linearLoadingThreadButton0Id = linearLoadingThreadButton0.getId();
         linearLoadingThreadButton1Id = linearLoadingThreadButton1.getId();
         linearLoadingThreadButton2Id = linearLoadingThreadButton2.getId();
@@ -110,6 +117,10 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         ondemandLoadingThreadButton4Id = ondemandLoadingThreadButton4.getId();
         ondemandLoadingThreadRadioGroup.setOnCheckedChangeListener(this);
 
+        adv_switch1 = (Switch) findViewById(R.id.adv_switch1);
+        adv_switch2 = (Switch) findViewById(R.id.adv_switch2);
+        adv_switch3 = (Switch) findViewById(R.id.adv_switch3);
+
         adv_switch1.setOnCheckedChangeListener(this);
         adv_switch2.setOnCheckedChangeListener(this);
         adv_switch3.setOnCheckedChangeListener(this);
@@ -124,6 +135,8 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         adv_switch1_value = settings.getBoolean("advSwitch1", ADV_SWITCH1_DEFAULT);
         adv_switch2_value = settings.getBoolean("advSwitch2", ADV_SWITCH2_DEFAULT);
         adv_switch3_value = settings.getBoolean("advSwitch3", ADV_SWITCH3_DEFAULT);
+
+        skinId = settings.getInt("skinId", SKIN_ID_DEFAULT);
         
         switch(linearLoadingThread) {
             case(0): linearLoadingThreadButton0.setChecked(true); break;
@@ -162,6 +175,15 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         else {
             adv_switch3.setChecked(false);
         }
+
+        skinsSpinner.setSelection(skinId);
+
+        /*
+        switch (skinId) {
+            case(0):
+                skinsSpinner.setSelection(0);
+        }
+        */
     }
 
     public void onClick(View view) {
@@ -177,13 +199,15 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
             editor.putBoolean("advSwitch1", adv_switch1_value);
             editor.putBoolean("advSwitch2", adv_switch2_value);
             editor.putBoolean("advSwitch3", adv_switch3_value);
-            editor.commit();
+            editor.putInt("skinId", skinId);
+            editor.apply();
 
             //Pass dynamic settings back to MainActivity.
             Intent intent = new Intent();
             intent.putExtra("linearLoadingThread", linearLoadingThread);
             intent.putExtra("smartLoadingThread", smartLoadingThread);
             intent.putExtra("ondemandLoadingThread", ondemandLoadingThread);
+            intent.putExtra("skinId", skinId);
             setResult(1, intent);
             finish();
         }
@@ -250,5 +274,16 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
             }
         }
     }
+
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        //parent.getItemAtPosition(position);
+        skinId = position;
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        //Nothing to do...
+    }
+
+
 }
 
