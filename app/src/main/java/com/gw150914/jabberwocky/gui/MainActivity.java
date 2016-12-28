@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -37,9 +38,12 @@ import com.gw150914.jabberwocky.core.ThemeEngineFragment;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -883,6 +887,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                                 //Add the sound to the favorites theme.
                                 themeEngine.getTheme(1).addSound(themeEngine.getCurrentTheme().getSound(pos));
 
+                                //Share the sound
+                                shareSound(themeEngine.getCurrentTheme().getSound(pos).getResId());
+
+                                //Remove Dialog
                                 dialog.dismiss();
                             }
                         });
@@ -911,6 +919,55 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             }
         }
         return false;
+    }
+
+
+    /*****************************************************************************************
+     * =================================[ PRIVATE METHODS ]================================= *
+     *****************************************************************************************/
+    private void shareSound(int resourceId) {
+
+        InputStream inputStream = getResources().openRawResource(resourceId);
+        byte[] buff = new byte[1024];
+        int readBytes = 0;
+
+        try {
+            FileOutputStream outputStream = openFileOutput("share.mp3", MODE_WORLD_READABLE);
+
+            while ((readBytes = inputStream.read(buff)) > 0) {
+                outputStream.write(buff, 0, readBytes);
+            }
+            outputStream.close();
+        }
+        catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        finally {
+            try {
+                inputStream.close();
+                //outputStream.close();
+            }
+            catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+
+
+        Uri uri = Uri.parse(getFilesDir().getPath()+"/share.mp3");
+        System.out.println("DEBUG: Trying to share the file: " + uri.toString());
+
+        File test = new File(uri.toString());
+
+        if(test.exists()) {
+            System.out.println("DEBUG: File exists");
+        }
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(test));
+        shareIntent.setType("audio/mp3");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(shareIntent, "Share audio File"));
     }
 
     private void switchSkin(int skin) {
