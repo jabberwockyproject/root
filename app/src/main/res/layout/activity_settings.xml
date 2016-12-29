@@ -48,57 +48,22 @@
                             android:fontFamily="mono-italic"
                             android:textSize="8pt"
                             android:textAlignment="textStart"
+                            android:visibility="invisible"
                             >
                         </TextView>
                         <Spinner
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/skins_spinner">
+                            android:id="@+id/skins_spinner"
+                            android:visibility="invisible">
                         </Spinner>
                     </LinearLayout>
-                    <CheckBox
-                        android:text="CheckBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/checkBox" />
-                    <ToggleButton
-                        android:text="ToggleButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/toggleButton" />
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/settings_tab_sound"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Text View test"
-                        android:fontFamily="mono-italic"
-                        android:textSize="8pt"
-                        android:textAlignment="center">
-                    </TextView>
-                    <SeekBar
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/seekBar" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Text View test"
-                        android:fontFamily="mono-italic"
-                        android:textSize="8pt"
-                        android:textAlignment="center">
-                    </TextView>
-                    <SeekBar
-                        style="@style/Widget.AppCompat.SeekBar.Discrete"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:max="10"
-                        android:progress="3"
-                        android:id="@+id/seekBar2" />
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/settings_tab_advanced"
@@ -256,19 +221,22 @@
                         android:text="Free hugs"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/adv_switch1" />
+                        android:id="@+id/adv_switch1"
+                        android:visibility="invisible"/>
 
                     <Switch
                         android:text="Free kisses"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/adv_switch2" />
+                        android:id="@+id/adv_switch2"
+                        android:visibility="invisible"/>
 
                     <Switch
                         android:text="Free cuddles"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/adv_switch3" />
+                        android:id="@+id/adv_switch3"
+                        android:visibility="invisible"/>
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
