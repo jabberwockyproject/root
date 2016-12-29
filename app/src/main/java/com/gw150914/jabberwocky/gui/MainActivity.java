@@ -44,6 +44,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -932,12 +933,26 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         int readBytes = 0;
 
         try {
-            FileOutputStream outputStream = openFileOutput("share.mp3", MODE_WORLD_READABLE);
+            File externalStorage = getExternalFilesDir(null);
+            File externalFile = new File(externalStorage,"sound-export.mp3");
 
+            FileOutputStream outputStream = new FileOutputStream(externalFile);
             while ((readBytes = inputStream.read(buff)) > 0) {
                 outputStream.write(buff, 0, readBytes);
             }
+
+            inputStream.close();
             outputStream.close();
+
+            Uri uri = Uri.parse(externalFile.getAbsolutePath());
+            System.out.println("DEBUG: Trying to share the file: " + uri.toString());
+
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.setType("audio/mp3");
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(shareIntent, "Share audio File"));
         }
         catch (IOException ioe) {
             ioe.printStackTrace();
@@ -945,29 +960,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         finally {
             try {
                 inputStream.close();
-                //outputStream.close();
             }
             catch (IOException ioe) {
                 ioe.printStackTrace();
             }
         }
-
-
-        Uri uri = Uri.parse(getFilesDir().getPath()+"/share.mp3");
-        System.out.println("DEBUG: Trying to share the file: " + uri.toString());
-
-        File test = new File(uri.toString());
-
-        if(test.exists()) {
-            System.out.println("DEBUG: File exists");
-        }
-
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(test));
-        shareIntent.setType("audio/mp3");
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(shareIntent, "Share audio File"));
     }
 
     private void switchSkin(int skin) {
