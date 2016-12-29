@@ -263,6 +263,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 themeAll.addSound(soundArray[index]);
             }
 
+            themeAll.sortIndex();
+
             //Theme all is ready, theme fav loading can now start.
             threadPoolExec.submit(new FavLoadThread());
 
@@ -279,6 +281,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themeTaunt.addSound(soundArray[59]);
             themeTaunt.addSound(soundArray[79]);
 
+            themeTaunt.sortIndex();
+
             //Set theme pq
             themePq.addSound(soundArray[50]);
             themePq.addSound(soundArray[51]);
@@ -286,6 +290,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themePq.addSound(soundArray[50]);
             themePq.addSound(soundArray[50]);
             themePq.addSound(soundArray[72]);
+
+            themePq.sortIndex();
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
