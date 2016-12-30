@@ -772,7 +772,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
                     //If linear loading is not finished and the theme switched to is not theme all, perform a smart load of sounds included in the new current theme.
                     //If there is no linear threads smart load can be performed for theme all regardless.
-                    if(!soundLoadDone && (themeEngine.getCurrentTheme() == themeEngine.getTheme(0) && linearLoadingThread != 0) || themeEngine.getCurrentTheme() != themeEngine.getTheme(0)) {
+                    if(!soundLoadDone && ((themeEngine.getCurrentTheme() == themeEngine.getTheme(0) && linearLoadingThread != 0) || (themeEngine.getCurrentTheme() != themeEngine.getTheme(0)))) {
                         threadPoolExec.submit(new SoundLoadThread(themeEngine.getCurrentTheme().getSoundList(), 0, themeEngine.getCurrentTheme().getSoundsCount(), 1, -1));
                     }
                     dialog.dismiss();
