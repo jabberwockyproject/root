@@ -81,7 +81,7 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         tabHost.addTab(tabSpec);
 
         Spinner skinsSpinner = (Spinner) findViewById(R.id.skins_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.long_click_options_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.skins_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         skinsSpinner.setAdapter(adapter);
         skinsSpinner.setOnItemSelectedListener(this);
@@ -97,7 +97,7 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
 
         customVolumeCheckBox.setOnCheckedChangeListener(this);
         customVolumeSeekBar.setOnSeekBarChangeListener(this);
-        
+
         linearLoadingThreadButton0      = (RadioButton) findViewById(R.id.linear_loading_thread_0);
         linearLoadingThreadButton1      = (RadioButton) findViewById(R.id.linear_loading_thread_1);
         linearLoadingThreadButton2      = (RadioButton) findViewById(R.id.linear_loading_thread_2);
