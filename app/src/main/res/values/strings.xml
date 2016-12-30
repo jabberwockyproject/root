@@ -36,4 +36,14 @@
         <item>Deep Blue</item>
         <item>Sunset</item>
     </string-array>
+    <string-array name="long_click_menu_gen_array">
+        <item>Add to Favorites</item>
+        <item>Share on Whatsapp</item>
+    </string-array>
+    <string-array name="long_click_menu_fav_array">
+        <item>Remove from Favorites</item>
+        <item>Share on Whatsapp</item>
+    </string-array>
+
+
 </resources>

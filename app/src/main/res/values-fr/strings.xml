@@ -6,7 +6,15 @@
     <string name="no">Non</string>
     <string name="choose_theme">Choisis ton theme, Bro !</string>
     <string name="main_title">La Sound Box des Bros</string>
-    <string name="theme_all_name">tout</string>
+    <string name="theme_all_name">Tout</string>
     <string name="theme_favorites_name">Favoris</string>
     <string name="sound_count">Son(s)</string>
+    <string-array name="long_click_options_array">
+        <item>Ajouter aux Favoris</item>
+        <item>Partager sur Whatsapp</item>
+    </string-array>
+    <string-array name="long_click_menu_fav_array">
+        <item>Retirer des Favoris</item>
+        <item>Partager sur Whatsapp</item>
+    </string-array>
 </resources>
