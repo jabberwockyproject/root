@@ -27,8 +27,24 @@
     <string name="smart_loading_thread">Smart loading threads</string>
     <string name="ondemand_loading_thread">On demand loading threads</string>
     <string name="skin">Skin: </string>
-    <string name="custom_volume">Custom volume </string>
-    Custom volume
+    <string name="custom_volume">Custom volume</string>
+    <string name="help_title">Welcome to Bro Sound Box !</string>
+    <string name="help_content">"How to use this app ?
+
+Sound list
+- Click to play a sound
+- Long click to set Favorites list or Share the sound
+
+Bottom menu
+- Search: enter a word to find matching sounds
+- Theme: choose a themed sound list or Favorites
+- Random: play a random sound in selected list
+- Settings: set up some stuff... don't know wtf
+
+Enjoy, spam your bros, and send us your comments !"</string>
+    <string name="got_it">Got it!</string>
+    <string name="show_help">Show help message at start-up</string>
+
     <string-array name="skins_array">
         <item>Azure</item>
         <item>Lava</item>

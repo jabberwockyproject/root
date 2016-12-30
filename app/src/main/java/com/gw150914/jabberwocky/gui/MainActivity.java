@@ -102,6 +102,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     long[] smartLoadingTaskAge;
     int smartLoadingTaskActiveCount;
 
+    boolean helpMessage;
+
 
     /*****************************************************************************************
      * ===================================[ NESTED CLASSES ]================================ *
@@ -441,6 +443,26 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         skinId = settings.getInt("skinId", SettingsActivity.SKIN_ID_DEFAULT);
         switchSkin(skinId);
 
+        helpMessage = settings.getBoolean("showHelp", SettingsActivity.SHOW_HELP_DEFAULT);
+        boolean firstRun = settings.getBoolean("firstRun", true);
+
+        if(helpMessage || firstRun) {
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle(getString(R.string.help_title));
+            alertDialog.setMessage(getString(R.string.help_content));
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, (getString(R.string.got_it)), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    SharedPreferences settings = getSharedPreferences(SettingsActivity.SETTINGS_FILE_NAME, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("firstRun", false);
+                    editor.apply();
+
+                    //Remove Dialog
+                    dialog.dismiss();
+                }
+            });
+            alertDialog.show();
+        }
         //Save the app context so threads can get a context when needed.
         appContext = this.getApplicationContext();
 

@@ -41,6 +41,11 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
                         android:orientation="horizontal">
+                        <CheckBox
+                            android:text="@string/show_help"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/showHelpCheckBox" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -48,14 +53,14 @@
                             android:fontFamily="mono-italic"
                             android:textSize="8pt"
                             android:textAlignment="textStart"
-                            android:visibility="invisible"
+                            android:visibility="gone"
                             >
                         </TextView>
                         <Spinner
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/skins_spinner"
-                            android:visibility="invisible">
+                            android:visibility="gone">
                         </Spinner>
                     </LinearLayout>
                 </LinearLayout>

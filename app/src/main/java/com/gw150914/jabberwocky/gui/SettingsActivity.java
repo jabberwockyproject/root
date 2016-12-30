@@ -32,6 +32,7 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
     public final static boolean CUSTOM_VOLUME_DEFAULT = false;
     public final static int CUSTOM_VOLUME_VALUE_DEFAULT = 100;
     public final static int CUSTOM_VOLUME_MAX_DEFAULT = 100;
+    public final static boolean SHOW_HELP_DEFAULT = true;
 
     int skinId;
     int linearLoadingThread;
@@ -52,6 +53,8 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
     Switch adv_switch1, adv_switch2, adv_switch3;
     CheckBox customVolumeCheckBox;
     SeekBar customVolumeSeekBar;
+    CheckBox showHelp;
+    Boolean showHelpValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +95,12 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         acceptButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
 
+        showHelp    = (CheckBox) findViewById(R.id.showHelpCheckBox);
+
         customVolumeCheckBox    = (CheckBox) findViewById(R.id.customVolumeCheckBox);
         customVolumeSeekBar     = (SeekBar) findViewById(R.id.customVolumeSeekBar);
+
+        showHelp.setOnCheckedChangeListener(this);
 
         customVolumeCheckBox.setOnCheckedChangeListener(this);
         customVolumeSeekBar.setOnSeekBarChangeListener(this);
@@ -157,6 +164,9 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
 
         customVolume = settings.getBoolean("customVolume", CUSTOM_VOLUME_DEFAULT);
         customVolumeValue = settings.getInt("customVolumeValue",  CUSTOM_VOLUME_VALUE_DEFAULT);
+
+        showHelpValue = settings.getBoolean("showHelp", SHOW_HELP_DEFAULT);
+        showHelp.setChecked(showHelpValue);
         
         switch(linearLoadingThread) {
             case(0): linearLoadingThreadButton0.setChecked(true); break;
@@ -229,6 +239,7 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
             editor.putInt("skinId", skinId);
             editor.putBoolean("customVolume", customVolume);
             editor.putInt("customVolumeValue", customVolumeValue);
+            editor.putBoolean("showHelp", showHelpValue);
 
             editor.apply();
 
@@ -258,6 +269,9 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         if(compoundButton == findViewById(R.id.customVolumeCheckBox)) {
             customVolume = state;
             customVolumeSeekBar.setEnabled(customVolume);
+        }
+        if(compoundButton == findViewById(R.id.showHelpCheckBox)) {
+            showHelpValue = state;
         }
     }
     public void onCheckedChanged(RadioGroup radioGroup, int item) {
