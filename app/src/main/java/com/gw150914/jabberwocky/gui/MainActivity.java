@@ -46,6 +46,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -904,46 +905,58 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         if(findViewById(R.id.sound_List_Display) == parent) {
 
             //Current active theme is NOT favorites. Create a "add to favorites" dialog.
-            if(themeEngine.getCurrentTheme() != themeEngine.getTheme(1)) {
-                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                alertDialog.setTitle(getString(R.string.dialog_add_to_fav));
-                alertDialog.setMessage(themeEngine.getCurrentTheme().getSoundNameList().get(pos));
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+            if (themeEngine.getCurrentTheme() != themeEngine.getTheme(1)) {
 
+                AlertDialog.Builder long_click_dialog_gen = new AlertDialog.Builder(MainActivity.this);
+                long_click_dialog_gen.setItems(R.array.long_click_menu_gen_array, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        switch (which) {
+                            case (0):
                                 //Add the sound to the favorites theme.
                                 themeEngine.getTheme(1).addSound(themeEngine.getCurrentTheme().getSound(pos));
+                                break;
 
-                                //Share the sound
+                            case (1):
+                                //share on Whatsapp
                                 shareSound(themeEngine.getCurrentTheme().getSound(pos).getResId());
+                                break;
+                        }
+                        dialog.dismiss();
 
-                                //Remove Dialog
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
-                return true;
+                    }
+                });
+                long_click_dialog_gen.create();
+                long_click_dialog_gen.show();
+
             }
 
             //Current active theme IS favorites. Create a "remove from favorites" dialog.
             else {
-                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                alertDialog.setTitle(getString(R.string.dialog_remove_from_fav));
-                alertDialog.setMessage(themeEngine.getCurrentTheme().getSoundNameList().get(pos));
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                AlertDialog.Builder long_click_dialog_fav = new AlertDialog.Builder(MainActivity.this);
+                long_click_dialog_fav.setItems(R.array.long_click_menu_fav_array, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
+                        switch (which) {
+                            case (0):
                                 //Remove the sound from the favorites theme and update UI.
                                 themeEngine.getTheme(1).removeSound(themeEngine.getCurrentTheme().getSound(pos));
                                 adapter.notifyDataSetChanged();
+                                break;
+                            case (1):
+                                //Share sound on Whatsapp
+                                shareSound(themeEngine.getCurrentTheme().getSound(pos).getResId());
+                                break;
+                        }
+                        dialog.dismiss();
 
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
-                return true;
+                    }
+                });
+                long_click_dialog_fav.create();
+                long_click_dialog_fav.show();
+
             }
         }
         return false;

@@ -81,7 +81,7 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         tabHost.addTab(tabSpec);
 
         Spinner skinsSpinner = (Spinner) findViewById(R.id.skins_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.skins_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.long_click_options_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         skinsSpinner.setAdapter(adapter);
         skinsSpinner.setOnItemSelectedListener(this);
