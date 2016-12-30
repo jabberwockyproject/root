@@ -65,6 +65,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     int customVolumeValue;
 
     boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeInitDone, soundLoadDone;
+    int linearLoadingThreadsNotFinished;
     SoundEngine soundEngine;
     ThemeEngine themeEngine;
     Theme themeAll, themeFav, themePq, themeTaunt;
@@ -240,6 +241,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             System.out.println("DEBUG: Loading Thread finished: " + message.arg1);
             System.out.println("DEBUG: Loading Thread finished: " + message.arg1);
             System.out.println("DEBUG: Loading Thread finished: " + message.arg1);
+
+            if(message.arg1 != -1) {
+                --linearLoadingThreadsNotFinished;
+            }
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
@@ -517,7 +522,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             soundEngineFragment.setData(soundEngine);
                             themeEngineFragment.setData(themeEngine);
                         }
-                        if(thread1JobDone && thread2JobDone && !soundLoadDone) {
+                        if(!soundLoadDone && linearLoadingThreadsNotFinished == 0) {
                             soundLoadDone = true;
                         }
                     }
@@ -533,6 +538,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundInitDone   = false;
             themeInitDone   = false;
             soundLoadDone   = false;
+
+
+            linearLoadingThreadsNotFinished = linearLoadingThread;
 
             //Instantiate the sound engine.
             soundEngine     = new SoundEngine((AudioManager) this.getSystemService(Context.AUDIO_SERVICE));
@@ -772,8 +780,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
                     //If linear loading is not finished and the theme switched to is not theme all, perform a smart load of sounds included in the new current theme.
                     //If there is no linear threads smart load can be performed for theme all regardless.
-                    if(!soundLoadDone && ((themeEngine.getCurrentTheme() == themeEngine.getTheme(0) && linearLoadingThread != 0) || (themeEngine.getCurrentTheme() != themeEngine.getTheme(0)))) {
+                    if(!themeEngine.getCurrentTheme().getHasBeenSmartLoaded() && (linearLoadingThread == 0 || (!soundLoadDone && (themeEngine.getCurrentTheme() != themeEngine.getTheme(0))))) {
+                        System.out.println("DEBUG: Starting Smart Load for theme: " + themeEngine.getCurrentTheme().getName());
                         threadPoolExec.submit(new SoundLoadThread(themeEngine.getCurrentTheme().getSoundList(), 0, themeEngine.getCurrentTheme().getSoundsCount(), 1, -1));
+                        themeEngine.getCurrentTheme().setHasBeenSmartLoaded(true);
                     }
                     dialog.dismiss();
                 }

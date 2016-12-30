@@ -24,6 +24,7 @@ public class Theme {
     private String name;                                //Theme name.
     private Sound[] soundList;                          //List of sounds a theme contains
     private ArrayList<String> soundNameList;            //Names of sounds contained in a theme.
+    private boolean hasBeenSmartLoaded;                 //This theme sound's have been smart loaded?
 
 
     /*****************************************************************************************
@@ -36,6 +37,7 @@ public class Theme {
         soundList = new Sound[maxSoundPerTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
+        hasBeenSmartLoaded = false;
     }
 
     //Constructor 2
@@ -44,6 +46,7 @@ public class Theme {
         soundList = new Sound[maxSoundPerTheme];
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
+        hasBeenSmartLoaded = false;
     }
 
     //Constructor 3
@@ -52,6 +55,7 @@ public class Theme {
         soundList = newSoundList;
         soundNameList = new ArrayList<String>();
         soundsCount = 0;
+        hasBeenSmartLoaded = false;
     }
 
 
@@ -79,6 +83,11 @@ public class Theme {
         return soundList[index];
     }
 
+    //Get whether this theme has been smart loaded or not.
+    public boolean getHasBeenSmartLoaded() {
+        return hasBeenSmartLoaded;
+    }
+
     //Get the name of sounds in this theme.
     public ArrayList<String> getSoundNameList() {
         return soundNameList;
@@ -87,6 +96,11 @@ public class Theme {
     //Set the name of this theme
     public void setName(String newName) {
         name = newName;
+    }
+
+    //Set whether this theme has been smart loaded or not.
+    public void setHasBeenSmartLoaded(boolean flag) {
+        hasBeenSmartLoaded = flag;
     }
 
 
