@@ -761,7 +761,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                     soundListDisplay.setAdapter(adapter);
                     currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
                     soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
-                    if(!soundLoadDone) {
+
+                    //If linear loading is not finished and the theme switched to is not theme all, perform a smart load of sounds included in the new current theme
+                    if(!soundLoadDone && themeEngine.getCurrentTheme() != themeEngine.getTheme(0)) {
                         threadPoolExec.submit(new SoundLoadThread(themeEngine.getCurrentTheme().getSoundList(), 0, themeEngine.getCurrentTheme().getSoundsCount(), 1, -1));
                     }
                     dialog.dismiss();
