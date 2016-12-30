@@ -46,7 +46,10 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends Activity implements View.OnClickListener,View.OnLongClickListener,AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
@@ -57,7 +60,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      *****************************************************************************************/
 
     final int TOTAL_SOUND = 82;
-    final int MAX_THREAD = 4;
+    final int MAX_THREAD = 6;
 
     int linearLoadingThread, smartLoadingThread, ondemandLoadingThread;
     int skinId;
@@ -94,6 +97,10 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     ImageButton slowButton;
     ImageButton fastButton;
     ImageButton loopButton;
+
+    SoundLoadThread[] smartLoadingTask;
+    long[] smartLoadingTaskAge;
+    int smartLoadingTaskActiveCount;
 
 
     /*****************************************************************************************
@@ -211,6 +218,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         private int modulo;
         private Message message;
         private Sound[] soundList;
+        private Theme theme;
+        private int poolIndex;
 
         SoundLoadThread(Sound[] soundList, int start, int end, int modulo, int threadId) {
 
@@ -221,6 +230,18 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             this.start = start;         //starting point in the sound list to load
             this.end = end;             //ending point in the sound list to load
             this.modulo = modulo;       //iteration modulo in the sound list to load
+        }
+        SoundLoadThread(Sound[] soundList, int start, int end, int modulo, int threadId, Theme theme, int poolIndex) {
+
+            message = new Message();    //message object to be sent to thread handler
+            message.arg1 = threadId;    //thread id
+            message.arg2 = 0;           //thread status (0=ongoing, 1=done)
+            this.soundList = soundList; //the sound list to load in memory
+            this.start = start;         //starting point in the sound list to load
+            this.end = end;             //ending point in the sound list to load
+            this.modulo = modulo;       //iteration modulo in the sound list to load
+            this.theme = theme;     //if this is a smart loading thread, id of the theme being smart loaded.
+            this.poolIndex = poolIndex;
         }
 
         public void run() {
@@ -242,8 +263,15 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             System.out.println("DEBUG: Loading Thread finished: " + message.arg1);
             System.out.println("DEBUG: Loading Thread finished: " + message.arg1);
 
+            //If this is a linear loading thread, decrement the number of linear loading threads not finished.
             if(message.arg1 != -1) {
                 --linearLoadingThreadsNotFinished;
+            }
+            //If this is a smart loading thread, set the hasBeenSmartedLoaded flag of the smart loaded theme to true.
+            else {
+                theme.setHasBeenSmartLoaded(true);
+                smartLoadingTask[poolIndex] = null;
+                --smartLoadingTaskActiveCount;
             }
 
             //Send a message to handler with the finished flag set
@@ -431,6 +459,15 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             linearLoadingThread = settings.getInt("linearLoadingThread", SettingsActivity.LINEAR_LOADING_THREAD_DEFAULT);
             smartLoadingThread = settings.getInt("smartLoadingThread", SettingsActivity.SMART_LOADING_THREAD_DEFAULT);
             ondemandLoadingThread = settings.getInt("ondemandLoadingThread", SettingsActivity.ONDEMAND_LOADING_THREAD_DEFAULT);
+
+            smartLoadingTask = new SoundLoadThread[smartLoadingThread];
+            smartLoadingTaskAge = new long[smartLoadingThread];
+            smartLoadingTaskActiveCount = 0;
+
+            for(int index=0; index < smartLoadingThread; ++index) {
+                smartLoadingTaskAge[index] = -1L;
+            }
+
 
             //Create a thread pool with a fixed MAX_THREAD thread slots. Pre-start all threads immediately.
             threadPoolExec = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_THREAD);
@@ -778,12 +815,29 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                     currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
                     soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
 
-                    //If linear loading is not finished and the theme switched to is not theme all, perform a smart load of sounds included in the new current theme.
-                    //If there is no linear threads smart load can be performed for theme all regardless.
+                    //FULL COMMENT REQUIRED
                     if(!themeEngine.getCurrentTheme().getHasBeenSmartLoaded() && (linearLoadingThread == 0 || (!soundLoadDone && (themeEngine.getCurrentTheme() != themeEngine.getTheme(0))))) {
                         System.out.println("DEBUG: Starting Smart Load for theme: " + themeEngine.getCurrentTheme().getName());
-                        threadPoolExec.submit(new SoundLoadThread(themeEngine.getCurrentTheme().getSoundList(), 0, themeEngine.getCurrentTheme().getSoundsCount(), 1, -1));
-                        themeEngine.getCurrentTheme().setHasBeenSmartLoaded(true);
+
+                        int olderIndex = 0;
+                        int currentIndex = 0;
+                        long olderValue = smartLoadingTaskAge[currentIndex];
+
+                        while(currentIndex < smartLoadingThread - 1) {
+                            if(smartLoadingTaskAge[currentIndex] > smartLoadingTaskAge[currentIndex + 1]) {
+                                olderIndex = currentIndex + 1;
+                                olderValue = smartLoadingTaskAge[currentIndex];
+                            }
+                        }
+
+                        //No free slot.
+                        if(olderValue != -1) {
+                            threadPoolExec.remove(smartLoadingTask[olderIndex]);
+                        }
+
+                        smartLoadingTask[olderIndex] = new SoundLoadThread(themeEngine.getCurrentTheme().getSoundList(), 0, themeEngine.getCurrentTheme().getSoundsCount(), 1, -1, themeEngine.getCurrentTheme(), olderIndex);
+                        threadPoolExec.submit(smartLoadingTask[olderIndex]);
+                        smartLoadingTaskAge[olderIndex] = System.currentTimeMillis();
                     }
                     dialog.dismiss();
                 }
