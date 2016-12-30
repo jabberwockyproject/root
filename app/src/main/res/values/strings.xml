@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Jabberwocky</string>
+    <string name="app_name">BroSoundBox</string>
     <string name="search_button">SCH</string>
     <string name="theme_button">THM</string>
     <string name="random_button">RND</string>
