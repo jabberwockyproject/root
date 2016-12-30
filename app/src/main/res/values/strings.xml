@@ -27,6 +27,8 @@
     <string name="smart_loading_thread">Smart loading threads</string>
     <string name="ondemand_loading_thread">On demand loading threads</string>
     <string name="skin">Skin: </string>
+    <string name="custom_volume">Custom volume </string>
+    Custom volume
     <string-array name="skins_array">
         <item>Azure</item>
         <item>Lava</item>

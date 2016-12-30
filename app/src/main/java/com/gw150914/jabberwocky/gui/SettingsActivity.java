@@ -8,16 +8,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TabHost;
 
 import com.gw150914.jabberwocky.R;
 
-public class SettingsActivity extends Activity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, Switch.OnCheckedChangeListener, AdapterView.OnItemSelectedListener {
+public class SettingsActivity extends Activity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, Switch.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, SeekBar.OnSeekBarChangeListener {
 
     public final static String SETTINGS_FILE_NAME = "Settings";
     public final static int LINEAR_LOADING_THREAD_DEFAULT = 1;
@@ -27,10 +29,16 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
     public final static boolean ADV_SWITCH1_DEFAULT = false;
     public final static boolean ADV_SWITCH2_DEFAULT = false;
     public final static boolean ADV_SWITCH3_DEFAULT = false;
+    public final static boolean CUSTOM_VOLUME_DEFAULT = false;
+    public final static int CUSTOM_VOLUME_VALUE_DEFAULT = 100;
+    public final static int CUSTOM_VOLUME_MAX_DEFAULT = 100;
+
     int skinId;
     int linearLoadingThread;
     int smartLoadingThread;
     int ondemandLoadingThread;
+    boolean customVolume;
+    int customVolumeValue;
     boolean adv_switch1_value, adv_switch2_value, adv_switch3_value;
     int linearLoadingThreadButton0Id, linearLoadingThreadButton1Id, linearLoadingThreadButton2Id, linearLoadingThreadButton3Id;
     int smartLoadingThreadButton0Id, smartLoadingThreadButton1Id, smartLoadingThreadButton2Id, smartLoadingThreadButton3Id;
@@ -42,12 +50,15 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
     RadioGroup smartLoadingThreadRadioGroup;
     RadioGroup ondemandLoadingThreadRadioGroup;
     Switch adv_switch1, adv_switch2, adv_switch3;
+    CheckBox customVolumeCheckBox;
+    SeekBar customVolumeSeekBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        //Tab root
         TabHost tabHost = (TabHost)findViewById(R.id.settings_tab_host);
         tabHost.setup();
 
@@ -80,6 +91,12 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
 
         acceptButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
+
+        customVolumeCheckBox    = (CheckBox) findViewById(R.id.customVolumeCheckBox);
+        customVolumeSeekBar     = (SeekBar) findViewById(R.id.customVolumeSeekBar);
+
+        customVolumeCheckBox.setOnCheckedChangeListener(this);
+        customVolumeSeekBar.setOnSeekBarChangeListener(this);
         
         linearLoadingThreadButton0      = (RadioButton) findViewById(R.id.linear_loading_thread_0);
         linearLoadingThreadButton1      = (RadioButton) findViewById(R.id.linear_loading_thread_1);
@@ -137,6 +154,9 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         adv_switch3_value = settings.getBoolean("advSwitch3", ADV_SWITCH3_DEFAULT);
 
         skinId = settings.getInt("skinId", SKIN_ID_DEFAULT);
+
+        customVolume = settings.getBoolean("customVolume", CUSTOM_VOLUME_DEFAULT);
+        customVolumeValue = settings.getInt("customVolumeValue",  CUSTOM_VOLUME_VALUE_DEFAULT);
         
         switch(linearLoadingThread) {
             case(0): linearLoadingThreadButton0.setChecked(true); break;
@@ -178,6 +198,13 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
 
         skinsSpinner.setSelection(skinId);
 
+        customVolumeCheckBox.setChecked(customVolume);
+        customVolumeSeekBar.setMax(CUSTOM_VOLUME_MAX_DEFAULT);
+        customVolumeSeekBar.setProgress(customVolumeValue);
+        customVolumeSeekBar.setEnabled(customVolume);
+
+        System.out.println("DEBUG: SEEKBAR: " + customVolumeSeekBar.getProgress());
+
         /*
         switch (skinId) {
             case(0):
@@ -200,14 +227,16 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
             editor.putBoolean("advSwitch2", adv_switch2_value);
             editor.putBoolean("advSwitch3", adv_switch3_value);
             editor.putInt("skinId", skinId);
+            editor.putBoolean("customVolume", customVolume);
+            editor.putInt("customVolumeValue", customVolumeValue);
+
             editor.apply();
 
             //Pass dynamic settings back to MainActivity.
             Intent intent = new Intent();
-            intent.putExtra("linearLoadingThread", linearLoadingThread);
-            intent.putExtra("smartLoadingThread", smartLoadingThread);
-            intent.putExtra("ondemandLoadingThread", ondemandLoadingThread);
             intent.putExtra("skinId", skinId);
+            intent.putExtra("customVolume", customVolume);
+            intent.putExtra("customVolumeValue", customVolumeValue);
             setResult(1, intent);
             finish();
         }
@@ -225,6 +254,10 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         }
         if(compoundButton == findViewById(R.id.adv_switch3)) {
             adv_switch3_value = state;
+        }
+        if(compoundButton == findViewById(R.id.customVolumeCheckBox)) {
+            customVolume = state;
+            customVolumeSeekBar.setEnabled(customVolume);
         }
     }
     public void onCheckedChanged(RadioGroup radioGroup, int item) {
@@ -284,6 +317,18 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         //Nothing to do...
     }
 
+    public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if(seekBar == findViewById(R.id.customVolumeSeekBar)) {
+            customVolumeValue = progress;
+            System.out.println("DEBUG: SEEKBAR: " + customVolumeSeekBar.getProgress());
+        }
+    }
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
 }
 

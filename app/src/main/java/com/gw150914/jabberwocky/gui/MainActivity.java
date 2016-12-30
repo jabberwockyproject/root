@@ -61,6 +61,8 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
     int linearLoadingThread, smartLoadingThread, ondemandLoadingThread;
     int skinId;
+    boolean customVolume;
+    int customVolumeValue;
 
     boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeInitDone, soundLoadDone;
     SoundEngine soundEngine;
@@ -641,22 +643,28 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == 1) {
-            linearLoadingThread = (int) data.getExtras().get("linearLoadingThread");
-            smartLoadingThread = (int) data.getExtras().get("smartLoadingThread");
-            ondemandLoadingThread = (int) data.getExtras().get("ondemandLoadingThread");
+
             skinId = (int) data.getExtras().get("skinId");
+            customVolume = (boolean) data.getExtras().get("customVolume");
+            customVolumeValue = (int) data.getExtras().get("customVolumeValue");
 
             System.out.println("DEBUG: User saved new changes:");
-            System.out.println("DEBUG: linearLoadingThread: " + linearLoadingThread);
-            System.out.println("DEBUG: smartLoadingThread: " + smartLoadingThread);
-            System.out.println("DEBUG: ondemandLoadingThread: " + ondemandLoadingThread);
             System.out.println("DEBUG: skinId: " + skinId);
+            System.out.println("DEBUG: customVolume: " + customVolume);
+            System.out.println("DEBUG: customVolumeValue: " + customVolumeValue);
         }
         if(resultCode == 0) {
             System.out.println("DEBUG: User cancelled changes");
         }
 
         switchSkin(skinId);
+
+        if(customVolume) {
+            soundEngine.setCustomVolume((float)customVolumeValue/100);
+        }
+        else {
+            soundEngine.removeCustomVolume();
+        }
     }
 
 
