@@ -59,7 +59,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    final int TOTAL_SOUND = 82;
+    final int TOTAL_SOUND = 93;
     final int MAX_THREAD = 6;
 
     int linearLoadingThread, smartLoadingThread, ondemandLoadingThread;
@@ -202,6 +202,17 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundArray[79] = new Sound("Vieux man",R.raw.vieux_man);
             soundArray[80] = new Sound("Voir ma bite",R.raw.voir_ma_bite);
             soundArray[81] = new Sound("Vrai",R.raw.vrai);
+            soundArray[82] = new Sound("Vraiment pas top",R.raw.vraiment_pas_top);
+            soundArray[83] = new Sound("Tout a fait",R.raw.tout_a_fait);
+            soundArray[84] = new Sound("Sopalin chagrin",R.raw.sopalin_chagrin);
+            soundArray[85] = new Sound("Pourquoi pas",R.raw.pourquoi_pas);
+            soundArray[86] = new Sound("Ca va couper",R.raw.ca_va_couper);
+            soundArray[87] = new Sound("Ca pourrait marcher",R.raw.ca_pourrait_marcher);
+            soundArray[88] = new Sound("Buenas noches",R.raw.buenas_noches);
+            soundArray[89] = new Sound("BSB trop de la balle",R.raw.bsb_trop_de_la_balle);
+            soundArray[90] = new Sound("Pas necessaire",R.raw.pas_necessaire);
+            soundArray[91] = new Sound("Ben oui",R.raw.ben_oui);
+            soundArray[92] = new Sound("Trop risque",R.raw.trop_risque);
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
