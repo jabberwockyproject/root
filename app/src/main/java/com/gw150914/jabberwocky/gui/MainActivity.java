@@ -43,13 +43,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends Activity implements View.OnClickListener,View.OnLongClickListener,AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
@@ -59,7 +54,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    final int TOTAL_SOUND = 93;
+    final int TOTAL_SOUND = 108;
     final int MAX_THREAD = 6;
 
     int linearLoadingThread, smartLoadingThread, ondemandLoadingThread;
@@ -71,7 +66,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     int linearLoadingThreadsNotFinished;
     SoundEngine soundEngine;
     ThemeEngine themeEngine;
-    Theme themeAll, themeFav, themePq, themeTaunt;
+    Theme themeAll, themeFav, themePq, themeTaunt, themeGps;
     SoundEngineFragment soundEngineFragment;
     ThemeEngineFragment themeEngineFragment;
     FragmentManager fragmentManager;
@@ -215,6 +210,21 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundArray[90] = new Sound("Pas necessaire",R.raw.pas_necessaire);
             soundArray[91] = new Sound("Ben oui",R.raw.ben_oui);
             soundArray[92] = new Sound("Trop risque",R.raw.trop_risque);
+            soundArray[93] = new Sound("Astuce",R.raw.astuce);
+            soundArray[94] = new Sound("Ben quoi",R.raw.ben_quoi);
+            soundArray[95] = new Sound("C'est excellent",R.raw.c_est_excellent);
+            soundArray[96] = new Sound("Ca fout le",R.raw.ca_fout_le_seum);
+            soundArray[97] = new Sound("Ceder le passage",R.raw.ceder_le_passage);
+            soundArray[98] = new Sound("Demi tour",R.raw.demi_tour);
+            soundArray[99] = new Sound("Devenir une saveur inedite",R.raw.devenir_saveur_inedite);
+            soundArray[100] = new Sound("Dos d'ane",R.raw.dos_d_ane);
+            soundArray[101] = new Sound("Impressionant",R.raw.impressionant);
+            soundArray[102] = new Sound("Le saviez vous",R.raw.le_saviez_vous);
+            soundArray[103] = new Sound("Priorite a droite",R.raw.priorite_a_droite);
+            soundArray[104] = new Sound("Ralenti",R.raw.ralenti);
+            soundArray[105] = new Sound("Solution radicale",R.raw.solution_radicale);
+            soundArray[106] = new Sound("Tout droit",R.raw.tout_droit);
+            soundArray[107] = new Sound("Trop marrant",R.raw.trop_marrant);
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
@@ -331,15 +341,25 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
             themeTaunt.sortIndex();
 
-            //Set theme pq
+            //Set theme PQ
             themePq.addSound(soundArray[50]);
             themePq.addSound(soundArray[51]);
             themePq.addSound(soundArray[52]);
-            themePq.addSound(soundArray[50]);
-            themePq.addSound(soundArray[50]);
+            themePq.addSound(soundArray[53]);
+            themePq.addSound(soundArray[54]);
             themePq.addSound(soundArray[72]);
 
             themePq.sortIndex();
+
+            //Set theme GPS
+            themeGps.addSound(soundArray[97]);
+            themeGps.addSound(soundArray[98]);
+            themeGps.addSound(soundArray[100]);
+            themeGps.addSound(soundArray[103]);
+            themeGps.addSound(soundArray[104]);
+            themeGps.addSound(soundArray[106]);
+
+            themeGps.sortIndex();
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
@@ -572,6 +592,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             themeEngine.addTheme(themeFav);
                             themeEngine.addTheme(themeTaunt);
                             themeEngine.addTheme(themePq);
+                            themeEngine.addTheme(themeGps);
 
                             //Update UI
                             adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list, themeEngine.getCurrentTheme().getSoundNameList());
@@ -621,6 +642,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themeFav        = new Theme(getString(R.string.theme_favorites_name));
             themePq         = new Theme("PQ");
             themeTaunt      = new Theme("Taunt");
+            themeGps        = new Theme("GPS");
 
             //Save the soundEngine sound pool now to avoid multiple soundEngine calls in threads.
             soundPool = soundEngine.getSoundPool();
