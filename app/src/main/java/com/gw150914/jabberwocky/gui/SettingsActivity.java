@@ -21,153 +21,185 @@ import com.gw150914.jabberwocky.R;
 
 public class SettingsActivity extends Activity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, Switch.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, SeekBar.OnSeekBarChangeListener {
 
-    public final static String SETTINGS_FILE_NAME = "Settings";
+
+    /*****************************************************************************************
+     * =============================[ PUBLIC FINAL STATIC FIELDS ]========================== *
+     *****************************************************************************************/
+
+    public final static boolean SHOW_HELP_DEFAULT = true;
+    public final static boolean advSwitch1_DEFAULT = false;
+    public final static boolean advSwitch2_DEFAULT = false;
+    public final static boolean advSwitch3_DEFAULT = false;
+    public final static boolean CUSTOM_VOLUME_DEFAULT = false;
     public final static int LINEAR_LOADING_THREAD_DEFAULT = 1;
     public final static int SMART_LOADING_THREAD_DEFAULT = 1;
     public final static int ONDEMAND_LOADING_THREAD_DEFAULT = 2;
     public final static int SKIN_ID_DEFAULT = 0;
-    public final static boolean ADV_SWITCH1_DEFAULT = false;
-    public final static boolean ADV_SWITCH2_DEFAULT = false;
-    public final static boolean ADV_SWITCH3_DEFAULT = false;
-    public final static boolean CUSTOM_VOLUME_DEFAULT = false;
     public final static int CUSTOM_VOLUME_VALUE_DEFAULT = 100;
     public final static int CUSTOM_VOLUME_MAX_DEFAULT = 100;
-    public final static boolean SHOW_HELP_DEFAULT = true;
+    public final static String SETTINGS_FILE_NAME = "Settings";
 
-    int skinId;
-    int linearLoadingThread;
-    int smartLoadingThread;
-    int ondemandLoadingThread;
-    boolean customVolume;
-    int customVolumeValue;
-    boolean adv_switch1_value, adv_switch2_value, adv_switch3_value;
-    int linearLoadingThreadButton0Id, linearLoadingThreadButton1Id, linearLoadingThreadButton2Id, linearLoadingThreadButton3Id;
-    int smartLoadingThreadButton0Id, smartLoadingThreadButton1Id, smartLoadingThreadButton2Id, smartLoadingThreadButton3Id;
-    int ondemandLoadingThreadButton1Id, ondemandLoadingThreadButton2Id, ondemandLoadingThreadButton3Id, ondemandLoadingThreadButton4Id;
-    RadioButton linearLoadingThreadButton0, linearLoadingThreadButton1, linearLoadingThreadButton2, linearLoadingThreadButton3;
-    RadioButton smartLoadingThreadButton0, smartLoadingThreadButton1, smartLoadingThreadButton2, smartLoadingThreadButton3;
-    RadioButton ondemandLoadingThreadButton1, ondemandLoadingThreadButton2, ondemandLoadingThreadButton3, ondemandLoadingThreadButton4;
-    RadioGroup linearLoadingThreadRadioGroup;
-    RadioGroup smartLoadingThreadRadioGroup;
-    RadioGroup ondemandLoadingThreadRadioGroup;
-    Switch adv_switch1, adv_switch2, adv_switch3;
-    CheckBox customVolumeCheckBox;
-    SeekBar customVolumeSeekBar;
-    CheckBox showHelp;
-    Boolean showHelpValue;
+
+    /*****************************************************************************************
+     * ===================================[ PRIVATE FIELDS ]================================ *
+     *****************************************************************************************/
+
+    private boolean showHelpValue;
+    private boolean advSwitch1Value;
+    private boolean advSwitch2Value;
+    private boolean advSwitch3Value;
+    private boolean customVolume;
+    private int customVolumeValue;
+    private int skinId;
+    private int linearLoadingThread;
+    private int smartLoadingThread;
+    private int ondemandLoadingThread;
+    private SeekBar customVolumeSeekBar;
+
+    
+    /*****************************************************************************************
+     * ==============================[ ACTIVITY STATE METHODS ]============================= *
+     *****************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        //Tab root
-        TabHost tabHost = (TabHost)findViewById(R.id.settings_tab_host);
+
+        /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*
+         * UI variables declaration and initialization *
+         *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+        //Global settings UI elements
+        TabHost tabHost     = (TabHost) findViewById(R.id.settings_tab_host);
+        Button acceptButton = (Button) findViewById(R.id.settings_accept_button);
+        Button cancelButton = (Button) findViewById(R.id.settings_cancel_button);
+
+        //Display Tab UI elements
+        Spinner skinsSpinner = (Spinner) findViewById(R.id.skins_spinner);
+        CheckBox showHelp    = (CheckBox) findViewById(R.id.showHelpCheckBox);
+
+        //Sound Tab UI elements
+        CheckBox customVolumeCheckBox   = (CheckBox) findViewById(R.id.customVolumeCheckBox);
+        customVolumeSeekBar             = (SeekBar) findViewById(R.id.customVolumeSeekBar);
+
+        //Advanced Tab UI elements
+        RadioGroup linearLoadingThreadRadioGroup    = (RadioGroup) findViewById(R.id.linear_loading_thread_radio_group);
+        RadioGroup smartLoadingThreadRadioGroup     = (RadioGroup) findViewById(R.id.smart_loading_thread_radio_group);
+        RadioGroup ondemandLoadingThreadRadioGroup  = (RadioGroup) findViewById(R.id.ondemand_loading_thread_radio_group);
+        RadioButton linearLoadingThreadButton0      = (RadioButton) findViewById(R.id.linear_loading_thread_0);
+        RadioButton linearLoadingThreadButton1      = (RadioButton) findViewById(R.id.linear_loading_thread_1);
+        RadioButton linearLoadingThreadButton2      = (RadioButton) findViewById(R.id.linear_loading_thread_2);
+        RadioButton linearLoadingThreadButton3      = (RadioButton) findViewById(R.id.linear_loading_thread_3);
+        RadioButton smartLoadingThreadButton0       = (RadioButton) findViewById(R.id.smart_loading_thread_0);
+        RadioButton smartLoadingThreadButton1       = (RadioButton) findViewById(R.id.smart_loading_thread_1);
+        RadioButton smartLoadingThreadButton2       = (RadioButton) findViewById(R.id.smart_loading_thread_2);
+        RadioButton smartLoadingThreadButton3       = (RadioButton) findViewById(R.id.smart_loading_thread_3);
+        RadioButton ondemandLoadingThreadButton1    = (RadioButton) findViewById(R.id.ondemand_loading_thread_1);
+        RadioButton ondemandLoadingThreadButton2    = (RadioButton) findViewById(R.id.ondemand_loading_thread_2);
+        RadioButton ondemandLoadingThreadButton3    = (RadioButton) findViewById(R.id.ondemand_loading_thread_3);
+        RadioButton ondemandLoadingThreadButton4    = (RadioButton) findViewById(R.id.ondemand_loading_thread_4);
+        Switch advSwitch1                           = (Switch) findViewById(R.id.adv_switch1);
+        Switch advSwitch2                           = (Switch) findViewById(R.id.adv_switch2);
+        Switch advSwitch3                           = (Switch) findViewById(R.id.adv_switch3);
+
+
+        /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*
+         *            UI variables setup               *
+         *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+        //Global settings UI elements
         tabHost.setup();
 
-        //Display Tab
+        //Display Tab UI elements
         TabHost.TabSpec tabSpec = tabHost.newTabSpec("Display");
         tabSpec.setContent(R.id.settings_tab_display);
         tabSpec.setIndicator(getString(R.string.display_tab_name));
         tabHost.addTab(tabSpec);
 
-        //Sound Tab
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.skins_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        skinsSpinner.setAdapter(adapter);
+
+        //Sound Tab UI elements
         tabSpec = tabHost.newTabSpec("Sound");
         tabSpec.setContent(R.id.settings_tab_sound);
         tabSpec.setIndicator(getString(R.string.sound_tab_name));
         tabHost.addTab(tabSpec);
 
-        //Advanced Tab
+        customVolumeSeekBar.setMax(CUSTOM_VOLUME_MAX_DEFAULT);
+
+        //Advanced Tab UI elements
         tabSpec = tabHost.newTabSpec("Advanced");
         tabSpec.setContent(R.id.settings_tab_advanced);
         tabSpec.setIndicator(getString(R.string.advanced_tab_name));
         tabHost.addTab(tabSpec);
 
-        Spinner skinsSpinner = (Spinner) findViewById(R.id.skins_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.skins_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        skinsSpinner.setAdapter(adapter);
-        skinsSpinner.setOnItemSelectedListener(this);
 
-        Button acceptButton = (Button) findViewById(R.id.settings_accept_button);
-        Button cancelButton = (Button) findViewById(R.id.settings_cancel_button);
+        /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*
+         *  Bind UI variables to listeners for events  *
+         *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+        //Global settings UI elements
         acceptButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
 
-        showHelp    = (CheckBox) findViewById(R.id.showHelpCheckBox);
-
-        customVolumeCheckBox    = (CheckBox) findViewById(R.id.customVolumeCheckBox);
-        customVolumeSeekBar     = (SeekBar) findViewById(R.id.customVolumeSeekBar);
-
+        //Display Tab UI elements
         showHelp.setOnCheckedChangeListener(this);
+        skinsSpinner.setOnItemSelectedListener(this);
 
+        //Sound Tab UI elements
         customVolumeCheckBox.setOnCheckedChangeListener(this);
         customVolumeSeekBar.setOnSeekBarChangeListener(this);
 
-        linearLoadingThreadButton0      = (RadioButton) findViewById(R.id.linear_loading_thread_0);
-        linearLoadingThreadButton1      = (RadioButton) findViewById(R.id.linear_loading_thread_1);
-        linearLoadingThreadButton2      = (RadioButton) findViewById(R.id.linear_loading_thread_2);
-        linearLoadingThreadButton3      = (RadioButton) findViewById(R.id.linear_loading_thread_3);
-        linearLoadingThreadRadioGroup   = (RadioGroup) findViewById(R.id.linear_loading_thread_radio_group);
-
-        smartLoadingThreadButton0      = (RadioButton) findViewById(R.id.smart_loading_thread_0);
-        smartLoadingThreadButton1      = (RadioButton) findViewById(R.id.smart_loading_thread_1);
-        smartLoadingThreadButton2      = (RadioButton) findViewById(R.id.smart_loading_thread_2);
-        smartLoadingThreadButton3      = (RadioButton) findViewById(R.id.smart_loading_thread_3);
-        smartLoadingThreadRadioGroup   = (RadioGroup) findViewById(R.id.smart_loading_thread_radio_group);
-
-        ondemandLoadingThreadButton1      = (RadioButton) findViewById(R.id.ondemand_loading_thread_1);
-        ondemandLoadingThreadButton2      = (RadioButton) findViewById(R.id.ondemand_loading_thread_2);
-        ondemandLoadingThreadButton3      = (RadioButton) findViewById(R.id.ondemand_loading_thread_3);
-        ondemandLoadingThreadButton4      = (RadioButton) findViewById(R.id.ondemand_loading_thread_4);
-        ondemandLoadingThreadRadioGroup   = (RadioGroup) findViewById(R.id.ondemand_loading_thread_radio_group);
-
-        linearLoadingThreadButton0Id = linearLoadingThreadButton0.getId();
-        linearLoadingThreadButton1Id = linearLoadingThreadButton1.getId();
-        linearLoadingThreadButton2Id = linearLoadingThreadButton2.getId();
-        linearLoadingThreadButton3Id = linearLoadingThreadButton3.getId();
+        //Advanced Tab UI elements
         linearLoadingThreadRadioGroup.setOnCheckedChangeListener(this);
-
-        smartLoadingThreadButton0Id = smartLoadingThreadButton0.getId();
-        smartLoadingThreadButton1Id = smartLoadingThreadButton1.getId();
-        smartLoadingThreadButton2Id = smartLoadingThreadButton2.getId();
-        smartLoadingThreadButton3Id = smartLoadingThreadButton3.getId();
         smartLoadingThreadRadioGroup.setOnCheckedChangeListener(this);
-
-        ondemandLoadingThreadButton1Id = ondemandLoadingThreadButton1.getId();
-        ondemandLoadingThreadButton2Id = ondemandLoadingThreadButton2.getId();
-        ondemandLoadingThreadButton3Id = ondemandLoadingThreadButton3.getId();
-        ondemandLoadingThreadButton4Id = ondemandLoadingThreadButton4.getId();
         ondemandLoadingThreadRadioGroup.setOnCheckedChangeListener(this);
+        advSwitch1.setOnCheckedChangeListener(this);
+        advSwitch2.setOnCheckedChangeListener(this);
+        advSwitch3.setOnCheckedChangeListener(this);
 
-        adv_switch1 = (Switch) findViewById(R.id.adv_switch1);
-        adv_switch2 = (Switch) findViewById(R.id.adv_switch2);
-        adv_switch3 = (Switch) findViewById(R.id.adv_switch3);
 
-        adv_switch1.setOnCheckedChangeListener(this);
-        adv_switch2.setOnCheckedChangeListener(this);
-        adv_switch3.setOnCheckedChangeListener(this);
+        /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*
+         *   Retrieve settings from preferences file   *
+         *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-        //Restore preferences
-        SharedPreferences settings = getSharedPreferences(SETTINGS_FILE_NAME, MODE_PRIVATE);
-        
-        linearLoadingThread = settings.getInt("linearLoadingThread", LINEAR_LOADING_THREAD_DEFAULT);
-        smartLoadingThread = settings.getInt("smartLoadingThread", SMART_LOADING_THREAD_DEFAULT);
-        ondemandLoadingThread = settings.getInt("ondemandLoadingThread", ONDEMAND_LOADING_THREAD_DEFAULT);
+        //Get saved settings from file
+        SharedPreferences savedSettings = getSharedPreferences(SETTINGS_FILE_NAME, MODE_PRIVATE);
 
-        adv_switch1_value = settings.getBoolean("advSwitch1", ADV_SWITCH1_DEFAULT);
-        adv_switch2_value = settings.getBoolean("advSwitch2", ADV_SWITCH2_DEFAULT);
-        adv_switch3_value = settings.getBoolean("advSwitch3", ADV_SWITCH3_DEFAULT);
+        //Display Tab UI elements
+        skinId          = savedSettings.getInt("skinId", SKIN_ID_DEFAULT);
+        showHelpValue   = savedSettings.getBoolean("showHelp", SHOW_HELP_DEFAULT);
 
-        skinId = settings.getInt("skinId", SKIN_ID_DEFAULT);
+        //Sound Tab UI elements
+        customVolume        = savedSettings.getBoolean("customVolume", CUSTOM_VOLUME_DEFAULT);
+        customVolumeValue   = savedSettings.getInt("customVolumeValue",  CUSTOM_VOLUME_VALUE_DEFAULT);
 
-        customVolume = settings.getBoolean("customVolume", CUSTOM_VOLUME_DEFAULT);
-        customVolumeValue = settings.getInt("customVolumeValue",  CUSTOM_VOLUME_VALUE_DEFAULT);
+        //Advanced Tab UI elements
+        linearLoadingThread     = savedSettings.getInt("linearLoadingThread", LINEAR_LOADING_THREAD_DEFAULT);
+        smartLoadingThread      = savedSettings.getInt("smartLoadingThread", SMART_LOADING_THREAD_DEFAULT);
+        ondemandLoadingThread   = savedSettings.getInt("ondemandLoadingThread", ONDEMAND_LOADING_THREAD_DEFAULT);
+        advSwitch1Value       = savedSettings.getBoolean("advSwitch1", advSwitch1_DEFAULT);
+        advSwitch2Value       = savedSettings.getBoolean("advSwitch2", advSwitch2_DEFAULT);
+        advSwitch3Value       = savedSettings.getBoolean("advSwitch3", advSwitch3_DEFAULT);
 
-        showHelpValue = settings.getBoolean("showHelp", SHOW_HELP_DEFAULT);
+
+        /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*
+         * Set settings UI states from retrieved values *
+         *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+        //Display Tab UI elements
         showHelp.setChecked(showHelpValue);
-        
+        skinsSpinner.setSelection(skinId);
+
+        //Sound Tab UI elements
+        customVolumeCheckBox.setChecked(customVolume);
+        customVolumeSeekBar.setProgress(customVolumeValue);
+        customVolumeSeekBar.setEnabled(customVolume);
+
+        //Advanced Tab UI elements
         switch(linearLoadingThread) {
             case(0): linearLoadingThreadButton0.setChecked(true); break;
             case(1): linearLoadingThreadButton1.setChecked(true); break;
@@ -186,85 +218,69 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
             case(3): ondemandLoadingThreadButton3.setChecked(true); break;
             case(4): ondemandLoadingThreadButton4.setChecked(true); break;
         }
-
-        if(adv_switch1_value) {
-            adv_switch1.setChecked(true);
-        }
-        else {
-            adv_switch1.setChecked(false);
-        }
-        if(adv_switch2_value) {
-            adv_switch2.setChecked(true);
-        }
-        else {
-            adv_switch2.setChecked(false);
-        }
-        if(adv_switch3_value) {
-            adv_switch3.setChecked(true);
-        }
-        else {
-            adv_switch3.setChecked(false);
-        }
-
-        skinsSpinner.setSelection(skinId);
-
-        customVolumeCheckBox.setChecked(customVolume);
-        customVolumeSeekBar.setMax(CUSTOM_VOLUME_MAX_DEFAULT);
-        customVolumeSeekBar.setProgress(customVolumeValue);
-        customVolumeSeekBar.setEnabled(customVolume);
-
-        System.out.println("DEBUG: SEEKBAR: " + customVolumeSeekBar.getProgress());
-
-        /*
-        switch (skinId) {
-            case(0):
-                skinsSpinner.setSelection(0);
-        }
-        */
+        advSwitch1.setChecked(advSwitch1Value);
+        advSwitch2.setChecked(advSwitch2Value);
+        advSwitch3.setChecked(advSwitch3Value);
     }
+
+
+    /*****************************************************************************************
+     * ====================================[ UI LISTENERS ]================================= *
+     *****************************************************************************************/
 
     public void onClick(View view) {
 
+        //If the Accept button was clicked.
         if (view == findViewById(R.id.settings_accept_button)) {
 
-            //Save all settings in internal storage.
-            SharedPreferences settings = getSharedPreferences(SETTINGS_FILE_NAME, MODE_PRIVATE);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("linearLoadingThread", linearLoadingThread);
-            editor.putInt("smartLoadingThread", smartLoadingThread);
-            editor.putInt("ondemandLoadingThread", ondemandLoadingThread);
-            editor.putBoolean("advSwitch1", adv_switch1_value);
-            editor.putBoolean("advSwitch2", adv_switch2_value);
-            editor.putBoolean("advSwitch3", adv_switch3_value);
-            editor.putInt("skinId", skinId);
-            editor.putBoolean("customVolume", customVolume);
-            editor.putInt("customVolumeValue", customVolumeValue);
-            editor.putBoolean("showHelp", showHelpValue);
+            //Setup preferences file and editor.
+            SharedPreferences toBeSavedSettings = getSharedPreferences(SETTINGS_FILE_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor toBeSavedSettingsEditor = toBeSavedSettings.edit();
 
-            editor.apply();
+            //Save all settings to preferences file.
+            toBeSavedSettingsEditor.putInt("linearLoadingThread", linearLoadingThread);
+            toBeSavedSettingsEditor.putInt("smartLoadingThread", smartLoadingThread);
+            toBeSavedSettingsEditor.putInt("ondemandLoadingThread", ondemandLoadingThread);
+            toBeSavedSettingsEditor.putBoolean("advSwitch1", advSwitch1Value);
+            toBeSavedSettingsEditor.putBoolean("advSwitch2", advSwitch2Value);
+            toBeSavedSettingsEditor.putBoolean("advSwitch3", advSwitch3Value);
+            toBeSavedSettingsEditor.putInt("skinId", skinId);
+            toBeSavedSettingsEditor.putBoolean("customVolume", customVolume);
+            toBeSavedSettingsEditor.putInt("customVolumeValue", customVolumeValue);
+            toBeSavedSettingsEditor.putBoolean("showHelp", showHelpValue);
 
-            //Pass dynamic settings back to MainActivity.
+            //Commit changes to preferences file.
+            toBeSavedSettingsEditor.apply();
+
+            //Save dynamic settings in an intent.
             Intent intent = new Intent();
             intent.putExtra("skinId", skinId);
             intent.putExtra("customVolume", customVolume);
             intent.putExtra("customVolumeValue", customVolumeValue);
+
+            //Set result to 1 (settings changes), send intent to MainActivity with dynamic settings and destroy this activity.
             setResult(1, intent);
             finish();
         }
+
+        //If the Cancel button was clicked.
         if (view == findViewById(R.id.settings_cancel_button)) {
+
+            //Set result to 0 (no changes) and destroy this activity
             setResult(0);
             finish();
         }
     }
+
     public void onCheckedChanged(CompoundButton compoundButton, boolean state) {
         if(compoundButton == findViewById(R.id.adv_switch1)) {
-            adv_switch1_value = state;
+            advSwitch1Value = state;
+        }
+        if(compoundButton == findViewById(R.id.adv_switch2)) {
+            advSwitch2Value = state;
         }
         if(compoundButton == findViewById(R.id.adv_switch3)) {
-            adv_switch2_value = state;
-        }
-        if(compoundButton == findViewById(R.id.adv_switch3)) {
-            adv_switch3_value = state;
+            advSwitch3Value = state;
         }
         if(compoundButton == findViewById(R.id.customVolumeCheckBox)) {
             customVolume = state;
@@ -274,49 +290,47 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
             showHelpValue = state;
         }
     }
-    public void onCheckedChanged(RadioGroup radioGroup, int item) {
+
+    public void onCheckedChanged(RadioGroup radioGroup, int itemId) {
         if(radioGroup == findViewById(R.id.linear_loading_thread_radio_group)) {
-            System.out.println("DEBUG: Checked ID: " + item);
-            if(item == linearLoadingThreadButton0Id) {
+            if(itemId == radioGroup.getChildAt(0).getId()) {
                 linearLoadingThread = 0;
             }
-            if(item == linearLoadingThreadButton1Id) {
+            if(itemId == radioGroup.getChildAt(1).getId()) {
                 linearLoadingThread = 1;
             }
-            if(item == linearLoadingThreadButton2Id) {
+            if(itemId == radioGroup.getChildAt(2).getId()) {
                 linearLoadingThread = 2;
             }
-            if(item == linearLoadingThreadButton3Id) {
+            if(itemId == radioGroup.getChildAt(3).getId()) {
                 linearLoadingThread = 3;
             }
         }
         if(radioGroup == findViewById(R.id.smart_loading_thread_radio_group)) {
-            System.out.println("DEBUG: Checked ID: " + item);
-            if(item == smartLoadingThreadButton0Id) {
+            if(itemId == radioGroup.getChildAt(0).getId()) {
                 smartLoadingThread = 0;
             }
-            if(item == smartLoadingThreadButton1Id) {
+            if(itemId == radioGroup.getChildAt(1).getId()) {
                 smartLoadingThread = 1;
             }
-            if(item == smartLoadingThreadButton2Id) {
+            if(itemId == radioGroup.getChildAt(2).getId()) {
                 smartLoadingThread = 2;
             }
-            if(item == smartLoadingThreadButton3Id) {
+            if(itemId == radioGroup.getChildAt(3).getId()) {
                 smartLoadingThread = 3;
             }
         }
         if(radioGroup == findViewById(R.id.ondemand_loading_thread_radio_group)) {
-            System.out.println("DEBUG: Checked ID: " + item);
-            if(item == ondemandLoadingThreadButton1Id) {
+            if(itemId == radioGroup.getChildAt(0).getId()) {
                 ondemandLoadingThread = 1;
             }
-            if(item == ondemandLoadingThreadButton2Id) {
+            if(itemId == radioGroup.getChildAt(1).getId()) {
                 ondemandLoadingThread = 2;
             }
-            if(item == ondemandLoadingThreadButton3Id) {
+            if(itemId == radioGroup.getChildAt(2).getId()) {
                 ondemandLoadingThread = 3;
             }
-            if(item == ondemandLoadingThreadButton4Id) {
+            if(itemId == radioGroup.getChildAt(3).getId()) {
                 ondemandLoadingThread = 4;
             }
         }
@@ -332,17 +346,17 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
     }
 
     public void onStopTrackingTouch(SeekBar seekBar) {
-
+        //Nothing to do...
     }
 
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if(seekBar == findViewById(R.id.customVolumeSeekBar)) {
             customVolumeValue = progress;
-            System.out.println("DEBUG: SEEKBAR: " + customVolumeSeekBar.getProgress());
         }
     }
-    public void onStartTrackingTouch(SeekBar seekBar) {
 
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        //Nothing to do...
     }
 }
 
