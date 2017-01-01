@@ -694,56 +694,23 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     @Override
     public void onStop() {
         super.onStop();
-        // store the data in the fragment
+
+        //Store both engines in fragments.
         soundEngineFragment.setData(soundEngine);
         themeEngineFragment.setData(themeEngine);
 
-
-        //save Favorites list in a file in the app's internal storage
-        FileWriter writer;
-        BufferedWriter buffWrite;
-        File saveFile = new File(appContext.getFilesDir(), "saved_fav.txt");
-        int soundIndex;
-        String soundBuffer;
-
-        System.out.println("DEBUG: Trying to save favorites file");
-        if(!saveFile.exists()) {
-            try {
-                if (!saveFile.exists()) {
-                    saveFile.createNewFile();
-                    System.out.println("DEBUG: File does not exist, creating it: " + saveFile);
-                }
-            }
-            catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-        }
-        else {
-            System.out.println("DEBUG: File already exist");
-        }
-
-        try {
-            writer = new FileWriter(saveFile);
-            buffWrite = new BufferedWriter(writer);
-
-            for(soundIndex = 0; soundIndex < themeFav.getSoundsCount(); ++soundIndex){
-                soundBuffer = themeFav.getSound(soundIndex).getName();
-                buffWrite.write(soundBuffer);
-                System.out.println(soundBuffer);
-                buffWrite.newLine();
-                buffWrite.flush();
-                System.out.println("Line " + soundIndex + " OK");
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+        //Save Favorites list in a file in the app's internal storage
+        saveFavorites();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //If result code is 1, then user saved settings changes hence dynamic settings must be read and applied.
         if(resultCode == 1) {
 
+            //Retrieve dynamic settings from the intent.
             skinId = (int) data.getExtras().get("skinId");
             customVolume = (boolean) data.getExtras().get("customVolume");
             customVolumeValue = (int) data.getExtras().get("customVolumeValue");
@@ -752,21 +719,23 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             System.out.println("DEBUG: skinId: " + skinId);
             System.out.println("DEBUG: customVolume: " + customVolume);
             System.out.println("DEBUG: customVolumeValue: " + customVolumeValue);
+
+            //Apply retrieved dynamic settings.
+            switchSkin(skinId);
+
+            if(customVolume) {
+                soundEngine.setCustomVolume((float)customVolumeValue/100);
+            }
+            else {
+                soundEngine.removeCustomVolume();
+            }
         }
+
+        //If result code is 0, then user cancelled settings changes hence there is nothing to do.
         if(resultCode == 0) {
             System.out.println("DEBUG: User cancelled changes");
         }
-
-        switchSkin(skinId);
-
-        if(customVolume) {
-            soundEngine.setCustomVolume((float)customVolumeValue/100);
-        }
-        else {
-            soundEngine.removeCustomVolume();
-        }
     }
-
 
 
     /*****************************************************************************************
@@ -787,11 +756,13 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             View searchView = layoutInflaterAndroid.inflate(R.layout.search_dialog, null);
 
             final AlertDialog searchDialog = new AlertDialog.Builder(this).create();
-            searchDialog.setCanceledOnTouchOutside(false);
             final EditText userInput = (EditText) searchView.findViewById(R.id.userInputDialog);
+            final Theme themeSearch = new Theme(getString(R.string.search_theme_name));
+
             Button sendButton = (Button) searchView.findViewById(R.id.send_button);
             Button cancelButton = (Button) searchView.findViewById(R.id.cancel_button);
-            final Theme themeSearch = new Theme("Last search");
+
+            searchDialog.setCanceledOnTouchOutside(false);
 
             sendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -801,44 +772,41 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                     final String userSearch = userInput.getText().toString();
                     System.out.println(userSearch);
 
-
-                     for(searchIndex = 0; searchIndex < themeAll.getSoundsCount(); searchIndex++) {
-                           String buffSearch = themeAll.getSoundNameList().get(searchIndex);
+                    String buffSearch;
+                     for(searchIndex = 0; searchIndex < themeAll.getSoundsCount(); ++searchIndex) {
+                           buffSearch = themeAll.getSoundNameList().get(searchIndex);
                            if (buffSearch.toLowerCase().contains(userSearch.toLowerCase())) {
                                themeSearch.addSound(themeAll.getSound(searchIndex));
                            }
                       }
 
                     int nbResults = themeSearch.getSoundsCount();
-                        if (nbResults != 0) {
-                            searchDialog.dismiss();
+                    if (nbResults != 0) {
+                        searchDialog.dismiss();
 
-                            //Set current active theme to the search results.
-                            themeEngine.setCurrentTheme(themeSearch);
+                        //Set current active theme to the search results.
+                        themeEngine.setCurrentTheme(themeSearch);
 
-                            //Update UI accordingly to the new current active theme.
-                            adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list, themeEngine.getCurrentTheme().getSoundNameList());
-                            soundListDisplay.setAdapter(adapter);
-                            currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
-                            soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
-                        }
-                        else {
-                            AlertDialog noResultsDialog = new AlertDialog.Builder(MainActivity.this).create();
-                            noResultsDialog.setTitle(getString(R.string.no_results_dialog));
-                            noResultsDialog.setCancelable(false);
-                            noResultsDialog.setButton(android.app.AlertDialog.BUTTON_POSITIVE, getString(R.string.rage_quit),
-                                    new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface d, int which) {
-                                    System.out.println("No results for " + userSearch);
-                                    searchDialog.dismiss();
-                                    d.dismiss();
-                                }
-                            });
-
-
-                            noResultsDialog.show();
-                        }
+                        //Update UI accordingly to the new current active theme.
+                        adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list, themeEngine.getCurrentTheme().getSoundNameList());
+                        soundListDisplay.setAdapter(adapter);
+                        currentThemeTextView.setText(themeEngine.getCurrentThemeString(appContext));
+                        soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
+                    }
+                    else {
+                        AlertDialog noResultsDialog = new AlertDialog.Builder(MainActivity.this).create();
+                        noResultsDialog.setTitle(getString(R.string.no_results_dialog));
+                        noResultsDialog.setCancelable(false);
+                        noResultsDialog.setButton(android.app.AlertDialog.BUTTON_POSITIVE, getString(R.string.rage_quit), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface d, int which) {
+                                System.out.println(getString(R.string.no_results_for) + userSearch);
+                                searchDialog.dismiss();
+                                d.dismiss();
+                            }
+                        });
+                        noResultsDialog.show();
+                    }
                 }
             });
 
@@ -852,7 +820,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             searchDialog.setView(searchView);
             searchDialog.show();
         }
-
 
         //Theme button was clicked
         if(findViewById(R.id.theme_button) == v || findViewById(R.id.current_theme_display) == v) {
@@ -941,7 +908,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             else {
                 soundEngine.setLoop(-1);
             }
-
         }
     }
 
@@ -1007,65 +973,56 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * care of the event or not.                            *
      * If not, other event handlers might be fired.         *
      ********************************************************/
-    public boolean onItemLongClick(AdapterView parent, View v, final int pos, long id) {
+    public boolean onItemLongClick(AdapterView parent, View v, final int position, long id) {
 
         //Check if the item parent is the sound ViewList
         if(findViewById(R.id.sound_List_Display) == parent) {
 
-            //Current active theme is NOT favorites. Create a "add to favorites" dialog.
+            AlertDialog.Builder longClickOnSoundDialog = new AlertDialog.Builder(MainActivity.this);
+
+            //Current active theme is NOT favorites.
             if (themeEngine.getCurrentTheme() != themeEngine.getTheme(1)) {
 
-                AlertDialog.Builder long_click_dialog_gen = new AlertDialog.Builder(MainActivity.this);
-                long_click_dialog_gen.setItems(R.array.long_click_menu_gen_array, new DialogInterface.OnClickListener() {
+                longClickOnSoundDialog.setItems(R.array.long_click_menu_gen_array, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        switch (which) {
-                            case (0):
-                                //Add the sound to the favorites theme.
-                                themeEngine.getTheme(1).addSound(themeEngine.getCurrentTheme().getSound(pos));
+                        switch(which) {
+                            case (0): //Add the sound to the favorites theme.
+                                themeEngine.getTheme(1).addSound(themeEngine.getCurrentTheme().getSound(position));
                                 break;
 
-                            case (1):
-                                //share on Whatsapp
-                                shareSound(themeEngine.getCurrentTheme().getSound(pos).getResId());
+                            case (1): //Share sound.
+                                shareSound(themeEngine.getCurrentTheme().getSound(position).getResId());
                                 break;
                         }
                         dialog.dismiss();
-
                     }
                 });
-                long_click_dialog_gen.create();
-                long_click_dialog_gen.show();
-
             }
 
-            //Current active theme IS favorites. Create a "remove from favorites" dialog.
+            //Current active theme IS favorites.
             else {
-                AlertDialog.Builder long_click_dialog_fav = new AlertDialog.Builder(MainActivity.this);
-                long_click_dialog_fav.setItems(R.array.long_click_menu_fav_array, new DialogInterface.OnClickListener() {
+                longClickOnSoundDialog.setItems(R.array.long_click_menu_fav_array, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        switch (which) {
-                            case (0):
-                                //Remove the sound from the favorites theme and update UI.
-                                themeEngine.getTheme(1).removeSound(themeEngine.getCurrentTheme().getSound(pos));
+                        switch(which) {
+                            case (0): //Remove the sound from the favorites theme and update UI.
+                                themeEngine.getTheme(1).removeSound(themeEngine.getCurrentTheme().getSound(position));
                                 adapter.notifyDataSetChanged();
+                                soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
                                 break;
-                            case (1):
-                                //Share sound on Whatsapp
-                                shareSound(themeEngine.getCurrentTheme().getSound(pos).getResId());
+                            case (1): //Share sound.
+                                shareSound(themeEngine.getCurrentTheme().getSound(position).getResId());
                                 break;
                         }
                         dialog.dismiss();
-
                     }
                 });
-                long_click_dialog_fav.create();
-                long_click_dialog_fav.show();
-
             }
+            longClickOnSoundDialog.create();
+            longClickOnSoundDialog.show();
         }
         return false;
     }
@@ -1115,11 +1072,38 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         }
     }
 
+    private void saveFavorites() {
+        int soundIndex;
+        String soundBuffer;
+        FileWriter writer;
+        BufferedWriter buffWrite;
+        File saveFile = new File(appContext.getFilesDir(), "saved_fav.txt");
+
+        System.out.println("DEBUG: Trying to save favorites.");
+        try {
+            if(saveFile.createNewFile()){
+                System.out.println("DEBUG: File " + saveFile + " did not exist and has been created: ");
+            }
+            else {
+                System.out.println("DEBUG: File " + saveFile + " exists and will be used");
+            }
+            writer = new FileWriter(saveFile);
+            buffWrite = new BufferedWriter(writer);
+
+            for(soundIndex = 0; soundIndex < themeFav.getSoundsCount(); ++soundIndex){
+                soundBuffer = themeFav.getSound(soundIndex).getName();
+                buffWrite.write(soundBuffer);
+                System.out.println("DEBUG: Writing soundBuffer: " + soundBuffer + " @Line " + soundIndex);
+                buffWrite.newLine();
+            }
+            System.out.println("DEBUG: Flushing outstanding IOs to " + saveFile);
+            buffWrite.flush();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
     private void switchSkin(int skin) {
-        System.out.println("DEBUG: skinId: " + skinId);
-        System.out.println("DEBUG: skin: " + skin);
-
-
         switch(skin) {
             case(0):
                 activityMain.setBackgroundColor(getResources().getColor(R.color.s00_main_background));
@@ -1134,7 +1118,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 loopButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
                 buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s00_buttons_zone_separator));
                 soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s00_sound_speed_background));
-
                 break;
             case(1):
                 activityMain.setBackgroundColor(getResources().getColor(R.color.s01_main_background));
@@ -1151,7 +1134,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s01_sound_speed_background));
                 ((GradientDrawable)mainTitle.getBackground()).setStroke(10,getResources().getColor(R.color.s01_main_title_background));
                 mainTitle.setBackground(getResources().getDrawable(R.drawable.s00_main_title));
-
                 break;
             case(2):
                 activityMain.setBackgroundColor(getResources().getColor(R.color.s02_main_background));
@@ -1166,7 +1148,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 loopButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
                 buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s02_buttons_zone_separator));
                 soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s02_sound_speed_background));
-
                 break;
             case(3):
                 activityMain.setBackgroundColor(getResources().getColor(R.color.s03_main_background));
@@ -1181,7 +1162,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 loopButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
                 buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s03_buttons_zone_separator));
                 soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s03_sound_speed_background));
-
                 break;
             case(4):
                 activityMain.setBackgroundColor(getResources().getColor(R.color.s04_main_background));
@@ -1196,7 +1176,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 loopButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
                 buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s04_buttons_zone_separator));
                 soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s04_sound_speed_background));
-
                 break;
         }
     }

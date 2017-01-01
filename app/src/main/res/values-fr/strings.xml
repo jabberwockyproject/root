@@ -9,6 +9,8 @@
     <string name="theme_all_name">Tout</string>
     <string name="theme_favorites_name">Favoris</string>
     <string name="sound_count">Son(s)</string>
+    <string name="search_theme_name">Recherche</string>
+    <string name="no_results_for">Pas de resultat pour </string>
     <string name="help_title">Bienvenue dans la Bro Sound Box !</string>
     <string name="help_content">"Comment ca marche ?
 

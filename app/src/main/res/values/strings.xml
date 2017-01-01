@@ -28,6 +28,8 @@
     <string name="ondemand_loading_thread">On demand loading threads</string>
     <string name="skin">Skin: </string>
     <string name="custom_volume">Custom volume</string>
+    <string name="search_theme_name">Last search</string>
+    <string name="no_results_for">No results for </string>
     <string name="help_title">Welcome to Bro Sound Box !</string>
     <string name="help_content">"How to use this app ?
 
