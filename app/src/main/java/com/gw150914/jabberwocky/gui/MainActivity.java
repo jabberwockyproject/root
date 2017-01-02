@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -993,7 +994,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                                 break;
 
                             case (1): //Share sound.
-                                shareSound(themeEngine.getCurrentTheme().getSound(position).getResId());
+                                flexShareSound(themeEngine.getCurrentTheme().getSound(position).getResId());
                                 break;
                         }
                         dialog.dismiss();
@@ -1014,7 +1015,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                                 soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
                                 break;
                             case (1): //Share sound.
-                                shareSound(themeEngine.getCurrentTheme().getSound(position).getResId());
+                                flexShareSound(themeEngine.getCurrentTheme().getSound(position).getResId());
                                 break;
                         }
                         dialog.dismiss();
@@ -1031,6 +1032,66 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     /*****************************************************************************************
      * =================================[ PRIVATE METHODS ]================================= *
      *****************************************************************************************/
+
+    private void flexShareSound(int resourceId) {
+
+        InputStream inputStream = getResources().openRawResource(resourceId);
+        byte[] buff = new byte[1024];
+        int readBytes = 0;
+
+        try {
+            File soundsFolder = new File(getFilesDir(), "sounds");
+
+            if(soundsFolder.mkdir()) {
+                System.out.println("DEBUG: Folder " + soundsFolder.getAbsolutePath() + " has been created");
+            }
+
+            File outputFile = new File(soundsFolder, "share.mp3");
+
+            FileOutputStream outputStream = new FileOutputStream(outputFile);
+            while ((readBytes = inputStream.read(buff)) > 0) {
+                outputStream.write(buff, 0, readBytes);
+            }
+
+            inputStream.close();
+            outputStream.close();
+
+            Uri uri = FileProvider.getUriForFile(MainActivity.this, "com.gw150914.jabberwocky.fileprovider", outputFile);
+            System.out.println("DEBUG: Trying to share the file: " + uri.toString());
+
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.setType("audio/mp3");
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(shareIntent, "Share audio File"));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                inputStream.close();
+            }
+            catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+/*
+        try {
+            File folder = new File(getFilesDir(), "sounds");
+            File outputFile = new File(folder, "share.mp3");
+
+            //Uri soundUri;
+
+            //soundUri = FileProvider.getUriForFile(MainActivity.this, "com.gw150914.jabberwocky.fileprovider", outputFile);
+            //System.out.println("DEBUG: Trying to share the file: " + soundUri.toString());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }*/
+    }
+
     private void shareSound(int resourceId) {
 
         InputStream inputStream = getResources().openRawResource(resourceId);
