@@ -1,14 +1,12 @@
 <resources>
-    <string name="dialog_add_to_fav">Add to favourites?</string>
-    <string name="dialog_remove_from_fav">Remove from favourites?</string>
     <string name="choose_theme">Choose your theme, Mate !</string>
     <string name="theme_favorites_name">Favourites</string>
     <string-array name="long_click_options_array">
     <item>Add to Favourites</item>
-    <item>Share on Whatsapp</item>
+    <item>Share this sound</item>
     </string-array>
     <string-array name="long_click_menu_fav_array">
         <item>Remove from Favourites</item>
-        <item>Share on Whatsapp</item>
+        <item>Share this sound</item>
     </string-array>
 </resources>

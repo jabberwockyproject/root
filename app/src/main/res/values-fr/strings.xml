@@ -1,7 +1,5 @@
 <resources>
     <string name="current_theme">Theme actuel: </string>
-    <string name="dialog_add_to_fav">Ajouter aux favoris?</string>
-    <string name="dialog_remove_from_fav">Enlever des favoris?</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="choose_theme">Choisis ton theme, Bro !</string>
@@ -28,10 +26,10 @@ Profite, spam tes bros, et fais-nous part de tes commentaires !"</string>
     <string name="got_it">Got it!</string>
     <string-array name="long_click_options_array">
         <item>Ajouter aux Favoris</item>
-        <item>Partager sur Whatsapp</item>
+        <item>Partager ce son</item>
     </string-array>
     <string-array name="long_click_menu_fav_array">
         <item>Retirer des Favoris</item>
-        <item>Partager sur Whatsapp</item>
+        <item>Partager ce son</item>
     </string-array>
 </resources>

@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    final int TOTAL_SOUND = 108;
+    final int TOTAL_SOUND = 118;
     final int MAX_THREAD = 6;
 
     int linearLoadingThread, smartLoadingThread, ondemandLoadingThread;
@@ -213,7 +213,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundArray[93] = new Sound("Astuce",R.raw.astuce);
             soundArray[94] = new Sound("Ben quoi",R.raw.ben_quoi);
             soundArray[95] = new Sound("C'est excellent",R.raw.c_est_excellent);
-            soundArray[96] = new Sound("Ca fout le",R.raw.ca_fout_le_seum);
+            soundArray[96] = new Sound("Ca fout le seum",R.raw.ca_fout_le_seum);
             soundArray[97] = new Sound("Ceder le passage",R.raw.ceder_le_passage);
             soundArray[98] = new Sound("Demi tour",R.raw.demi_tour);
             soundArray[99] = new Sound("Devenir une saveur inedite",R.raw.devenir_saveur_inedite);
@@ -225,6 +225,16 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundArray[105] = new Sound("Solution radicale",R.raw.solution_radicale);
             soundArray[106] = new Sound("Tout droit",R.raw.tout_droit);
             soundArray[107] = new Sound("Trop marrant",R.raw.trop_marrant);
+            soundArray[108] = new Sound("Code Erroné",R.raw.code_errone);
+            soundArray[109] = new Sound("Dégaine du son",R.raw.degaine_du_son_el);
+            soundArray[110] = new Sound("Du Lourd - 01",R.raw.du_lourd_el);
+            soundArray[111] = new Sound("Hmmmmm (gras)",R.raw.hmmmm_pim);
+            soundArray[112] = new Sound("Merci Michel",R.raw.merci_michel_el);
+            soundArray[113] = new Sound("NSM on casse la barraque",R.raw.nsm_casse_la_barraque_el);
+            soundArray[114] = new Sound("Est-ce que tu veux une petite douceur au chocolat ?",R.raw.petite_douceur_chocolat_dzeta);
+            soundArray[115] = new Sound("Tchip - 01",R.raw.tchip);
+            soundArray[116] = new Sound("Un truc de ouf",R.raw.truc_de_ouf_el);
+            soundArray[117] = new Sound("Une vidéo qui est bien",R.raw.video_qui_est_bien_el);
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
