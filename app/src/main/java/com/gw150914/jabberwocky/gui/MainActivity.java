@@ -452,7 +452,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
         mainTitle                   = (TextView) findViewById(R.id.main_title);
         buttonZoneSeparator         = (LinearLayout) findViewById(R.id.buttons_zone_separator);
 
-
         //For each object we created above, designate event listeners.
         searchButton.setOnClickListener(this);
         searchButton.setOnLongClickListener(this);
