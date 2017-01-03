@@ -232,21 +232,21 @@
                         </RadioGroup>
                     </RelativeLayout>
                     <Switch
-                        android:text="Free hugs"
-                        android:layout_width="150dp"
+                        android:text="@string/adv_switch1"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/adv_switch1"
-                        android:visibility="invisible"/>
+                        android:visibility="visible"/>
 
                     <Switch
-                        android:text="Free kisses"
+                        android:text="@string/adv_switch2"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/adv_switch2"
                         android:visibility="invisible"/>
 
                     <Switch
-                        android:text="Free cuddles"
+                        android:text="@string/adv_switch3"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/adv_switch3"

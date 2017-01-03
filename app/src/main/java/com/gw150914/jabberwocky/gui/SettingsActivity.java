@@ -27,9 +27,9 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
      *****************************************************************************************/
 
     public final static boolean SHOW_HELP_DEFAULT = true;
-    public final static boolean advSwitch1_DEFAULT = false;
-    public final static boolean advSwitch2_DEFAULT = false;
-    public final static boolean advSwitch3_DEFAULT = false;
+    public final static boolean ADV_SWITCH1_DEFAULT = true;
+    public final static boolean ADV_SWITCH2_DEFAULT = false;
+    public final static boolean ADV_SWITCH3_DEFAULT = false;
     public final static boolean CUSTOM_VOLUME_DEFAULT = false;
     public final static int LINEAR_LOADING_THREAD_DEFAULT = 1;
     public final static int SMART_LOADING_THREAD_DEFAULT = 1;
@@ -181,9 +181,9 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
         linearLoadingThread     = savedSettings.getInt("linearLoadingThread", LINEAR_LOADING_THREAD_DEFAULT);
         smartLoadingThread      = savedSettings.getInt("smartLoadingThread", SMART_LOADING_THREAD_DEFAULT);
         ondemandLoadingThread   = savedSettings.getInt("ondemandLoadingThread", ONDEMAND_LOADING_THREAD_DEFAULT);
-        advSwitch1Value       = savedSettings.getBoolean("advSwitch1", advSwitch1_DEFAULT);
-        advSwitch2Value       = savedSettings.getBoolean("advSwitch2", advSwitch2_DEFAULT);
-        advSwitch3Value       = savedSettings.getBoolean("advSwitch3", advSwitch3_DEFAULT);
+        advSwitch1Value       = savedSettings.getBoolean("advSwitch1", ADV_SWITCH1_DEFAULT);
+        advSwitch2Value       = savedSettings.getBoolean("advSwitch2", ADV_SWITCH2_DEFAULT);
+        advSwitch3Value       = savedSettings.getBoolean("advSwitch3", ADV_SWITCH3_DEFAULT);
 
 
         /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*
@@ -257,6 +257,9 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
             intent.putExtra("skinId", skinId);
             intent.putExtra("customVolume", customVolume);
             intent.putExtra("customVolumeValue", customVolumeValue);
+            intent.putExtra("advSwitch1", advSwitch1Value);
+            intent.putExtra("advSwitch2", advSwitch2Value);
+            intent.putExtra("advSwitch3", advSwitch3Value);
 
             //Set result to 1 (settings changes), send intent to MainActivity with dynamic settings and destroy this activity.
             setResult(1, intent);

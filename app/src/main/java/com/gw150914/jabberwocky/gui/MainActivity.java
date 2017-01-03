@@ -62,6 +62,13 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     int skinId;
     boolean customVolume;
     int customVolumeValue;
+    SoundLoadThread[] smartLoadingTask;
+    long[] smartLoadingTaskAge;
+    int smartLoadingTaskActiveCount;
+    boolean helpMessage;
+    boolean advSwitch1Value;
+    boolean advSwitch2Value;
+    boolean advSwitch3Value;
 
     boolean thread0JobDone, thread1JobDone, thread2JobDone, thread10JobDone, thread11JobDone, soundInitDone, themeInitDone, soundLoadDone;
     int linearLoadingThreadsNotFinished;
@@ -93,12 +100,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     ImageButton slowButton;
     ImageButton fastButton;
     ImageButton loopButton;
-
-    SoundLoadThread[] smartLoadingTask;
-    long[] smartLoadingTaskAge;
-    int smartLoadingTaskActiveCount;
-
-    boolean helpMessage;
 
 
     /*****************************************************************************************
@@ -232,7 +233,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             loadingHandler.sendMessage(message);
         }
     }
-
 
     //This classes is designed to load a set of sounds in memory in a separate thread.
     private class SoundLoadThread implements Runnable {
@@ -484,6 +484,11 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             });
             alertDialog.show();
         }
+
+        advSwitch1Value = settings.getBoolean("advSwitch1", SettingsActivity.ADV_SWITCH1_DEFAULT);
+        advSwitch2Value = settings.getBoolean("advSwitch2", SettingsActivity.ADV_SWITCH2_DEFAULT);
+        advSwitch3Value = settings.getBoolean("advSwitch3", SettingsActivity.ADV_SWITCH3_DEFAULT);
+
         //Save the app context so threads can get a context when needed.
         appContext = this.getApplicationContext();
 
@@ -715,11 +720,17 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             skinId = (int) data.getExtras().get("skinId");
             customVolume = (boolean) data.getExtras().get("customVolume");
             customVolumeValue = (int) data.getExtras().get("customVolumeValue");
+            advSwitch1Value = (boolean) data.getExtras().get("advSwitch1");
+            advSwitch2Value = (boolean) data.getExtras().get("advSwitch2");
+            advSwitch3Value = (boolean) data.getExtras().get("advSwitch3");
 
             System.out.println("DEBUG: User saved new changes:");
             System.out.println("DEBUG: skinId: " + skinId);
             System.out.println("DEBUG: customVolume: " + customVolume);
             System.out.println("DEBUG: customVolumeValue: " + customVolumeValue);
+            System.out.println("DEBUG: advSwitch1: " + advSwitch1Value);
+            System.out.println("DEBUG: advSwitch2: " + advSwitch2Value);
+            System.out.println("DEBUG: advSwitch3: " + advSwitch3Value);
 
             //Apply retrieved dynamic settings.
             switchSkin(skinId);
@@ -991,9 +1002,13 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             case (0): //Add the sound to the favorites theme.
                                 themeEngine.getTheme(1).addSound(themeEngine.getCurrentTheme().getSound(position));
                                 break;
-
                             case (1): //Share sound.
-                                flexShareSound(themeEngine.getCurrentTheme().getSound(position).getResId());
+                                if(advSwitch1Value) {
+                                    shareSound(themeEngine.getCurrentTheme().getSound(position).getResId());
+                                }
+                                else {
+                                    shareSoundAlt(themeEngine.getCurrentTheme().getSound(position).getResId());
+                                }
                                 break;
                         }
                         dialog.dismiss();
@@ -1014,7 +1029,12 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                                 soundCountTextView.setText(Integer.toString(themeEngine.getCurrentTheme().getSoundsCount()) + " " + getString(R.string.sound_count));
                                 break;
                             case (1): //Share sound.
-                                flexShareSound(themeEngine.getCurrentTheme().getSound(position).getResId());
+                                if(advSwitch1Value) {
+                                    shareSound(themeEngine.getCurrentTheme().getSound(position).getResId());
+                                }
+                                else {
+                                    shareSoundAlt(themeEngine.getCurrentTheme().getSound(position).getResId());
+                                }
                                 break;
                         }
                         dialog.dismiss();
@@ -1033,7 +1053,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * =================================[ PRIVATE METHODS ]================================= *
      *****************************************************************************************/
 
-    private void flexShareSound(int resourceId) {
+    private void shareSound(int resourceId) {
 
         InputStream inputStream = getResources().openRawResource(resourceId);
         byte[] buff = new byte[1024];
@@ -1077,22 +1097,9 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                 ioe.printStackTrace();
             }
         }
-/*
-        try {
-            File folder = new File(getFilesDir(), "sounds");
-            File outputFile = new File(folder, "share.mp3");
-
-            //Uri soundUri;
-
-            //soundUri = FileProvider.getUriForFile(MainActivity.this, "com.gw150914.jabberwocky.fileprovider", outputFile);
-            //System.out.println("DEBUG: Trying to share the file: " + soundUri.toString());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }*/
     }
 
-    private void shareSound(int resourceId) {
+    private void shareSoundAlt(int resourceId) {
 
         InputStream inputStream = getResources().openRawResource(resourceId);
         byte[] buff = new byte[1024];
