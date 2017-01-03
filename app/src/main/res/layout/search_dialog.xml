@@ -16,6 +16,7 @@
         android:text="@string/search_dialog_title"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textAlignment="center"
+        android:fontFamily="sans-serif-condensed"
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
 
@@ -24,6 +25,7 @@
         android:id="@+id/userInputDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
         android:hint="@string/search_type"
         android:inputType="text"
         android:layout_marginBottom="18dp"/>

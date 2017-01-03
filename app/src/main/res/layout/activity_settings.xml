@@ -43,6 +43,7 @@
                         android:orientation="horizontal">
                         <CheckBox
                             android:text="@string/show_help"
+                            android:fontFamily="sans-serif-condensed"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/showHelpCheckBox" />
@@ -50,7 +51,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/skin"
-                            android:fontFamily="mono-italic"
+                            android:fontFamily="sans-serif-condensed"
                             android:textSize="8pt"
                             android:textAlignment="textStart"
                             android:visibility="gone"
@@ -97,7 +98,7 @@
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
                             android:text="@string/linear_loading_thread"
-                            android:fontFamily="mono-italic"
+                            android:fontFamily="sans-serif-condensed"
                             android:textSize="8pt"
                             android:textAlignment="center">
                         </TextView>
@@ -146,7 +147,7 @@
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
                             android:text="@string/smart_loading_thread"
-                            android:fontFamily="mono-italic"
+                            android:fontFamily="sans-serif-condensed"
                             android:textSize="8pt"
                             android:textAlignment="center">
                         </TextView>
@@ -195,7 +196,7 @@
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
                             android:text="@string/ondemand_loading_thread"
-                            android:fontFamily="mono-italic"
+                            android:fontFamily="sans-serif-condensed"
                             android:textSize="8pt"
                             android:textAlignment="center">
                         </TextView>
@@ -233,6 +234,7 @@
                     </RelativeLayout>
                     <Switch
                         android:text="@string/adv_switch1"
+                        android:fontFamily="sans-serif-condensed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/adv_switch1"
@@ -240,6 +242,7 @@
 
                     <Switch
                         android:text="@string/adv_switch2"
+                        android:fontFamily="sans-serif-condensed"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/adv_switch2"
@@ -247,6 +250,7 @@
 
                     <Switch
                         android:text="@string/adv_switch3"
+                        android:fontFamily="sans-serif-condensed"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/adv_switch3"

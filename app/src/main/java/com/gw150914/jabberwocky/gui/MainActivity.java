@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    final int TOTAL_SOUND = 134;
+    final int TOTAL_SOUND = 145;
     final int MAX_THREAD = 6;
 
     int linearLoadingThread, smartLoadingThread, ondemandLoadingThread;
@@ -74,7 +74,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     int linearLoadingThreadsNotFinished;
     SoundEngine soundEngine;
     ThemeEngine themeEngine;
-    Theme themeAll, themeFav, themePq, themeTaunt, themeGps;
+    Theme themeAll, themeFav, themePq, themeTaunt, themeGps, themeNotRaf;
     SoundEngineFragment soundEngineFragment;
     ThemeEngineFragment themeEngineFragment;
     FragmentManager fragmentManager;
@@ -241,7 +241,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundArray[119] = new Sound("9h du matin ...",R.raw.neuf_h_du_matin);
             soundArray[120] = new Sound("Bourgeoisie",R.raw.bourgeoisie);
             soundArray[121] = new Sound("Ca faisait longtemps",R.raw.ca_faisait_longtemps);
-            soundArray[122] = new Sound("Ca marche pas",R.raw.ca_marche_pas);
+            soundArray[122] = new Sound("Ca marche pas - 01",R.raw.ca_marche_pas);
             soundArray[123] = new Sound("Cool story Bro",R.raw.cool_story_bro);
             soundArray[124] = new Sound("Grosse arnaque",R.raw.grosse_arnaque);
             soundArray[125] = new Sound("Bourgeoisie",R.raw.bourgeoisie);
@@ -253,6 +253,17 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundArray[131] = new Sound("Prolétaire",R.raw.proletaire);
             soundArray[132] = new Sound("Prouve-le",R.raw.prouve_le);
             soundArray[133] = new Sound("Qu'en sais-tu",R.raw.qu_en_sais_tu);
+            soundArray[134] = new Sound("Ca marche pas - 02",R.raw.ca_marche_pas02);
+            soundArray[135] = new Sound("Ca part en vrille",R.raw.ca_part_en_vrille_jul);
+            soundArray[136] = new Sound("Du lourd - 02",R.raw.du_lourd_2_jul);
+            soundArray[137] = new Sound("Hmmmmm - 02",R.raw.hmmmm02_an);
+            soundArray[138] = new Sound("Hmmmmm - 03",R.raw.hmmmm03_wa);
+            soundArray[139] = new Sound("Il suffit",R.raw.il_suffit);
+            soundArray[140] = new Sound("Mais qu'est-ce que...",R.raw.mais_questceque_ju);
+            soundArray[141] = new Sound("Il n'y a pas de son",R.raw.pas_de_son_el);
+            soundArray[142] = new Sound("J'ai pris une disquette",R.raw.pris_disquette_el);
+            soundArray[143] = new Sound("Quoi - 04",R.raw.quoi04_wa);
+            soundArray[144] = new Sound("Thug Life",R.raw.thug_life_el);
 
 
             //Send a message to handler with the finished flag set
@@ -388,6 +399,31 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themeGps.addSound(soundArray[106]);
 
             themeGps.sortIndex();
+
+            //Set theme Raf
+            themeNotRaf.addSound(soundArray[80]);
+            themeNotRaf.addSound(soundArray[108]);
+            themeNotRaf.addSound(soundArray[109]);
+            themeNotRaf.addSound(soundArray[110]);
+            themeNotRaf.addSound(soundArray[111]);
+            themeNotRaf.addSound(soundArray[112]);
+            themeNotRaf.addSound(soundArray[113]);
+            themeNotRaf.addSound(soundArray[114]);
+            themeNotRaf.addSound(soundArray[115]);
+            themeNotRaf.addSound(soundArray[116]);
+            themeNotRaf.addSound(soundArray[117]);
+            themeNotRaf.addSound(soundArray[135]);
+            themeNotRaf.addSound(soundArray[136]);
+            themeNotRaf.addSound(soundArray[137]);
+            themeNotRaf.addSound(soundArray[138]);
+            themeNotRaf.addSound(soundArray[139]);
+            themeNotRaf.addSound(soundArray[140]);
+            themeNotRaf.addSound(soundArray[141]);
+            themeNotRaf.addSound(soundArray[142]);
+            themeNotRaf.addSound(soundArray[143]);
+            themeNotRaf.addSound(soundArray[144]);
+
+            themeNotRaf.sortIndex();
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
@@ -625,6 +661,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
                             themeEngine.addTheme(themeTaunt);
                             themeEngine.addTheme(themePq);
                             themeEngine.addTheme(themeGps);
+                            themeEngine.addTheme(themeNotRaf);
 
                             //Update UI
                             adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.sound_list, themeEngine.getCurrentTheme().getSoundNameList());
@@ -675,6 +712,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             themePq         = new Theme("PQ");
             themeTaunt      = new Theme("Taunt");
             themeGps        = new Theme("GPS");
+            themeNotRaf     = new Theme("Not Raf");
 
             //Save the soundEngine sound pool now to avoid multiple soundEngine calls in threads.
             soundPool = soundEngine.getSoundPool();

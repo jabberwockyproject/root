@@ -122,7 +122,7 @@ public class ThemeEngine {
     //Remove a Theme from this ThemeEngine.
     public boolean removeTheme(Theme oldTheme) {
 
-        //Get oldTheme postion in themeList
+        //Get oldTheme position in themeList
         int position = getThemeIndex(oldTheme);
 
         //oldTheme is present in ThemeEngine.
