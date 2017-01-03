@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    final int TOTAL_SOUND = 119;
+    final int TOTAL_SOUND = 134;
     final int MAX_THREAD = 6;
 
     int linearLoadingThread, smartLoadingThread, ondemandLoadingThread;
@@ -238,6 +238,22 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundArray[116] = new Sound("Un truc de ouf",R.raw.truc_de_ouf_el);
             soundArray[117] = new Sound("Une vidéo qui est bien",R.raw.video_qui_est_bien_el);
             soundArray[118] = new Sound("Démuni, Mathieu ne communique plus que par son ordinateur",R.raw.demuni_mat_ordinateur);
+            soundArray[119] = new Sound("9h du matin ...",R.raw.neuf_h_du_matin);
+            soundArray[120] = new Sound("Bourgeoisie",R.raw.bourgeoisie);
+            soundArray[121] = new Sound("Ca faisait longtemps",R.raw.ca_faisait_longtemps);
+            soundArray[122] = new Sound("Ca marche pas",R.raw.ca_marche_pas);
+            soundArray[123] = new Sound("Cool story Bro",R.raw.cool_story_bro);
+            soundArray[124] = new Sound("Grosse arnaque",R.raw.grosse_arnaque);
+            soundArray[125] = new Sound("Bourgeoisie",R.raw.bourgeoisie);
+            soundArray[126] = new Sound("Happy Birthday Bro",R.raw.happy_birthday);
+            soundArray[127] = new Sound("Nimporte quoi",R.raw.nimporte_quoi);
+            soundArray[128] = new Sound("On va s'éclater",R.raw.on_va_s_eclater);
+            soundArray[129] = new Sound("Personne me comprend",R.raw.personne_me_comprend);
+            soundArray[130] = new Sound("Plongez dans cette jeunesse totalement déconnectée de la réalité",R.raw.plongez_jeunesse_deconnectee);
+            soundArray[131] = new Sound("Prolétaire",R.raw.proletaire);
+            soundArray[132] = new Sound("Prouve-le",R.raw.prouve_le);
+            soundArray[133] = new Sound("Qu'en sais-tu",R.raw.qu_en_sais_tu);
+
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
