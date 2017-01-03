@@ -1200,76 +1200,14 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
     private void switchSkin(int skin) {
         switch(skin) {
             case(0):
-                activityMain.setBackgroundColor(getResources().getColor(R.color.s00_main_background));
-                currentThemeTextView.setBackgroundColor(getResources().getColor(R.color.s00_theme_background));
-                soundCountTextView.setBackgroundColor(getResources().getColor(R.color.s00_sound_count_display));
-                searchButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
-                themeButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
-                randomButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
-                settingsButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
-                slowButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
-                fastButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
-                loopButton.setBackgroundColor(getResources().getColor(R.color.s00_button_background));
-                buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s00_buttons_zone_separator));
-                soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s00_sound_speed_background));
                 break;
             case(1):
-                activityMain.setBackgroundColor(getResources().getColor(R.color.s01_main_background));
-                currentThemeTextView.setBackgroundColor(getResources().getColor(R.color.s01_theme_background));
-                soundCountTextView.setBackgroundColor(getResources().getColor(R.color.s01_sound_count_display));
-                searchButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
-                themeButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
-                randomButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
-                settingsButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
-                slowButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
-                fastButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
-                loopButton.setBackgroundColor(getResources().getColor(R.color.s01_button_background));
-                buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s01_buttons_zone_separator));
-                soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s01_sound_speed_background));
-                ((GradientDrawable)mainTitle.getBackground()).setStroke(10,getResources().getColor(R.color.s01_main_title_background));
-                mainTitle.setBackground(getResources().getDrawable(R.drawable.s00_main_title));
                 break;
             case(2):
-                activityMain.setBackgroundColor(getResources().getColor(R.color.s02_main_background));
-                currentThemeTextView.setBackgroundColor(getResources().getColor(R.color.s02_theme_background));
-                soundCountTextView.setBackgroundColor(getResources().getColor(R.color.s02_sound_count_display));
-                searchButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
-                themeButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
-                randomButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
-                settingsButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
-                slowButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
-                fastButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
-                loopButton.setBackgroundColor(getResources().getColor(R.color.s02_button_background));
-                buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s02_buttons_zone_separator));
-                soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s02_sound_speed_background));
                 break;
             case(3):
-                activityMain.setBackgroundColor(getResources().getColor(R.color.s03_main_background));
-                currentThemeTextView.setBackgroundColor(getResources().getColor(R.color.s03_theme_background));
-                soundCountTextView.setBackgroundColor(getResources().getColor(R.color.s03_sound_count_display));
-                searchButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
-                themeButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
-                randomButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
-                settingsButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
-                slowButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
-                fastButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
-                loopButton.setBackgroundColor(getResources().getColor(R.color.s03_button_background));
-                buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s03_buttons_zone_separator));
-                soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s03_sound_speed_background));
                 break;
             case(4):
-                activityMain.setBackgroundColor(getResources().getColor(R.color.s04_main_background));
-                currentThemeTextView.setBackgroundColor(getResources().getColor(R.color.s04_theme_background));
-                soundCountTextView.setBackgroundColor(getResources().getColor(R.color.s04_sound_count_display));
-                searchButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
-                themeButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
-                randomButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
-                settingsButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
-                slowButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
-                fastButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
-                loopButton.setBackgroundColor(getResources().getColor(R.color.s04_button_background));
-                buttonZoneSeparator.setBackgroundColor(getResources().getColor(R.color.s04_buttons_zone_separator));
-                soundSpeedTextView.setBackgroundColor(getResources().getColor(R.color.s04_sound_speed_background));
                 break;
         }
     }
