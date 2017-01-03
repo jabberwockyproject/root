@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.gw150914.jabberwocky">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gw150914.jabberwocky">
 
     <application
         android:allowBackup="true"
@@ -33,6 +34,13 @@
         <activity
             android:name=".gui.SettingsActivity"
             android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".gui.InboundActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="audio/*" />
+            </intent-filter>
         </activity>
     </application>
 
