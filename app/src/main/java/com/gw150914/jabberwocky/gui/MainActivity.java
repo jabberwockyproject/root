@@ -1067,6 +1067,14 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             }
 
             File outputFile = new File(soundsFolder, "share.mp3");
+            File testFile = new File(soundsFolder, "inbound.opus");
+
+            if(testFile.exists()){
+                System.out.println("DEBUG: " + testFile.getAbsolutePath() + " exits!!!");
+            }
+            else {
+                System.out.println("DEBUG: " + testFile.getAbsolutePath() + " does not exist!!!");
+            }
 
             FileOutputStream outputStream = new FileOutputStream(outputFile);
             while ((readBytes = inputStream.read(buff)) > 0) {
