@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
      * ===================================[ PRIVATE FIELDS ]================================ *
      *****************************************************************************************/
 
-    final int TOTAL_SOUND = 118;
+    final int TOTAL_SOUND = 119;
     final int MAX_THREAD = 6;
 
     int linearLoadingThread, smartLoadingThread, ondemandLoadingThread;
@@ -237,6 +237,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             soundArray[115] = new Sound("Tchip - 01",R.raw.tchip);
             soundArray[116] = new Sound("Un truc de ouf",R.raw.truc_de_ouf_el);
             soundArray[117] = new Sound("Une vidéo qui est bien",R.raw.video_qui_est_bien_el);
+            soundArray[118] = new Sound("Démuni, Mathieu ne communique plus que par son ordinateur",R.raw.demuni_mat_ordinateur);
 
             //Send a message to handler with the finished flag set
             message.arg2 = 1;
