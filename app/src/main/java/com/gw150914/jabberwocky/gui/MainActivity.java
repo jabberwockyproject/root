@@ -928,7 +928,6 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
 
         //Theme button was clicked and held
         if(findViewById(R.id.theme_button) == v) {
-
             return true;
         }
 
@@ -1024,6 +1023,7 @@ public class MainActivity extends Activity implements View.OnClickListener,View.
             }
             longClickOnSoundDialog.create();
             longClickOnSoundDialog.show();
+            return true;
         }
         return false;
     }
