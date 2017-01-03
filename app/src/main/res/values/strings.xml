@@ -25,6 +25,9 @@
     <string name="linear_loading_thread">Linear loading threads</string>
     <string name="smart_loading_thread">Smart loading threads</string>
     <string name="ondemand_loading_thread">On demand loading threads</string>
+    <string name="adv_switch1">Use file provider for sound sharing </string>
+    <string name="adv_switch2">Free kisses</string>
+    <string name="adv_switch3">Free cuddles</string>
     <string name="skin">Skin: </string>
     <string name="custom_volume">Custom volume</string>
     <string name="search_theme_name">Last search</string>
